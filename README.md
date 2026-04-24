@@ -45,11 +45,11 @@ That is the center of the analysis:
 
 ### Cover
 
-<img src="./previews/english-cover.png" alt="English cover slide" width="900" />
+<img src="./previews/english-cover-v2.png" alt="English cover slide" width="900" />
 
 ### Benchmark Comparison
 
-<img src="./previews/english-benchmarks.png" alt="English benchmark comparison slide" width="900" />
+<img src="./previews/english-benchmarks-v2.png" alt="English benchmark comparison slide" width="900" />
 
 ---
 
@@ -101,4 +101,3 @@ Thanks to the original author and source materials for:
 - the underlying deck structure
 - the argument flow and chapter breakdown
 - the original HTML/PDF project surface that this English edition was translated from
-
