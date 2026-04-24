@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · 创意写作</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s55-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s55-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s55-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s55-masthead-left img { height: 26px; }
+  .s55-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s55-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s55-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s55-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s55-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s55-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 60px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1600px;
+  }
+  .s55-title .accent { color: #4D6BFE; font-style: italic; }
+  .s55-title .red { color: #C83737; }
+
+  .s55-subtitle {
+    position: absolute; left: 120px; top: 306px;
+    font-family: "Source Serif 4", Georgia, serif; font-style: italic;
+    font-size: 22px; color: #5A5A5A; max-width: 1400px;
+  }
+
+  .s55-matchups {
+    position: absolute; left: 120px; right: 120px; top: 380px;
+  }
+
+  .s55-matchup {
+    margin-bottom: 34px;
+  }
+  .s55-matchup-header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 10px;
+  }
+  .s55-matchup-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 20px; color: #1A1A1A; font-weight: 600;
+  }
+  .s55-matchup-sub {
+    font-size: 14px; color: #999; font-style: italic;
+  }
+  .s55-matchup-bar {
+    width: 100%; height: 68px; display: flex; position: relative;
+    border: 1px solid rgba(26,26,26,0.1);
+  }
+  .s55-matchup-left {
+    background: #4D6BFE; height: 100%;
+    display: flex; align-items: center; padding: 0 24px;
+    color: #fff; font-family: "Source Serif 4", Georgia, serif;
+    font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums;
+  }
+  .s55-matchup-right {
+    background: #F3F4F7; flex: 1; height: 100%;
+    display: flex; align-items: center; justify-content: flex-end; padding: 0 24px;
+    color: #1A1A1A; font-family: "Source Serif 4", Georgia, serif;
+    font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums;
+  }
+  .s55-matchup-left.lose {
+    background: #E4E6EB; color: #1A1A1A;
+  }
+  .s55-matchup-right.win {
+    background: #1A1A1A; color: #fff;
+  }
+  .s55-matchup-labels {
+    display: flex; justify-content: space-between; margin-top: 10px;
+    font-size: 14px; color: #5A5A5A;
+  }
+  .s55-matchup-labels .left { color: #4D6BFE; font-weight: 600; }
+  .s55-matchup-labels .right { color: #1A1A1A; font-weight: 600; }
+
+  .s55-quote {
+    position: absolute; left: 120px; right: 120px; bottom: 185px;
+    border-left: 3px solid #4D6BFE; padding-left: 28px;
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 19px; color: #1A1A1A; line-height: 1.55; font-style: italic;
+    max-width: 1600px;
+  }
+  .s55-quote-src {
+    font-style: normal; font-size: 13px; color: #999; margin-top: 8px;
+    letter-spacing: 0.1em;
+  }
+
+  .s55-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s55-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s55-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s55-stage">
+  <div class="s55-masthead">
+    <div class="s55-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s55-masthead-right">08 · 不擅长什么</div>
+  </div>
+
+  <div class="s55-header">
+    <div class="s55-kicker">CHAPTER 08 · 创意写作</div>
+    <h1 class="s55-title">打 Gemini 能赢，<span class="red">打 Opus 4.5 就输了</span></h1>
+  </div>
+
+  <div class="s55-subtitle">
+    中文写作胜率（DeepSeek-V4-Pro vs 基线模型）——论文 Table 18 原数据
+  </div>
+
+  <div class="s55-matchups">
+    <div class="s55-matchup">
+      <div class="s55-matchup-header">
+        <div class="s55-matchup-title">功能性写作 · vs Gemini 3.1 Pro</div>
+        <div class="s55-matchup-sub">日常白领任务：邮件、报告、总结</div>
+      </div>
+      <div class="s55-matchup-bar">
+        <div class="s55-matchup-left" style="width: 62.7%;">DS-V4 · 62.7%</div>
+        <div class="s55-matchup-right" style="padding: 0 24px; flex: 0 0 37.3%; display: flex; align-items: center; justify-content: center;">Gemini · 34.1%</div>
+      </div>
+    </div>
+
+    <div class="s55-matchup">
+      <div class="s55-matchup-header">
+        <div class="s55-matchup-title">创意写作 · 写作质量 · vs Gemini 3.1 Pro</div>
+        <div class="s55-matchup-sub">Gemini「经常让风格偏好压过用户明确需求」</div>
+      </div>
+      <div class="s55-matchup-bar">
+        <div class="s55-matchup-left" style="width: 77.5%;">DS-V4 · 77.5%</div>
+        <div class="s55-matchup-right" style="padding: 0 24px; flex: 0 0 22.5%; display: flex; align-items: center; justify-content: center;">Gemini · 22.5%</div>
+      </div>
+    </div>
+
+    <div class="s55-matchup">
+      <div class="s55-matchup-header">
+        <div class="s55-matchup-title" style="color:#C83737;">高难度约束 / 多轮场景 · vs Claude Opus 4.5</div>
+        <div class="s55-matchup-sub">复杂指令跟随、多约束创作</div>
+      </div>
+      <div class="s55-matchup-bar">
+        <div class="s55-matchup-left lose" style="width: 45.9%;">DS-V4 · 45.9%</div>
+        <div class="s55-matchup-right win" style="flex: 0 0 54.1%; display: flex; align-items: center; justify-content: center;">Opus 4.5 · 52.0%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="s55-quote">
+    「对于复杂约束/多轮场景下的创意写作任务，DeepSeek-V4 相对 Claude Opus 4.5 的胜率为 45.9%，略低于 52.0% 的基线。」
+    <div class="s55-quote-src">— DEEPSEEK-V4 TECHNICAL REPORT · TABLE 18</div>
+  </div>
+
+  <div class="s55-footer">
+    <div>技术深度解读 · CHAPTER 08</div>
+    <div>55 / 72</div>
+  </div>
+  <div class="s55-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

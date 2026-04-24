@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · HLE with Tools</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s53-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s53-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s53-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s53-masthead-left img { height: 26px; }
+  .s53-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s53-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+  .s53-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s53-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s53-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s53-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 60px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1600px;
+  }
+  .s53-title .accent { color: #4D6BFE; font-style: italic; }
+  .s53-main {
+    position: absolute; left: 120px; right: 120px; top: 340px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+  }
+  .s53-panel {
+    border: 1px solid rgba(26,26,26,0.12); padding: 32px 44px; background: #FFFFFF;
+  }
+  .s53-panel.left { background: #F7F8FA; }
+  .s53-panel-tag {
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #5A5A5A; font-weight: 600; margin-bottom: 18px;
+  }
+  .s53-panel h3 {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 30px; font-weight: 600; color: #1A1A1A; margin-bottom: 20px;
+  }
+  .s53-panel-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 10px 0; border-bottom: 1px dashed rgba(26,26,26,0.1);
+  }
+  .s53-panel-row:last-child { border-bottom: none; }
+  .s53-panel-row .name { font-size: 17px; color: #1A1A1A; }
+  .s53-panel-row .name.ds { color: #4D6BFE; font-weight: 600; }
+  .s53-panel-row .name.bold { color: #1A1A1A; font-weight: 600; }
+  .s53-panel-row .val {
+    font-family: "Source Serif 4", Georgia, serif; font-size: 22px; font-weight: 600;
+    color: #1A1A1A; font-variant-numeric: tabular-nums;
+  }
+  .s53-panel-row .val.ds { color: #4D6BFE; }
+  .s53-panel-row .val.last { color: #C83737; }
+  .s53-delta {
+    margin-top: 16px; padding-top: 14px; border-top: 2px solid #4D6BFE;
+    display: flex; align-items: baseline; gap: 16px;
+  }
+  .s53-delta-num {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 38px; font-weight: 700; color: #C83737; line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .s53-delta-desc { font-size: 15px; color: #5A5A5A; line-height: 1.4; }
+  .s53-bottom-note {
+    position: absolute; left: 120px; right: 120px; bottom: 110px;
+    border-top: 2px solid #1A1A1A; padding-top: 22px;
+    font-size: 20px; color: #5A5A5A; line-height: 1.6; max-width: 1500px;
+  }
+  .s53-bottom-note strong { color: #1A1A1A; font-weight: 600; }
+  .s53-bottom-note .blue { color: #4D6BFE; font-weight: 600; }
+  .s53-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s53-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s53-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s53-stage">
+  <div class="s53-masthead">
+    <div class="s53-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
+    </div>
+    <div class="s53-masthead-right">08 · Where It Struggles</div>
+  </div>
+  <div class="s53-header">
+    <div class="s53-kicker">CHAPTER 08 · TOOL COORDINATION</div>
+    <h1 class="s53-title">Give HLE tool access and <span class="accent">DeepSeek falls to last place instead</span></h1>
+  </div>
+  <div class="s53-main">
+    <div class="s53-panel left">
+      <div class="s53-panel-tag">HLE · NO TOOLS</div>
+      <h3>Built-in reasoning only</h3>
+      <div class="s53-panel-row"><span class="name bold">Gemini 3.1 Pro</span><span class="val">44.4</span></div>
+      <div class="s53-panel-row"><span class="name">Opus 4.6</span><span class="val">40.0</span></div>
+      <div class="s53-panel-row"><span class="name">GPT-5.4</span><span class="val">39.8</span></div>
+      <div class="s53-panel-row"><span class="name ds">DS-V4-Pro-Max</span><span class="val ds">37.7</span></div>
+      <div class="s53-panel-row"><span class="name">Kimi K2.6</span><span class="val">36.4</span></div>
+    </div>
+    <div class="s53-panel">
+      <div class="s53-panel-tag">HLE · WITH TOOLS</div>
+      <h3>Can call search, code, and calculator tools</h3>
+      <div class="s53-panel-row"><span class="name bold">Kimi K2.6</span><span class="val">54.0</span></div>
+      <div class="s53-panel-row"><span class="name">Opus 4.6</span><span class="val">53.1</span></div>
+      <div class="s53-panel-row"><span class="name">GPT-5.4</span><span class="val">52.0</span></div>
+      <div class="s53-panel-row"><span class="name">Gemini 3.1 Pro</span><span class="val">51.6</span></div>
+      <div class="s53-panel-row"><span class="name">GLM-5.1</span><span class="val">50.4</span></div>
+      <div class="s53-panel-row"><span class="name ds">DS-V4-Pro-Max</span><span class="val last">48.2</span></div>
+      <div class="s53-delta">
+        <div class="s53-delta-num">Last</div>
+        <div class="s53-delta-desc">From originally 4th from the bottom<br>to dead last overall</div>
+      </div>
+    </div>
+  </div>
+  <div class="s53-bottom-note">
+    Every other model gains 11 to 18 points once tools are added. <strong>DeepSeek-V4 gains only 10.5, and its rank drops from fourth-from-last to last place overall</strong>, even behind Kimi K2.6. <span class="blue">That is a structural weakness in agent ability: poor coordination of tool use.</span>
+  </div>
+  <div class="s53-footer">
+    <div>Technical Deep Dive · CHAPTER 08</div>
+    <div>53 / 72</div>
+  </div>
+  <div class="s53-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · mHC 核心思想</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s12-stage { position: relative; width: 1920px; height: 1080px; }
+  .s12-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s12-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s12-masthead-left img { height: 26px; }
+  .s12-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s12-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s12-header { position: absolute; top: 140px; left: 120px; right: 120px; }
+  .s12-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 18px;
+  }
+  .s12-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s12-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 54px; line-height: 1.15; font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .s12-title .accent { color: #4D6BFE; font-style: italic; }
+
+  .s12-intuition-quote {
+    position: absolute; top: 330px; left: 120px; right: 120px;
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 36px; line-height: 1.5; color: #1A1A1A;
+    font-weight: 400;
+    max-width: 1700px;
+  }
+  .s12-intuition-quote .accent {
+    color: #4D6BFE; font-weight: 600; font-style: italic;
+  }
+  .s12-intuition-quote .quote-mark {
+    font-family: "Source Serif 4", Georgia, serif;
+    color: #4D6BFE; font-size: 100px; line-height: 0;
+    vertical-align: -40px; margin-right: 10px; font-style: italic;
+  }
+
+  .s12-analogy {
+    position: absolute; top: 600px; left: 120px; right: 120px;
+    padding: 28px 36px; background: #F5F7FF;
+    border-left: 4px solid #4D6BFE;
+    font-size: 18px; line-height: 1.75; color: #1A1A1A;
+    max-width: 1680px;
+  }
+  .s12-analogy b { color: #4D6BFE; font-weight: 600; }
+  .s12-analogy .label {
+    font-size: 11px; letter-spacing: 0.24em; color: #4D6BFE;
+    text-transform: uppercase; font-weight: 600;
+    margin-bottom: 8px; display: block;
+  }
+
+  .s12-cards {
+    position: absolute; bottom: 150px; left: 120px; right: 120px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px;
+  }
+  .s12-card {
+    padding: 24px 28px;
+    border-top: 2px solid #1A1A1A;
+  }
+  .s12-card-label {
+    font-size: 11px; letter-spacing: 0.2em; color: #4D6BFE;
+    text-transform: uppercase; font-weight: 600; margin-bottom: 10px;
+  }
+  .s12-card-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 22px; color: #1A1A1A; font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .s12-card-body {
+    font-size: 14px; color: #5A5A5A; line-height: 1.6;
+  }
+  .s12-card-body strong { color: #1A1A1A; font-weight: 600; }
+
+  .s12-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s12-watermark { position: absolute; right: 60px; bottom: 40px; opacity: 0.08; }
+  .s12-watermark img { width: 100px; }
+</style>
+</head>
+<body>
+<div class="s12-stage">
+  <div class="s12-masthead">
+    <div class="s12-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s12-masthead-right">12 · mHC · INTUITION</div>
+  </div>
+
+  <div class="s12-header">
+    <div class="s12-kicker">CHAPTER 02 · mHC 核心思想</div>
+    <h1 class="s12-title">给每条残差路径<span class="accent">加一个水闸</span></h1>
+  </div>
+
+  <div class="s12-intuition-quote">
+    <span class="quote-mark">"</span>传统残差连接让所有层的信号自由累加。<br>
+    mHC 把这些累加权重约束在一个<span class="accent">双随机矩阵流形</span>上——每条输入路径的贡献之和固定为 1，每条输出路径的权重之和也固定为 1。
+  </div>
+
+  <div class="s12-analogy">
+    <span class="label">INTUITION · 说人话</span>
+    想象每一层之间有一张水网：每个入口最多放 1 单位水进去，每个出口最多接 1 单位水出来。不管网络多深，<b>总水量永远守恒</b>——这就是「双随机」。护栏不是软约束，是<b>数学意义上的不可破坏</b>。
+  </div>
+
+  <div class="s12-cards">
+    <div class="s12-card">
+      <div class="s12-card-label">KEY PROPERTY 01</div>
+      <div class="s12-card-title">谱范数 ≤ 1</div>
+      <div class="s12-card-body">
+        双随机矩阵的谱范数天然 ≤ 1，<strong>信号幅值不会被放大</strong>——深层堆叠不再爆炸。
+      </div>
+    </div>
+
+    <div class="s12-card">
+      <div class="s12-card-label">KEY PROPERTY 02</div>
+      <div class="s12-card-title">乘法封闭</div>
+      <div class="s12-card-body">
+        双随机矩阵的乘积仍是双随机矩阵，<strong>层层叠加后约束自动保持</strong>——护栏不需要反复校准。
+      </div>
+    </div>
+
+    <div class="s12-card">
+      <div class="s12-card-label">KEY PROPERTY 03</div>
+      <div class="s12-card-title">可学可微</div>
+      <div class="s12-card-body">
+        通过 Sinkhorn-Knopp 迭代将任意矩阵投影到这个流形上，<strong>反向传播可直接优化</strong>。
+      </div>
+    </div>
+  </div>
+
+  <div class="s12-footer">
+    <div>CHAPTER 02 · mHC · INTUITION</div>
+    <div>12 / 72</div>
+  </div>
+  <div class="s12-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

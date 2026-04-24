@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · HCA 展开</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s20-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s20-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s20-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s20-masthead-left img { height: 26px; }
+  .s20-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s20-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s20-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s20-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s20-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s20-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 64px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s20-title .accent { color: #4D6BFE; font-style: italic; }
+  .s20-subtitle {
+    margin-top: 16px;
+    font-size: 20px; color: #5A5A5A; line-height: 1.5; max-width: 1200px;
+  }
+
+  .s20-main {
+    position: absolute; left: 120px; right: 120px; top: 400px;
+    display: grid; grid-template-columns: 960px 1fr; gap: 80px;
+  }
+
+  .s20-diagram-caption {
+    font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: #5A5A5A; margin-top: 16px;
+  }
+
+  .s20-contrast {
+    display: grid; grid-template-rows: auto auto auto; gap: 26px;
+  }
+  .s20-row {
+    border-left: 3px solid #4D6BFE;
+    padding: 6px 0 6px 24px;
+  }
+  .s20-row-label {
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 8px;
+  }
+  .s20-row-head {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 28px; font-weight: 600; color: #1A1A1A; margin-bottom: 8px; line-height: 1.2;
+  }
+  .s20-row-body {
+    font-size: 17px; color: #5A5A5A; line-height: 1.55;
+  }
+  .s20-row-body code {
+    font-family: "SF Mono", "Menlo", monospace; color: #1A1A1A;
+    background: #F7F8FA; padding: 1px 6px; font-size: 14px;
+  }
+
+  .s20-bottom-note {
+    position: absolute; left: 120px; right: 120px; bottom: 110px;
+    border-top: 2px solid #1A1A1A;
+    padding-top: 20px;
+    font-size: 18px; color: #5A5A5A; line-height: 1.6;
+    max-width: 1400px;
+  }
+  .s20-bottom-note strong { color: #1A1A1A; font-weight: 600; }
+
+  .s20-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s20-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s20-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s20-stage">
+  <div class="s20-masthead">
+    <div class="s20-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s20-masthead-right">20 · HCA 展开</div>
+  </div>
+
+  <div class="s20-header">
+    <div class="s20-kicker">CHAPTER 03 · HCA · Heavily Compressed Attention</div>
+    <h1 class="s20-title">激进压缩，<span class="accent">但保留全局 dense 视野</span></h1>
+    <div class="s20-subtitle">m′ 远大于 m，序列被狠狠压扁；但不做稀疏筛选，每个 query 都要把所有压缩块扫一遍——牺牲细粒度，换全局视野。</div>
+  </div>
+
+  <div class="s20-main">
+    <div>
+      <svg width="960" height="400" viewBox="0 0 960 400" xmlns="http://www.w3.org/2000/svg">
+        <!-- raw tokens: 96 tiny blocks in 3 rows -->
+        <g fill="#E8EBF0" stroke="#CCD0DA" stroke-width="0.4">
+          <!-- row 1 (32) -->
+          <g>
+            <rect x="40" y="60" width="8" height="22"/>
+            <rect x="49" y="60" width="8" height="22"/>
+            <rect x="58" y="60" width="8" height="22"/>
+            <rect x="67" y="60" width="8" height="22"/>
+            <rect x="76" y="60" width="8" height="22"/>
+            <rect x="85" y="60" width="8" height="22"/>
+            <rect x="94" y="60" width="8" height="22"/>
+            <rect x="103" y="60" width="8" height="22"/>
+            <rect x="112" y="60" width="8" height="22"/>
+            <rect x="121" y="60" width="8" height="22"/>
+            <rect x="130" y="60" width="8" height="22"/>
+            <rect x="139" y="60" width="8" height="22"/>
+            <rect x="148" y="60" width="8" height="22"/>
+            <rect x="157" y="60" width="8" height="22"/>
+            <rect x="166" y="60" width="8" height="22"/>
+            <rect x="175" y="60" width="8" height="22"/>
+            <rect x="184" y="60" width="8" height="22"/>
+            <rect x="193" y="60" width="8" height="22"/>
+            <rect x="202" y="60" width="8" height="22"/>
+            <rect x="211" y="60" width="8" height="22"/>
+            <rect x="220" y="60" width="8" height="22"/>
+            <rect x="229" y="60" width="8" height="22"/>
+            <rect x="238" y="60" width="8" height="22"/>
+            <rect x="247" y="60" width="8" height="22"/>
+            <rect x="256" y="60" width="8" height="22"/>
+            <rect x="265" y="60" width="8" height="22"/>
+            <rect x="274" y="60" width="8" height="22"/>
+            <rect x="283" y="60" width="8" height="22"/>
+            <rect x="292" y="60" width="8" height="22"/>
+            <rect x="301" y="60" width="8" height="22"/>
+            <rect x="310" y="60" width="8" height="22"/>
+            <rect x="319" y="60" width="8" height="22"/>
+          </g>
+          <!-- row 2 -->
+          <g transform="translate(0, 25)">
+            <rect x="40" y="60" width="8" height="22"/><rect x="49" y="60" width="8" height="22"/><rect x="58" y="60" width="8" height="22"/><rect x="67" y="60" width="8" height="22"/>
+            <rect x="76" y="60" width="8" height="22"/><rect x="85" y="60" width="8" height="22"/><rect x="94" y="60" width="8" height="22"/><rect x="103" y="60" width="8" height="22"/>
+            <rect x="112" y="60" width="8" height="22"/><rect x="121" y="60" width="8" height="22"/><rect x="130" y="60" width="8" height="22"/><rect x="139" y="60" width="8" height="22"/>
+            <rect x="148" y="60" width="8" height="22"/><rect x="157" y="60" width="8" height="22"/><rect x="166" y="60" width="8" height="22"/><rect x="175" y="60" width="8" height="22"/>
+            <rect x="184" y="60" width="8" height="22"/><rect x="193" y="60" width="8" height="22"/><rect x="202" y="60" width="8" height="22"/><rect x="211" y="60" width="8" height="22"/>
+            <rect x="220" y="60" width="8" height="22"/><rect x="229" y="60" width="8" height="22"/><rect x="238" y="60" width="8" height="22"/><rect x="247" y="60" width="8" height="22"/>
+            <rect x="256" y="60" width="8" height="22"/><rect x="265" y="60" width="8" height="22"/><rect x="274" y="60" width="8" height="22"/><rect x="283" y="60" width="8" height="22"/>
+            <rect x="292" y="60" width="8" height="22"/><rect x="301" y="60" width="8" height="22"/><rect x="310" y="60" width="8" height="22"/><rect x="319" y="60" width="8" height="22"/>
+          </g>
+          <!-- row 3 -->
+          <g transform="translate(0, 50)">
+            <rect x="40" y="60" width="8" height="22"/><rect x="49" y="60" width="8" height="22"/><rect x="58" y="60" width="8" height="22"/><rect x="67" y="60" width="8" height="22"/>
+            <rect x="76" y="60" width="8" height="22"/><rect x="85" y="60" width="8" height="22"/><rect x="94" y="60" width="8" height="22"/><rect x="103" y="60" width="8" height="22"/>
+            <rect x="112" y="60" width="8" height="22"/><rect x="121" y="60" width="8" height="22"/><rect x="130" y="60" width="8" height="22"/><rect x="139" y="60" width="8" height="22"/>
+            <rect x="148" y="60" width="8" height="22"/><rect x="157" y="60" width="8" height="22"/><rect x="166" y="60" width="8" height="22"/><rect x="175" y="60" width="8" height="22"/>
+            <rect x="184" y="60" width="8" height="22"/><rect x="193" y="60" width="8" height="22"/><rect x="202" y="60" width="8" height="22"/><rect x="211" y="60" width="8" height="22"/>
+            <rect x="220" y="60" width="8" height="22"/><rect x="229" y="60" width="8" height="22"/><rect x="238" y="60" width="8" height="22"/><rect x="247" y="60" width="8" height="22"/>
+            <rect x="256" y="60" width="8" height="22"/><rect x="265" y="60" width="8" height="22"/><rect x="274" y="60" width="8" height="22"/><rect x="283" y="60" width="8" height="22"/>
+            <rect x="292" y="60" width="8" height="22"/><rect x="301" y="60" width="8" height="22"/><rect x="310" y="60" width="8" height="22"/><rect x="319" y="60" width="8" height="22"/>
+          </g>
+        </g>
+        <text x="40" y="45" font-family="-apple-system, sans-serif" font-size="11" fill="#999" letter-spacing="0.18em">~ n 个 token (1M)</text>
+
+        <!-- Big arrow: aggressive compression -->
+        <g transform="translate(360, 150)">
+          <line x1="0" y1="0" x2="120" y2="0" stroke="#4D6BFE" stroke-width="2"/>
+          <polygon points="120,0 110,-6 110,6" fill="#4D6BFE"/>
+        </g>
+        <text x="420" y="140" font-family="Source Serif 4, Georgia, serif" font-size="16" fill="#4D6BFE" text-anchor="middle" font-style="italic">compress by m′</text>
+        <text x="420" y="176" font-family="-apple-system, sans-serif" font-size="12" fill="#5A5A5A" text-anchor="middle">(m′ ≫ m，例如 1024)</text>
+
+        <!-- Compressed blocks: 3 big blocks -->
+        <g fill="#4D6BFE" stroke="#4D6BFE" stroke-width="1">
+          <rect x="520" y="115" width="80" height="70" rx="1"/>
+          <rect x="620" y="115" width="80" height="70" rx="1"/>
+          <rect x="720" y="115" width="80" height="70" rx="1"/>
+        </g>
+        <g font-family="Source Serif 4, Georgia, serif" font-size="14" fill="#FFFFFF" text-anchor="middle">
+          <text x="560" y="156">C₁</text>
+          <text x="660" y="156">C₂</text>
+          <text x="760" y="156">C₃</text>
+        </g>
+        <text x="520" y="205" font-family="-apple-system, sans-serif" font-size="11" fill="#999" letter-spacing="0.18em">n / m′ 个压缩块（极少）</text>
+
+        <!-- query at bottom -->
+        <rect x="880" y="115" width="30" height="70" fill="#1A1A1A"/>
+        <text x="895" y="156" font-family="Source Serif 4, Georgia, serif" font-size="14" fill="#FFFFFF" text-anchor="middle">q</text>
+        <text x="878" y="205" font-family="-apple-system, sans-serif" font-size="11" fill="#999" letter-spacing="0.18em">query</text>
+
+        <!-- dense attention lines -->
+        <g stroke="#1A1A1A" stroke-width="1" fill="none" opacity="0.6">
+          <line x1="880" y1="150" x2="600" y2="150"/>
+          <line x1="880" y1="150" x2="700" y2="150"/>
+          <line x1="880" y1="150" x2="800" y2="150"/>
+        </g>
+
+        <!-- dense label -->
+        <g transform="translate(380, 280)">
+          <rect x="0" y="0" width="540" height="88" fill="#F7F8FA"/>
+          <text x="24" y="26" font-family="-apple-system, sans-serif" font-size="11" fill="#4D6BFE" letter-spacing="0.2em">DENSE ATTENTION</text>
+          <text x="24" y="52" font-family="Source Serif 4, Georgia, serif" font-size="18" fill="#1A1A1A">每个 query 把所有压缩块都扫一遍</text>
+          <text x="24" y="74" font-family="Source Serif 4, Georgia, serif" font-size="14" fill="#5A5A5A">粒度虽粗，但没有一块被 query 丢掉</text>
+        </g>
+      </svg>
+      <div class="s20-diagram-caption">示意 · 压缩率 m′ ≫ m，压缩后块数极少，query 做 <strong>full attention</strong></div>
+    </div>
+
+    <div class="s20-contrast">
+      <div class="s20-row">
+        <div class="s20-row-label">COMPRESSION</div>
+        <div class="s20-row-head">粒度 m′ ≫ m</div>
+        <div class="s20-row-body">同样的压缩机制，但步长放大一个数量级（论文未披露具体 m′，参考实现中 <code>m′ = 1024</code> 量级）。n / m′ 个压缩块就几十到几百个。</div>
+      </div>
+      <div class="s20-row">
+        <div class="s20-row-label">ATTENTION</div>
+        <div class="s20-row-head">Dense · 不走稀疏</div>
+        <div class="s20-row-body">没有 Lightning Indexer，query 对所有压缩块做完整的 MQA。块数本来就少，dense 的代价可以接受。</div>
+      </div>
+      <div class="s20-row">
+        <div class="s20-row-label">ROLE</div>
+        <div class="s20-row-head">粗粒度全局信息兜底</div>
+        <div class="s20-row-body">承担「整篇文档的宏观理解」——跨段、跨章节的长程依赖。和 CSA 层交替排布，形成一粗一细的双通道。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="s20-bottom-note">
+    一个设计直觉：<strong>粗的那一路必须 dense</strong>——如果粗粒度再稀疏一次，全局视野就彻底断了，和 CSA 的功能会重叠。
+  </div>
+
+  <div class="s20-footer">
+    <div>技术深度解读 · CHAPTER 03</div>
+    <div>20 / 72</div>
+  </div>
+  <div class="s20-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · Codeforces 3206</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s45-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s45-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s45-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s45-masthead-left img { height: 26px; }
+  .s45-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s45-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s45-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s45-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s45-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s45-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 64px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s45-title .accent { color: #4D6BFE; font-style: italic; }
+
+  .s45-hero {
+    position: absolute; left: 120px; top: 400px;
+    display: flex; align-items: baseline; gap: 40px;
+  }
+  .s45-hero-num {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 280px; line-height: 0.9; font-weight: 700; color: #4D6BFE;
+    letter-spacing: -0.04em; font-variant-numeric: tabular-nums;
+  }
+  .s45-hero-right {
+    display: flex; flex-direction: column; gap: 16px; padding-top: 40px;
+  }
+  .s45-hero-label {
+    font-size: 22px; letter-spacing: 0.15em; color: #5A5A5A; text-transform: uppercase;
+  }
+  .s45-hero-desc {
+    font-family: "Source Serif 4", Georgia, serif; font-style: italic;
+    font-size: 32px; color: #1A1A1A; max-width: 500px; line-height: 1.3;
+  }
+
+  .s45-compare {
+    position: absolute; right: 120px; top: 410px; width: 600px;
+  }
+  .s45-compare-title {
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #5A5A5A; font-weight: 600; margin-bottom: 24px;
+    padding-bottom: 12px; border-bottom: 1px solid rgba(26,26,26,0.12);
+  }
+  .s45-compare-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 14px 0; border-bottom: 1px dashed rgba(26,26,26,0.1);
+  }
+  .s45-compare-name {
+    font-size: 18px; color: #1A1A1A;
+  }
+  .s45-compare-name.hero { color: #4D6BFE; font-weight: 600; }
+  .s45-compare-val {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 28px; font-weight: 600; color: #1A1A1A;
+    font-variant-numeric: tabular-nums;
+  }
+  .s45-compare-val.hero { color: #4D6BFE; }
+
+  .s45-bottom-note {
+    position: absolute; left: 120px; right: 120px; bottom: 110px;
+    border-top: 2px solid #1A1A1A; padding-top: 22px;
+    font-size: 20px; color: #5A5A5A; line-height: 1.6; max-width: 1500px;
+  }
+  .s45-bottom-note strong { color: #1A1A1A; font-weight: 600; }
+  .s45-bottom-note .blue { color: #4D6BFE; font-weight: 600; }
+
+  .s45-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s45-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s45-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s45-stage">
+  <div class="s45-masthead">
+    <div class="s45-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s45-masthead-right">07 · 擅长什么</div>
+  </div>
+
+  <div class="s45-header">
+    <div class="s45-kicker">CHAPTER 07 · 竞赛编程</div>
+    <h1 class="s45-title">Codeforces Rating <span class="accent">3206</span>——开源首次反超闭源</h1>
+  </div>
+
+  <div class="s45-hero">
+    <div class="s45-hero-num">3206</div>
+    <div class="s45-hero-right">
+      <div class="s45-hero-label">CODEFORCES RATING</div>
+      <div class="s45-hero-desc">相当于全球真人选手<br>第 <strong style="color:#4D6BFE;">23</strong> 名</div>
+    </div>
+  </div>
+
+  <div class="s45-compare">
+    <div class="s45-compare-title">SAME BENCHMARK · OTHER MODELS</div>
+    <div class="s45-compare-row">
+      <span class="s45-compare-name hero">DeepSeek-V4-Pro-Max</span>
+      <span class="s45-compare-val hero">3206</span>
+    </div>
+    <div class="s45-compare-row">
+      <span class="s45-compare-name">GPT-5.4-xHigh</span>
+      <span class="s45-compare-val">3168</span>
+    </div>
+    <div class="s45-compare-row">
+      <span class="s45-compare-name">Gemini 3.1 Pro</span>
+      <span class="s45-compare-val">3052</span>
+    </div>
+    <div class="s45-compare-row">
+      <span class="s45-compare-name">Claude Opus 4.6</span>
+      <span class="s45-compare-val" style="color:#999;">未公开</span>
+    </div>
+  </div>
+
+  <div class="s45-bottom-note">
+    论文原文点名：Pro-Max 在 Codeforces 上<strong>排所有参赛真人选手第 23 名</strong>。这是<span class="blue">第一次开源模型在单一竞赛项目上真正反超闭源旗舰</span>——GPT-5.4-xHigh 被甩开 38 分。
+  </div>
+
+  <div class="s45-footer">
+    <div>技术深度解读 · CHAPTER 07</div>
+    <div>45 / 72</div>
+  </div>
+  <div class="s45-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

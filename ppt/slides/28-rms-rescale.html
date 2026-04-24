@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · RMS Rescale</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s28-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s28-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s28-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s28-masthead-left img { height: 26px; }
+  .s28-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s28-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s28-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s28-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s28-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s28-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 60px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s28-title .accent { color: #4D6BFE; font-style: italic; }
+  .s28-subtitle {
+    margin-top: 16px;
+    font-size: 20px; color: #5A5A5A; line-height: 1.5; max-width: 1300px;
+  }
+
+  .s28-main {
+    position: absolute; left: 120px; right: 120px; top: 400px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+  }
+
+  .s28-panel {
+    border: 1px solid rgba(26,26,26,0.12);
+    padding: 34px 38px;
+    background: #FFFFFF;
+  }
+  .s28-panel.bad { background: #FFFFFF; }
+  .s28-panel.good { background: #F7F8FA; }
+
+  .s28-panel-tag {
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #5A5A5A; font-weight: 600; margin-bottom: 14px;
+  }
+  .s28-panel.good .s28-panel-tag { color: #4D6BFE; }
+
+  .s28-panel-head {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 34px; font-weight: 600; color: #1A1A1A; margin-bottom: 16px; line-height: 1.2;
+  }
+  .s28-panel-body {
+    font-size: 17px; color: #5A5A5A; line-height: 1.65; margin-bottom: 20px;
+  }
+  .s28-panel-body code {
+    font-family: "SF Mono", "Menlo", monospace; color: #1A1A1A;
+    background: rgba(26,26,26,0.05); padding: 1px 6px; font-size: 15px;
+  }
+  .s28-panel.good .s28-panel-body code { background: #FFFFFF; }
+
+  .s28-formula {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 22px; color: #1A1A1A;
+    padding: 20px 24px; background: rgba(26,26,26,0.04);
+    margin-bottom: 18px;
+    font-variant-numeric: tabular-nums;
+  }
+  .s28-panel.good .s28-formula {
+    background: #FFFFFF; color: #4D6BFE; font-weight: 600;
+  }
+
+  .s28-tagline {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-style: italic; font-size: 16px; color: #5A5A5A;
+  }
+
+  .s28-bottom-note {
+    position: absolute; left: 120px; right: 120px; bottom: 110px;
+    border-top: 2px solid #1A1A1A; padding-top: 20px;
+    font-size: 18px; color: #5A5A5A; line-height: 1.6;
+    max-width: 1400px;
+  }
+  .s28-bottom-note strong { color: #1A1A1A; font-weight: 600; }
+
+  .s28-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s28-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s28-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s28-stage">
+  <div class="s28-masthead">
+    <div class="s28-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s28-masthead-right">28 · RMS Rescale</div>
+  </div>
+
+  <div class="s28-header">
+    <div class="s28-kicker">CHAPTER 04 · 不用重调超参</div>
+    <h1 class="s28-title">换优化器，<span class="accent">不换学习率</span></h1>
+    <div class="s28-subtitle">Muon 的更新幅度和 AdamW 不是同一个量纲，原本要重新扫学习率。V4 加一次 RMS rescale 把它们拉回同一规模。</div>
+  </div>
+
+  <div class="s28-main">
+    <div class="s28-panel bad">
+      <div class="s28-panel-tag">WITHOUT RESCALE</div>
+      <div class="s28-panel-head">直接替换 = 超参全部重扫</div>
+      <div class="s28-formula">
+        O<sub>t</sub> = HybridNewtonSchulz(μM<sub>t-1</sub> + G<sub>t</sub>)
+      </div>
+      <div class="s28-panel-body">
+        正交化后，更新矩阵的每个元素幅度由矩阵维度决定——<code>n × m</code> 越大，
+        RMS 越小。这意味着原来 AdamW 下调好的学习率、weight decay 到了 Muon 上全得重调。
+      </div>
+      <div class="s28-tagline">代价：一次大规模调参实验，几万卡时起步</div>
+    </div>
+
+    <div class="s28-panel good">
+      <div class="s28-panel-tag">WITH RESCALE · V4 的做法</div>
+      <div class="s28-panel-head">乘一个 √max(n,m) · γ</div>
+      <div class="s28-formula">
+        O<sub>t</sub> = O′<sub>t</sub> · √max(n, m) · γ
+      </div>
+      <div class="s28-panel-body">
+        把正交矩阵的 RMS 主动调回和 AdamW 更新相近的量级。这样 <code>η</code>、<code>λ</code> 这些超参
+        <strong style="color:#4D6BFE">可以直接复用 AdamW 的经验值</strong>——不需要为 Muon 重新跑一轮调参。
+      </div>
+      <div class="s28-tagline">好处：复用 V3 时代的调参经验，直接起训</div>
+    </div>
+  </div>
+
+  <div class="s28-bottom-note">
+    一个不起眼的细节，但在工程上非常关键：<strong>它让换优化器这件事，从「重新探索」变成「直接上车」</strong>。对千卡起步的训练，这省下的就是整条关键路径。
+  </div>
+
+  <div class="s28-footer">
+    <div>技术深度解读 · CHAPTER 04 · ALGORITHM 1 LINE 6</div>
+    <div>28 / 72</div>
+  </div>
+  <div class="s28-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · 第九幕小结</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s65-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s65-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s65-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s65-masthead-left img { height: 26px; }
+  .s65-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s65-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s65-body {
+    position: absolute; top: 200px; left: 120px; right: 120px; bottom: 140px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .s65-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 32px;
+  }
+  .s65-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+
+  .s65-verdict {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 96px; line-height: 1.15; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.02em; max-width: 1600px;
+  }
+  .s65-verdict .accent { color: #4D6BFE; font-style: italic; }
+  .s65-verdict .strike {
+    color: #CCC;
+    text-decoration: line-through;
+    text-decoration-thickness: 3px;
+    font-weight: 500;
+  }
+
+  .s65-divider {
+    width: 120px; height: 3px; background: #1A1A1A;
+    margin: 60px 0 40px 0;
+  }
+
+  .s65-sub {
+    font-size: 28px; line-height: 1.55; color: #5A5A5A;
+    max-width: 1400px;
+  }
+  .s65-sub strong { color: #1A1A1A; font-weight: 600; }
+
+  .s65-stamp {
+    position: absolute; right: 120px; top: 200px;
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 700; text-align: right;
+  }
+  .s65-stamp-num {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 140px; font-weight: 600; color: #4D6BFE;
+    line-height: 1; letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums; margin-top: 12px;
+  }
+  .s65-stamp-label {
+    font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: #5A5A5A; font-weight: 500; margin-top: 8px;
+  }
+
+  .s65-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s65-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s65-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s65-stage">
+  <div class="s65-masthead">
+    <div class="s65-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s65-masthead-right">65 · 第九幕 · 小结</div>
+  </div>
+
+  <div class="s65-stamp">
+    THESIS · 1 / 4
+    <div class="s65-stamp-num">01</div>
+    <div class="s65-stamp-label">普惠</div>
+  </div>
+
+  <div class="s65-body">
+    <div class="s65-kicker">CHAPTER 09 · 观点一 · 普惠的真相</div>
+    <h1 class="s65-verdict">
+      从「<span class="strike">字字计较</span>」<br>
+      到「<span class="accent">包月随用</span>」的<br>
+      agent 时代。
+    </h1>
+
+    <div class="s65-divider"></div>
+
+    <div class="s65-sub">
+      这不是一个冲破天花板的世界最佳发布。<strong>这是一个让每个独立开发者都能默认用上 1M agent 的普惠发布</strong>——Flash 把价格砸到地板，Pro 把 agent 工具链生态吃下来。
+    </div>
+  </div>
+
+  <div class="s65-footer">
+    <div>技术深度解读 · CHAPTER 09</div>
+    <div>65 / 72</div>
+  </div>
+  <div class="s65-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

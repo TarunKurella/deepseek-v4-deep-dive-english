@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · Specialist Stage</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s39-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s39-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s39-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s39-masthead-left img { height: 26px; }
+  .s39-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s39-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+  .s39-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s39-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s39-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s39-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 66px; line-height: 1.15; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s39-title .accent { color: #4D6BFE; font-style: italic; }
+  .s39-sub {
+    margin-top: 22px; font-size: 22px; color: #5A5A5A; max-width: 1500px; line-height: 1.55;
+  }
+  .s39-body {
+    position: absolute; left: 120px; right: 120px; top: 410px;
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: 60px;
+  }
+  .s39-pipeline { padding-right: 30px; }
+  .s39-pipeline-label {
+    font-size: 13px; letter-spacing: 0.22em; color: #5A5A5A;
+    text-transform: uppercase; font-weight: 600; margin-bottom: 24px;
+  }
+  .s39-step {
+    display: grid; grid-template-columns: 60px 1fr; gap: 22px;
+    padding: 22px 0; border-top: 1px solid rgba(26,26,26,0.14);
+    align-items: start;
+  }
+  .s39-step-num {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 48px; color: #4D6BFE; font-weight: 600;
+    line-height: 1; letter-spacing: -0.02em;
+  }
+  .s39-step-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 26px; font-weight: 600; color: #1A1A1A;
+    margin-bottom: 6px;
+  }
+  .s39-step-body {
+    font-size: 15px; color: #5A5A5A; line-height: 1.6;
+  }
+  .s39-step-body code {
+    font-family: "SF Mono", monospace; background: #F0F2F6;
+    color: #1A1A1A; padding: 1px 6px; font-size: 13px;
+  }
+  .s39-side {
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .s39-card {
+    background: #F7F8FA;
+    padding: 26px 30px;
+    border: 1px solid rgba(26,26,26,0.08);
+  }
+  .s39-card-label {
+    font-size: 12px; letter-spacing: 0.22em; color: #4D6BFE;
+    text-transform: uppercase; font-weight: 600; margin-bottom: 10px;
+  }
+  .s39-card-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 26px; font-weight: 600; color: #1A1A1A;
+    line-height: 1.3; margin-bottom: 12px;
+  }
+  .s39-card-body {
+    font-size: 15px; color: #5A5A5A; line-height: 1.6;
+  }
+  .s39-modes {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+    margin-top: 16px;
+  }
+  .s39-mode {
+    border: 1px solid rgba(26,26,26,0.14);
+    padding: 10px 12px; background: #FFF;
+  }
+  .s39-mode-name {
+    font-family: "SF Mono", monospace;
+    font-size: 12px; color: #4D6BFE; font-weight: 600;
+    letter-spacing: 0.06em; margin-bottom: 4px;
+  }
+  .s39-mode-desc {
+    font-size: 13px; color: #1A1A1A; line-height: 1.4;
+  }
+  .s39-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s39-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s39-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s39-stage">
+  <div class="s39-masthead">
+    <div class="s39-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
+    </div>
+    <div class="s39-masthead-right">06 · STAGE 01 · SPECIALIST</div>
+  </div>
+
+  <div class="s39-header">
+    <div class="s39-kicker">STAGE 01 · SPECIALIST TRAINING</div>
+    <h1 class="s39-title">Train <span class="accent">one expert per domain</span></h1>
+    <div class="s39-sub">First use SFT for a base layer, then run GRPO for RL. Each expert is responsible only for its own domain, so the reward signal stays clear and uncompromised. V4 trains more than ten such experts.</div>
+  </div>
+
+  <div class="s39-body">
+    <div class="s39-pipeline">
+      <div class="s39-pipeline-label">Training pipeline for a single expert</div>
+
+      <div class="s39-step">
+        <div class="s39-step-num">01</div>
+        <div>
+          <div class="s39-step-title">Lay the base with SFT</div>
+          <div class="s39-step-body">Run standard fine-tuning on high-quality supervised data inside that domain to build the basic capability first.</div>
+        </div>
+      </div>
+
+      <div class="s39-step">
+        <div class="s39-step-num">02</div>
+        <div>
+          <div class="s39-step-title">Run RL with GRPO</div>
+          <div class="s39-step-body">DeepSeek’s Group Relative Policy Optimization removes the need for a separate value model. Relative advantage is computed across sampled groups, which lowers memory use and improves stability. V3, R1, and V4 all build on this lineage.</div>
+        </div>
+      </div>
+
+      <div class="s39-step">
+        <div class="s39-step-num">03</div>
+        <div>
+          <div class="s39-step-title">Output: one expert checkpoint</div>
+          <div class="s39-step-body">Repeat the full pipeline more than ten times to train math, code, agent, instruction, reasoning, and other experts. Each becomes its own checkpoint.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="s39-side">
+      <div class="s39-card">
+        <div class="s39-card-label">Innovation · Generative Reward Model</div>
+        <div class="s39-card-title">Let the actor become the judge</div>
+        <div class="s39-card-body">For tasks that are hard to validate with explicit rules, such as writing quality or helpfulness, V4 flips the usual reward-model setup: it uses a <strong>generative model</strong> as the judge, and even runs RL on the GRM itself. Evaluation ability and generation ability are optimized together.</div>
+      </div>
+
+      <div class="s39-card">
+        <div class="s39-card-label">Innovation · Three reasoning intensities</div>
+        <div class="s39-card-title">Adjustable thinking depth</div>
+        <div class="s39-modes">
+          <div class="s39-mode">
+            <div class="s39-mode-name">Non-think</div>
+            <div class="s39-mode-desc">fast response, no expanded reasoning</div>
+          </div>
+          <div class="s39-mode">
+            <div class="s39-mode-name">Think High</div>
+            <div class="s39-mode-desc">default reasoning strength</div>
+          </div>
+          <div class="s39-mode">
+            <div class="s39-mode-name">Think Max</div>
+            <div class="s39-mode-desc">system prompt forces deeper thinking</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="s39-footer">
+    <div>TECHNICAL DEEP DIVE · CHAPTER 06</div>
+    <div>39 / 72</div>
+  </div>
+  <div class="s39-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

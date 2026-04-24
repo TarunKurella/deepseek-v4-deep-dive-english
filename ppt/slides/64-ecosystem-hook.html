@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · 生态卡位</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s64-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s64-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s64-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s64-masthead-left img { height: 26px; }
+  .s64-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s64-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s64-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s64-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s64-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s64-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 60px; line-height: 1.12; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1600px;
+  }
+  .s64-title .accent { color: #4D6BFE; font-style: italic; }
+  .s64-subtitle {
+    margin-top: 18px;
+    font-size: 22px; color: #5A5A5A; line-height: 1.5; max-width: 1400px;
+  }
+
+  .s64-tools {
+    position: absolute; left: 120px; right: 120px; top: 430px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+  }
+  .s64-tool {
+    padding: 36px 32px;
+    border: 1px solid rgba(26,26,26,0.12);
+    background: #F7F8FA;
+    position: relative;
+    min-height: 220px;
+  }
+  .s64-tool-tag {
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 700; margin-bottom: 14px;
+  }
+  .s64-tool-name {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 36px; font-weight: 600; color: #1A1A1A;
+    line-height: 1.1; margin-bottom: 18px;
+    letter-spacing: -0.01em;
+  }
+  .s64-tool-body {
+    font-size: 16px; color: #5A5A5A; line-height: 1.6;
+  }
+  .s64-tool-body strong { color: #1A1A1A; font-weight: 600; }
+
+  .s64-quote {
+    position: absolute; left: 120px; right: 120px; bottom: 200px;
+    padding: 32px 44px;
+    border-left: 4px solid #4D6BFE;
+    background: #FFFFFF;
+  }
+  .s64-quote-tag {
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 10px;
+  }
+  .s64-quote-body {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 26px; line-height: 1.5; color: #1A1A1A;
+  }
+  .s64-quote-body strong { color: #4D6BFE; font-weight: 600; }
+
+  .s64-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s64-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s64-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s64-stage">
+  <div class="s64-masthead">
+    <div class="s64-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s64-masthead-right">64 · 生态卡位</div>
+  </div>
+
+  <div class="s64-header">
+    <div class="s64-kicker">CHAPTER 09 · 观点一 · 普惠的真相</div>
+    <h1 class="s64-title">不抢终端，<span class="accent">进开发者的 agent 工具链</span></h1>
+    <div class="s64-subtitle">官方发布文明确提到已为这四个 agent 产品做了适配和优化——DeepSeek 的战场不在 chat.xxx.com，在开发者每天打开的终端里。</div>
+  </div>
+
+  <div class="s64-tools">
+    <div class="s64-tool">
+      <div class="s64-tool-tag">ADAPTED · 01</div>
+      <div class="s64-tool-name">Claude Code</div>
+      <div class="s64-tool-body">Anthropic 官方 CLI。V4 完全兼容 <strong>Anthropic API 接口</strong>，改个 model_name 即可接入。</div>
+    </div>
+    <div class="s64-tool">
+      <div class="s64-tool-tag">ADAPTED · 02</div>
+      <div class="s64-tool-name">OpenClaw</div>
+      <div class="s64-tool-body">花叔每天用的开源 Claude Code 替代品。V4 做了针对性调优，<strong>可以直接当后端</strong>。</div>
+    </div>
+    <div class="s64-tool">
+      <div class="s64-tool-tag">ADAPTED · 03</div>
+      <div class="s64-tool-name">OpenCode</div>
+      <div class="s64-tool-body">开源 coding agent 生态。V4 进入默认 model list，<strong>开源 + 开源</strong>的组合。</div>
+    </div>
+    <div class="s64-tool">
+      <div class="s64-tool-tag">ADAPTED · 04</div>
+      <div class="s64-tool-name">CodeBuddy</div>
+      <div class="s64-tool-body">国内开发者常用的 IDE 插件。V4-Flash 的价格让 <strong>coding agent 后台任务</strong>真正可持续跑。</div>
+    </div>
+  </div>
+
+  <div class="s64-quote">
+    <div class="s64-quote-tag">STRATEGIC TAKE</div>
+    <div class="s64-quote-body">
+      闭源大厂在抢谁用它们的 chat。DeepSeek 在抢<strong>谁被开发者嵌进脚本里</strong>。<br>
+      一个是 toC 入口战，一个是 toDev 基础设施战——后者更慢，但更不可替代。
+    </div>
+  </div>
+
+  <div class="s64-footer">
+    <div>技术深度解读 · CHAPTER 09</div>
+    <div>64 / 72</div>
+  </div>
+  <div class="s64-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

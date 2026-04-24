@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · Coding Benchmarks</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s48-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s48-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s48-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s48-masthead-left img { height: 26px; }
+  .s48-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s48-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+  .s48-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s48-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s48-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s48-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 64px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s48-title .accent { color: #4D6BFE; font-style: italic; }
+  .s48-table {
+    position: absolute; left: 120px; right: 120px; top: 370px;
+    border-collapse: collapse; width: calc(100% - 240px);
+    font-variant-numeric: tabular-nums;
+  }
+  .s48-table th {
+    text-align: left; font-size: 13px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: #5A5A5A; font-weight: 600;
+    padding: 14px 12px; border-bottom: 2px solid #1A1A1A;
+  }
+  .s48-table th.num { text-align: right; }
+  .s48-table td {
+    padding: 18px 12px; font-size: 19px; color: #1A1A1A;
+    border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s48-table td.num {
+    font-family: "Source Serif 4", Georgia, serif; font-weight: 600;
+    text-align: right; font-size: 22px;
+  }
+  .s48-table td.bench-name {
+    font-family: "Source Serif 4", Georgia, serif; font-size: 22px;
+  }
+  .s48-table td.bench-sub {
+    font-size: 13px; color: #999; font-style: italic;
+  }
+  .s48-table .ds-col { background: rgba(77,107,254,0.06); }
+  .s48-table td.ds-col { color: #4D6BFE; }
+  .s48-table td.winner { color: #4D6BFE; font-weight: 700; position: relative; }
+  .s48-table td.winner::before {
+    content: "★"; position: absolute; left: 2px; color: #4D6BFE; font-size: 14px;
+  }
+  .s48-bottom-note {
+    position: absolute; left: 120px; right: 120px; bottom: 110px;
+    border-top: 2px solid #1A1A1A; padding-top: 22px;
+    font-size: 20px; color: #5A5A5A; line-height: 1.6; max-width: 1500px;
+  }
+  .s48-bottom-note strong { color: #1A1A1A; font-weight: 600; }
+  .s48-bottom-note .blue { color: #4D6BFE; font-weight: 600; }
+  .s48-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s48-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s48-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s48-stage">
+  <div class="s48-masthead">
+    <div class="s48-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
+    </div>
+    <div class="s48-masthead-right">07 · What It Excels At</div>
+  </div>
+  <div class="s48-header">
+    <div class="s48-kicker">CHAPTER 07 · THE CODING LANDSCAPE</div>
+    <h1 class="s48-title">In coding, it is <span class="accent">mythic</span> on contests and merely <span class="accent">front-line</span> on production engineering</h1>
+  </div>
+  <table class="s48-table">
+    <thead>
+      <tr>
+        <th style="width:30%">BENCHMARK</th>
+        <th class="num">Opus 4.6</th>
+        <th class="num">GPT-5.4</th>
+        <th class="num">Gemini 3.1</th>
+        <th class="num">K2.6</th>
+        <th class="num">GLM-5.1</th>
+        <th class="num ds-col">DS-V4-Pro</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="bench-name">LiveCodeBench <span class="bench-sub">&nbsp;live competitive programming</span></td>
+        <td class="num">88.8</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num">91.7</td>
+        <td class="num">89.6</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num ds-col winner">93.5</td>
+      </tr>
+      <tr>
+        <td class="bench-name">Codeforces Rating <span class="bench-sub">&nbsp;algorithmic contest coding</span></td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num">3168</td>
+        <td class="num">3052</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num ds-col winner">3206</td>
+      </tr>
+      <tr>
+        <td class="bench-name">SWE-Bench Verified <span class="bench-sub">&nbsp;real engineering bug fixing</span></td>
+        <td class="num winner">80.8</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num">80.6</td>
+        <td class="num">80.2</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num ds-col">80.6</td>
+      </tr>
+      <tr>
+        <td class="bench-name">SWE-Bench Pro <span class="bench-sub">&nbsp;harder engineering tasks</span></td>
+        <td class="num">57.3</td>
+        <td class="num">57.7</td>
+        <td class="num">54.2</td>
+        <td class="num winner">58.6</td>
+        <td class="num">58.4</td>
+        <td class="num ds-col">55.4</td>
+      </tr>
+      <tr>
+        <td class="bench-name">SWE-Bench Multilingual <span class="bench-sub">&nbsp;multilingual engineering</span></td>
+        <td class="num winner">77.5</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num">76.7</td>
+        <td class="num">73.3</td>
+        <td class="num ds-col">76.2</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="s48-bottom-note">
+    <strong>It leads the field on competitive programming</strong>, winning both LiveCodeBench and Codeforces, but on SWE-style engineering tasks it is only <span class="blue">close to the leaders rather than beyond them</span>. Against Opus 4.6 on SWE-Bench Verified, it is essentially shoulder to shoulder at 80.6 versus 80.8. The paper’s own phrasing is careful: this is the first open model to catch closed models in competition coding.
+  </div>
+  <div class="s48-footer">
+    <div>Technical Deep Dive · CHAPTER 07</div>
+    <div>48 / 72</div>
+  </div>
+  <div class="s48-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

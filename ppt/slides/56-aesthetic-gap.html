@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · 标准 vs 品味</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s56-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s56-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s56-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s56-masthead-left img { height: 26px; }
+  .s56-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s56-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s56-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s56-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s56-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s56-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 60px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1600px;
+  }
+  .s56-title .accent { color: #4D6BFE; font-style: italic; }
+
+  .s56-subtitle {
+    position: absolute; left: 120px; top: 312px;
+    font-family: "Source Serif 4", Georgia, serif; font-style: italic;
+    font-size: 22px; color: #5A5A5A; max-width: 1400px;
+  }
+
+  .s56-spectrum-wrap {
+    position: absolute; left: 120px; right: 120px; top: 420px; height: 320px;
+  }
+
+  .s56-axis-label-left {
+    position: absolute; left: 0; top: -50px;
+    font-size: 13px; letter-spacing: 0.22em; color: #4D6BFE;
+    text-transform: uppercase; font-weight: 600;
+  }
+  .s56-axis-label-right {
+    position: absolute; right: 0; top: -50px;
+    font-size: 13px; letter-spacing: 0.22em; color: #C83737;
+    text-transform: uppercase; font-weight: 600;
+  }
+
+  .s56-markers {
+    position: relative; width: 100%; height: 100%;
+  }
+
+  .s56-bottom-axis {
+    position: absolute; left: 0; right: 0; top: 140px;
+    display: flex; align-items: center;
+  }
+  .s56-axis-left-txt {
+    font-family: "Source Serif 4", Georgia, serif; font-style: italic;
+    font-size: 24px; color: #4D6BFE; font-weight: 600; padding-right: 20px;
+  }
+  .s56-axis-right-txt {
+    font-family: "Source Serif 4", Georgia, serif; font-style: italic;
+    font-size: 24px; color: #C83737; font-weight: 600; padding-left: 20px;
+  }
+  .s56-axis-line {
+    flex: 1; height: 3px;
+    background: linear-gradient(to right, #4D6BFE 0%, #4D6BFE 35%, #999 50%, #C83737 65%, #C83737 100%);
+    position: relative;
+  }
+
+  .s56-tick {
+    position: absolute; top: -8px; width: 2px; height: 20px; background: #1A1A1A;
+    transform: translateX(-50%);
+  }
+
+  .s56-task {
+    position: absolute; transform: translateX(-50%);
+    width: 180px; text-align: center;
+  }
+  .s56-task.up { top: -130px; }
+  .s56-task.down { top: 30px; }
+  .s56-task-name {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 18px; color: #1A1A1A; line-height: 1.3; margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .s56-task-score {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 26px; font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .s56-task-score.good { color: #4D6BFE; }
+  .s56-task-score.mid { color: #666; }
+  .s56-task-score.bad { color: #C83737; }
+  .s56-task-tag {
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: #999; margin-bottom: 4px;
+  }
+  .s56-connector {
+    position: absolute; left: 50%; width: 2px; background: rgba(26,26,26,0.15);
+  }
+  .s56-connector.up { top: 100%; height: 40px; }
+  .s56-connector.down { bottom: 100%; height: 40px; }
+
+  .s56-bottom-note {
+    position: absolute; left: 120px; right: 120px; bottom: 110px;
+    border-top: 2px solid #1A1A1A; padding-top: 22px;
+    font-size: 20px; color: #5A5A5A; line-height: 1.6; max-width: 1600px;
+  }
+  .s56-bottom-note strong { color: #1A1A1A; font-weight: 600; }
+  .s56-bottom-note .blue { color: #4D6BFE; font-weight: 600; }
+  .s56-bottom-note .red { color: #C83737; font-weight: 600; }
+
+  .s56-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s56-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s56-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s56-stage">
+  <div class="s56-masthead">
+    <div class="s56-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s56-masthead-right">08 · 不擅长什么</div>
+  </div>
+
+  <div class="s56-header">
+    <div class="s56-kicker">CHAPTER 08 · 分水岭</div>
+    <h1 class="s56-title">差距的秘密：<span class="accent">有没有 Ground Truth</span></h1>
+  </div>
+
+  <div class="s56-subtitle">
+    任务光谱——从「有标准答案」滑向「需要品味」，DeepSeek-V4 的排名也随之滑落。
+  </div>
+
+  <div class="s56-spectrum-wrap">
+    <div class="s56-axis-label-left">有 GROUND TRUTH · 擅长</div>
+    <div class="s56-axis-label-right">需要品味 · 吃瘪</div>
+
+    <div class="s56-bottom-axis">
+      <div class="s56-axis-left-txt">标准化</div>
+      <div class="s56-axis-line">
+        <div class="s56-tick" style="left: 8%;"></div>
+        <div class="s56-tick" style="left: 24%;"></div>
+        <div class="s56-tick" style="left: 42%;"></div>
+        <div class="s56-tick" style="left: 62%;"></div>
+        <div class="s56-tick" style="left: 82%;"></div>
+        <div class="s56-tick" style="left: 94%;"></div>
+
+        <div class="s56-task up" style="left: 8%;">
+          <div class="s56-task-tag">MATH</div>
+          <div class="s56-task-name">Putnam 形式化</div>
+          <div class="s56-task-score good">全场第一</div>
+          <div class="s56-connector up"></div>
+        </div>
+        <div class="s56-task down" style="left: 24%;">
+          <div class="s56-connector down"></div>
+          <div class="s56-task-tag">CODING</div>
+          <div class="s56-task-name">Codeforces</div>
+          <div class="s56-task-score good">全场第一</div>
+        </div>
+        <div class="s56-task up" style="left: 42%;">
+          <div class="s56-task-name">HLE 硬推理</div>
+          <div class="s56-task-score mid">开源 No.1<br><span style="font-size:15px; font-weight:400;">闭源落后 6pp</span></div>
+          <div class="s56-connector up"></div>
+        </div>
+        <div class="s56-task down" style="left: 62%;">
+          <div class="s56-connector down"></div>
+          <div class="s56-task-tag">AGENT</div>
+          <div class="s56-task-name">Terminal Bench</div>
+          <div class="s56-task-score mid">差 14.8 pp</div>
+        </div>
+        <div class="s56-task up" style="left: 82%;">
+          <div class="s56-task-tag">WRITING</div>
+          <div class="s56-task-name">创意写作<br>vs Opus 4.5</div>
+          <div class="s56-task-score bad">45.9% 输</div>
+          <div class="s56-connector up"></div>
+        </div>
+        <div class="s56-task down" style="left: 94%;">
+          <div class="s56-connector down"></div>
+          <div class="s56-task-tag">TOOLS</div>
+          <div class="s56-task-name">HLE w/ Tools</div>
+          <div class="s56-task-score bad">全场倒 1</div>
+        </div>
+      </div>
+      <div class="s56-axis-right-txt">品味</div>
+    </div>
+  </div>
+
+  <div class="s56-bottom-note">
+    <span class="blue">左端</span>：每道题有一个唯一正确答案，评分函数明确。强化学习能稳定拉动能力上升，DeepSeek 是开源天花板。
+    <span class="red">右端</span>：「好」与「不好」是连续的、主观的，没有可优化的 reward 信号。<strong>竞赛选手基因不一定是优势——甚至可能是劣势</strong>。
+  </div>
+
+  <div class="s56-footer">
+    <div>技术深度解读 · CHAPTER 08</div>
+    <div>56 / 72</div>
+  </div>
+  <div class="s56-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

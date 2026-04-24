@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · Transition</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s16-stage { position: relative; width: 1920px; height: 1080px; }
+  .s16-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s16-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s16-masthead-left img { height: 26px; }
+  .s16-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s16-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+  .s16-content {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: left; max-width: 1500px; width: 100%;
+  }
+  .s16-step {
+    display: flex; align-items: baseline; gap: 20px;
+    margin-bottom: 16px;
+    font-size: 18px; color: #999;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .s16-step-num {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 20px; color: #4D6BFE; font-weight: 600;
+    letter-spacing: 0;
+  }
+  .s16-step.done .s16-step-label {
+    color: #999;
+    text-decoration: line-through;
+    text-decoration-color: rgba(153,153,153,0.6);
+    text-decoration-thickness: 1px;
+  }
+  .s16-step.done .s16-step-num { color: #999; }
+  .s16-step.current .s16-step-label { color: #4D6BFE; font-weight: 600; }
+  .s16-step-label { letter-spacing: 0.1em; }
+  .s16-heading {
+    margin-top: 60px;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 96px; line-height: 1.1; font-weight: 600;
+    letter-spacing: -0.02em; color: #1A1A1A;
+  }
+  .s16-heading .accent { color: #4D6BFE; font-style: italic; }
+  .s16-subheading {
+    margin-top: 36px;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 28px; line-height: 1.5; color: #5A5A5A;
+    font-style: italic; max-width: 1300px;
+  }
+  .s16-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s16-watermark { position: absolute; right: 60px; bottom: 40px; opacity: 0.08; }
+  .s16-watermark img { width: 100px; }
+</style>
+</head>
+<body>
+<div class="s16-stage">
+  <div class="s16-masthead">
+    <div class="s16-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
+    </div>
+    <div class="s16-masthead-right">16 · NEXT UP</div>
+  </div>
+
+  <div class="s16-content">
+    <div class="s16-step done">
+      <div class="s16-step-num">02</div>
+      <div class="s16-step-label">mHC · Residual Backbone Upgrade</div>
+    </div>
+    <div class="s16-step current">
+      <div class="s16-step-num">03</div>
+      <div class="s16-step-label">Hybrid Attention · CSA + HCA</div>
+    </div>
+
+    <h1 class="s16-heading">Depth is solved.<br>Now solve <span class="accent">length</span>.</h1>
+
+    <div class="s16-subheading">
+      mHC makes 61 layers stack stably. The next problem is different: once context grows from 4K to 1M, how do you stop attention from collapsing under KV-cache cost?
+    </div>
+  </div>
+
+  <div class="s16-footer">
+    <div>CHAPTER 02 → 03 · TRANSITION</div>
+    <div>16 / 72</div>
+  </div>
+  <div class="s16-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

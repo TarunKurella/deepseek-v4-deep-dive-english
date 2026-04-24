@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · One-Pager</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s01-stage { position: relative; width: 1920px; height: 1080px; }
+  .s01-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s01-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s01-masthead-left img { height: 26px; }
+  .s01-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s01-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+  .s01-header { position: absolute; top: 140px; left: 120px; right: 120px; }
+  .s01-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 18px;
+  }
+  .s01-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s01-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 56px; line-height: 1.15; font-weight: 600; letter-spacing: -0.01em;
+  }
+  .s01-title .accent { color: #4D6BFE; font-style: italic; }
+  .s01-heros {
+    position: absolute; top: 310px; left: 120px; right: 120px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    border-top: 2px solid #1A1A1A;
+    border-bottom: 1px solid rgba(26,26,26,0.15);
+  }
+  .s01-hero {
+    padding: 28px 32px 28px 0;
+    border-right: 1px solid rgba(26,26,26,0.12);
+  }
+  .s01-hero:last-child { border-right: none; padding-right: 0; }
+  .s01-hero-label {
+    font-size: 12px; letter-spacing: 0.22em; color: #5A5A5A;
+    text-transform: uppercase; margin-bottom: 12px; font-weight: 600;
+  }
+  .s01-hero-value {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 68px; font-weight: 600; color: #4D6BFE;
+    line-height: 1; letter-spacing: -0.02em; margin-bottom: 10px;
+    font-variant-numeric: tabular-nums;
+  }
+  .s01-hero-value .unit { font-size: 28px; color: #1A1A1A; margin-left: 4px; }
+  .s01-hero-desc { font-size: 14px; color: #5A5A5A; line-height: 1.5; }
+  .s01-cols {
+    position: absolute; top: 540px; left: 120px; right: 120px;
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: 80px;
+  }
+  .s01-col-title {
+    font-size: 12px; letter-spacing: 0.22em; color: #5A5A5A;
+    text-transform: uppercase; font-weight: 600; margin-bottom: 20px;
+  }
+  .s01-spec-table, .s01-price-table {
+    width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums;
+  }
+  .s01-spec-table thead th, .s01-price-table thead th {
+    padding: 12px 0; font-size: 14px; font-weight: 600; color: #1A1A1A;
+    border-bottom: 2px solid #1A1A1A; text-align: right;
+  }
+  .s01-spec-table thead th:first-child, .s01-price-table thead th:first-child { text-align: left; }
+  .s01-spec-table tbody td, .s01-price-table tbody td {
+    padding: 11px 0; border-bottom: 1px dashed rgba(26,26,26,0.1);
+  }
+  .s01-spec-table tbody td:first-child, .s01-price-table tbody td:first-child {
+    color: #5A5A5A; font-size: 14px; text-align: left;
+  }
+  .s01-spec-table tbody td:not(:first-child), .s01-price-table tbody td:not(:first-child) {
+    text-align: right; font-family: "Source Serif 4", Georgia, serif; font-weight: 600;
+  }
+  .s01-price-note {
+    margin-top: 14px; font-size: 13px; color: #5A5A5A; line-height: 1.5; font-style: italic;
+  }
+  .s01-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="s01-stage">
+  <div class="s01-masthead">
+    <div class="s01-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
+    </div>
+    <div class="s01-masthead-right">01 · One-Pager</div>
+  </div>
+
+  <div class="s01-header">
+    <div class="s01-kicker">Chapter 0 · One-page takeaway</div>
+    <h1 class="s01-title">Two models · one architecture · <span class="accent">four numbers worth remembering</span></h1>
+  </div>
+
+  <div class="s01-heros">
+    <div class="s01-hero">
+      <div class="s01-hero-label">Codeforces rating</div>
+      <div class="s01-hero-value">3206</div>
+      <div class="s01-hero-desc">V4-Pro-Max competition-programming score,<br>ahead of GPT-5.4 and the global human rank #23</div>
+    </div>
+    <div class="s01-hero">
+      <div class="s01-hero-label">Putnam 2025</div>
+      <div class="s01-hero-value">120<span class="unit">/120</span></div>
+      <div class="s01-hero-desc">Perfect score in formal mathematics,<br>ahead of every publicly known AI system</div>
+    </div>
+    <div class="s01-hero">
+      <div class="s01-hero-label">Native context</div>
+      <div class="s01-hero-value">1<span class="unit">M tokens</span></div>
+      <div class="s01-hero-desc">Native on both Pro and Flash,<br>with KV cache down to 2% of baseline</div>
+    </div>
+    <div class="s01-hero">
+      <div class="s01-hero-label">Flash cached-input price</div>
+      <div class="s01-hero-value">0.2<span class="unit">RMB/M</span></div>
+      <div class="s01-hero-desc">V4-Flash input pricing,<br>close to the cheapest in its open-model class</div>
+    </div>
+  </div>
+
+  <div class="s01-cols">
+    <div>
+      <div class="s01-col-title">Model specs</div>
+      <table class="s01-spec-table">
+        <thead>
+          <tr><th></th><th>V4-Pro</th><th>V4-Flash</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Total parameters</td><td>1.6T</td><td>284B</td></tr>
+          <tr><td>Active per token</td><td>49B</td><td>13B</td></tr>
+          <tr><td>Transformer layers</td><td>61</td><td>43</td></tr>
+          <tr><td>MoE routed experts</td><td>384</td><td>256</td></tr>
+          <tr><td>Training tokens</td><td>33T</td><td>32T</td></tr>
+          <tr><td>Native context</td><td>1M</td><td>1M</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <div class="s01-col-title">API pricing (RMB / million tokens)</div>
+      <table class="s01-price-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Input (cache hit)</th>
+            <th>Input (cache miss)</th>
+            <th>Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>deepseek-v4-pro</td><td>1 RMB</td><td>12 RMB</td><td>24 RMB</td></tr>
+          <tr><td>deepseek-v4-flash</td><td>0.2 RMB</td><td>1 RMB</td><td>2 RMB</td></tr>
+        </tbody>
+      </table>
+      <div class="s01-price-note">The price story is driven by Flash: it is what turns 1M context into something ordinary developers can afford to use every day.</div>
+    </div>
+  </div>
+
+  <div class="s01-footer">
+    <div>Technical Deep Dive · Chapter 0</div>
+    <div>01 / 72</div>
+  </div>
+</div>
+</body>
+</html>

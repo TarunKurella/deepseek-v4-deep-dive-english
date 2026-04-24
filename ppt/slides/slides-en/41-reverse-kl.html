@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · The Trick Behind Reverse KL</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s41-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s41-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s41-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s41-masthead-left img { height: 26px; }
+  .s41-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s41-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+  .s41-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s41-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s41-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s41-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 66px; line-height: 1.15; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s41-title .accent { color: #4D6BFE; font-style: italic; }
+  .s41-sub {
+    margin-top: 22px; font-size: 22px; color: #5A5A5A; max-width: 1500px; line-height: 1.55;
+  }
+  .s41-body {
+    position: absolute; left: 120px; right: 120px; top: 420px;
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px;
+  }
+  .s41-diagram {
+    background: #F7F8FA;
+    padding: 30px 36px;
+    border: 1px solid rgba(26,26,26,0.08);
+  }
+  .s41-diagram-label {
+    font-size: 13px; letter-spacing: 0.22em; color: #5A5A5A;
+    text-transform: uppercase; font-weight: 600; margin-bottom: 20px;
+  }
+  .s41-scenarios {
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .s41-scene {
+    border-top: 2px solid #1A1A1A;
+    padding-top: 20px;
+  }
+  .s41-scene-label {
+    font-size: 12px; letter-spacing: 0.22em; color: #4D6BFE;
+    text-transform: uppercase; font-weight: 600; margin-bottom: 8px;
+  }
+  .s41-scene-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 26px; font-weight: 600; color: #1A1A1A; line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .s41-scene-body {
+    font-size: 15px; color: #5A5A5A; line-height: 1.6;
+  }
+  .s41-takeaway {
+    position: absolute; left: 120px; right: 120px; bottom: 120px;
+    border-top: 2px solid #1A1A1A;
+    padding-top: 22px;
+    font-size: 22px; color: #1A1A1A; line-height: 1.5;
+    max-width: 1500px;
+  }
+  .s41-takeaway strong { color: #4D6BFE; font-weight: 600; }
+  .s41-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s41-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s41-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s41-stage">
+  <div class="s41-masthead">
+    <div class="s41-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
+    </div>
+    <div class="s41-masthead-right">06 · REVERSE KL</div>
+  </div>
+
+  <div class="s41-header">
+    <div class="s41-kicker">KEY MECHANISM · WHY REVERSE KL WORKS</div>
+    <h1 class="s41-title">The student can <span class="accent">choose its own teacher</span></h1>
+    <div class="s41-sub">Math requests align against the math expert. Code requests align against the code expert. This “automatic routing” behavior is the deep reason multi-teacher distillation works here.</div>
+  </div>
+
+  <div class="s41-body">
+    <div class="s41-diagram">
+      <div class="s41-diagram-label">Difference in distribution shape</div>
+      <svg width="100%" height="330" viewBox="0 0 780 330" xmlns="http://www.w3.org/2000/svg">
+        <text x="40" y="30" font-family="-apple-system" font-size="13" fill="#5A5A5A" font-weight="600">Teacher Mixture (multi-modal)</text>
+        <path d="M 40,130 C 90,130 110,60 150,60 C 190,60 200,130 240,130 C 280,130 310,80 350,80 C 390,80 420,130 470,130 C 510,130 540,90 580,90 C 620,90 660,130 700,130"
+              stroke="#1A1A1A" stroke-width="2" fill="none"/>
+        <path d="M 40,130 C 90,130 110,60 150,60 C 190,60 200,130 240,130 C 280,130 310,80 350,80 C 390,80 420,130 470,130 C 510,130 540,90 580,90 C 620,90 660,130 700,130 L 700,130 L 40,130 Z"
+              fill="#1A1A1A" fill-opacity="0.08"/>
+        <text x="150" y="155" text-anchor="middle" font-family="-apple-system" font-size="11" fill="#5A5A5A">math</text>
+        <text x="350" y="155" text-anchor="middle" font-family="-apple-system" font-size="11" fill="#5A5A5A">code</text>
+        <text x="580" y="155" text-anchor="middle" font-family="-apple-system" font-size="11" fill="#5A5A5A">agent</text>
+
+        <line x1="40" y1="170" x2="740" y2="170" stroke="#D9DDE6" stroke-width="1"/>
+
+        <text x="40" y="200" font-family="-apple-system" font-size="13" fill="#5A5A5A" font-weight="600">Forward KL · student is forced to cover every mode</text>
+        <path d="M 40,290 C 100,290 140,240 200,230 C 260,225 310,228 370,230 C 430,232 490,230 550,235 C 610,240 660,260 700,285"
+              stroke="#999" stroke-width="2" fill="none" stroke-dasharray="4,3"/>
+        <text x="380" y="310" text-anchor="middle" font-family="-apple-system" font-size="11" fill="#999" font-style="italic">over-smoothed · masters none of the peaks</text>
+
+        <path d="M 320,290 C 340,290 345,240 360,230 C 380,220 385,230 400,260 C 415,290 430,290 440,290"
+              stroke="#4D6BFE" stroke-width="2.5" fill="#4D6BFE" fill-opacity="0.15"/>
+        <text x="380" y="272" text-anchor="middle" font-family="-apple-system" font-size="12" fill="#4D6BFE" font-weight="600">student picks the code peak</text>
+      </svg>
+    </div>
+
+    <div class="s41-scenarios">
+      <div class="s41-scene">
+        <div class="s41-scene-label">SCENE 01</div>
+        <div class="s41-scene-title">Math task</div>
+        <div class="s41-scene-body">The student’s rollout lands near the math mode, and reverse KL pushes it toward the high-probability region of the math expert. Code and agent contributions naturally get ignored.</div>
+      </div>
+      <div class="s41-scene">
+        <div class="s41-scene-label">SCENE 02</div>
+        <div class="s41-scene-title">Code task</div>
+        <div class="s41-scene-body">The same student, when prompted with code, rolls out in the code mode and automatically shifts its alignment target. No external controller has to tell it “this is code.”</div>
+      </div>
+      <div class="s41-scene">
+        <div class="s41-scene-label">SCENE 03</div>
+        <div class="s41-scene-title">Any new task</div>
+        <div class="s41-scene-body">Add a new expert and capability extends. If you can train a “calligraphy expert,” then adding it to the distillation pool gives the student a new teacher it can align to when that mode appears.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="s41-takeaway">
+    This is the underappreciated property of reverse KL in the multi-teacher setting: <strong>you do not need an external router to tell the student which teacher to listen to</strong>. The student’s own on-policy distribution becomes the router.
+  </div>
+
+  <div class="s41-footer">
+    <div>TECHNICAL DEEP DIVE · CHAPTER 06</div>
+    <div>41 / 72</div>
+  </div>
+  <div class="s41-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

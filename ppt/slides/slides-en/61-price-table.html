@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · Official Pricing</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #FFFFFF; color: #1A1A1A; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+  .s61-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s61-masthead { position: absolute; top: 50px; left: 120px; right: 120px; display: flex; align-items: center; justify-content: space-between; padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08); }
+  .s61-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s61-masthead-left img { height: 26px; }
+  .s61-masthead-left span { font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A; }
+  .s61-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+  .s61-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s61-kicker { display: inline-flex; align-items: center; gap: 12px; font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase; color: #4D6BFE; font-weight: 600; margin-bottom: 20px; }
+  .s61-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s61-title { font-family: "Source Serif 4", Georgia, serif; font-size: 64px; line-height: 1.1; font-weight: 600; color: #1A1A1A; letter-spacing: -0.01em; max-width: 1500px; }
+  .s61-title .accent { color: #4D6BFE; font-style: italic; }
+  .s61-subtitle { margin-top: 18px; font-size: 20px; color: #5A5A5A; line-height: 1.5; max-width: 1400px; }
+  .s61-table { position: absolute; left: 120px; right: 120px; top: 400px; border-top: 2px solid #1A1A1A; }
+  .s61-row { display: grid; grid-template-columns: 300px 1fr 1fr 1fr 140px; align-items: center; border-bottom: 1px solid rgba(26,26,26,0.12); padding: 26px 0; }
+  .s61-row.head { border-bottom: 2px solid #1A1A1A; padding: 16px 0; }
+  .s61-row.head div { font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: #5A5A5A; font-weight: 600; }
+  .s61-row.flash { background: #F7F8FA; }
+  .s61-model { font-family: "Source Serif 4", Georgia, serif; font-size: 30px; font-weight: 600; color: #1A1A1A; padding-left: 16px; }
+  .s61-model small { display: block; font-family: -apple-system, sans-serif; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: #5A5A5A; font-weight: 500; margin-top: 4px; }
+  .s61-model .accent-blue { color: #4D6BFE; }
+  .s61-price { font-family: "Source Serif 4", Georgia, serif; font-size: 38px; font-weight: 600; color: #1A1A1A; font-variant-numeric: tabular-nums; }
+  .s61-price .unit { font-size: 16px; color: #999; font-weight: 500; font-family: -apple-system, sans-serif; letter-spacing: 0.08em; }
+  .s61-price.hero { color: #4D6BFE; font-size: 48px; }
+  .s61-ctx { font-family: "Source Serif 4", Georgia, serif; font-size: 32px; font-weight: 600; color: #4D6BFE; text-align: right; padding-right: 16px; font-variant-numeric: tabular-nums; }
+  .s61-bottom-note { position: absolute; left: 120px; right: 120px; bottom: 110px; border-top: 2px solid #1A1A1A; padding-top: 20px; font-size: 18px; color: #5A5A5A; line-height: 1.6; max-width: 1500px; }
+  .s61-bottom-note strong { color: #1A1A1A; font-weight: 600; }
+  .s61-footer { position: absolute; left: 120px; right: 120px; bottom: 50px; display: flex; justify-content: space-between; font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase; }
+  .s61-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s61-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s61-stage">
+  <div class="s61-masthead"><div class="s61-masthead-left"><img src="../assets/deepseek-logo.png" alt="DeepSeek"><span>DeepSeek-V4 · Technical Deep Dive</span></div><div class="s61-masthead-right">61 · Official Pricing</div></div>
+  <div class="s61-header">
+    <div class="s61-kicker">CHAPTER 09 · THESIS 1 · THE TRUTH OF ACCESSIBILITY</div>
+    <h1 class="s61-title">Official pricing: <span class="accent">two models, one table</span></h1>
+    <div class="s61-subtitle">Unit: CNY per million tokens. Both models support 1M context.</div>
+  </div>
+  <div class="s61-table">
+    <div class="s61-row head"><div>Model</div><div>Input · cache hit</div><div>Input · cache miss</div><div>Output</div><div style="text-align: right; padding-right: 16px;">Context</div></div>
+    <div class="s61-row pro"><div class="s61-model">deepseek-v4-<span class="accent-blue">pro</span><small>Flagship · positioned against top closed models</small></div><div class="s61-price">1 <span class="unit">CNY / M</span></div><div class="s61-price">12 <span class="unit">CNY / M</span></div><div class="s61-price hero">24 <span class="unit">CNY / M</span></div><div class="s61-ctx">1 M</div></div>
+    <div class="s61-row flash"><div class="s61-model">deepseek-v4-<span class="accent-blue">flash</span><small>Cost-efficient · the real price killer</small></div><div class="s61-price hero">0.2 <span class="unit">CNY / M</span></div><div class="s61-price">1 <span class="unit">CNY / M</span></div><div class="s61-price">2 <span class="unit">CNY / M</span></div><div class="s61-ctx">1 M</div></div>
+  </div>
+  <div class="s61-bottom-note">Pro is positioned as “the best open model that can credibly stand against top closed models.” The low price is a consequence, not the lead message. <strong>The true price killer is Flash</strong>, with cache-hit input at 0.2 CNY per million tokens.</div>
+  <div class="s61-footer"><div>Technical Deep Dive · CHAPTER 09</div><div>61 / 72</div></div>
+  <div class="s61-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

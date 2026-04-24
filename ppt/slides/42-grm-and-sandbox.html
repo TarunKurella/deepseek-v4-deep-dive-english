@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · GRM + DSec 沙盒</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s42-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s42-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s42-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s42-masthead-left img { height: 26px; }
+  .s42-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s42-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s42-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s42-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s42-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s42-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 60px; line-height: 1.12; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s42-title .accent { color: #4D6BFE; font-style: italic; }
+
+  .s42-body {
+    position: absolute; left: 120px; right: 120px; top: 330px;
+    display: grid; grid-template-columns: 1fr 1.35fr; gap: 50px;
+  }
+
+  .s42-left {
+    background: #F7F8FA;
+    padding: 30px 34px;
+    border: 1px solid rgba(26,26,26,0.08);
+  }
+  .s42-block-label {
+    font-size: 12px; letter-spacing: 0.22em; color: #4D6BFE;
+    text-transform: uppercase; font-weight: 600; margin-bottom: 14px;
+  }
+  .s42-block-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 30px; font-weight: 600; color: #1A1A1A;
+    line-height: 1.2; margin-bottom: 16px; letter-spacing: -0.005em;
+  }
+  .s42-block-body {
+    font-size: 16px; color: #5A5A5A; line-height: 1.65; margin-bottom: 16px;
+  }
+  .s42-block-body strong { color: #1A1A1A; font-weight: 600; }
+  .s42-block-pull {
+    padding: 14px 18px; background: #FFF;
+    border-left: 3px solid #4D6BFE;
+    font-size: 14px; color: #1A1A1A; line-height: 1.5;
+  }
+
+  .s42-right {
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .s42-right-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 20px; padding-bottom: 12px;
+    border-bottom: 2px solid #1A1A1A;
+  }
+  .s42-right-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 30px; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.005em;
+  }
+  .s42-right-title .mono {
+    font-family: "SF Mono", monospace; color: #4D6BFE;
+  }
+  .s42-right-sub {
+    font-size: 13px; color: #999; letter-spacing: 0.18em; text-transform: uppercase;
+  }
+
+  .s42-runtimes {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  }
+  .s42-rt {
+    border: 1px solid rgba(26,26,26,0.14);
+    padding: 18px 20px; background: #FFF;
+  }
+  .s42-rt-name {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 22px; font-weight: 600; color: #1A1A1A; margin-bottom: 4px;
+  }
+  .s42-rt-stack {
+    font-family: "SF Mono", monospace; font-size: 12px;
+    color: #4D6BFE; margin-bottom: 8px; letter-spacing: 0.04em;
+  }
+  .s42-rt-body {
+    font-size: 13px; color: #5A5A5A; line-height: 1.55;
+  }
+
+  .s42-scale {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 6px;
+  }
+  .s42-scale-box {
+    padding: 14px 18px;
+  }
+  .s42-scale-val {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 38px; font-weight: 600; color: #4D6BFE;
+    line-height: 1; letter-spacing: -0.01em;
+  }
+  .s42-scale-label {
+    font-size: 13px; color: #5A5A5A; margin-top: 8px; line-height: 1.5;
+  }
+
+  .s42-bottom {
+    position: absolute; left: 120px; right: 120px; bottom: 115px;
+    border-top: 1px solid rgba(26,26,26,0.14);
+    padding-top: 20px;
+    font-size: 19px; color: #1A1A1A; line-height: 1.5; max-width: 1500px;
+    font-style: italic;
+    font-family: "Source Serif 4", Georgia, serif;
+  }
+  .s42-bottom strong { color: #4D6BFE; font-weight: 600; font-style: normal; }
+
+  .s42-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s42-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s42-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s42-stage">
+  <div class="s42-masthead">
+    <div class="s42-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s42-masthead-right">06 · GRM + DSEC</div>
+  </div>
+
+  <div class="s42-header">
+    <div class="s42-kicker">评判与执行 · GRM + DSec Sandbox</div>
+    <h1 class="s42-title">Agent RL 的两个地基：<span class="accent">裁判能思考 · 执行有产房</span></h1>
+  </div>
+
+  <div class="s42-body">
+    <div class="s42-left">
+      <div class="s42-block-label">GENERATIVE REWARD MODEL</div>
+      <div class="s42-block-title">让 actor 自己<br>当裁判</div>
+      <div class="s42-block-body">对「不好用规则验证」的任务（写作质量、helpful 程度），传统做法是标量打分 reward model。V4 反着来：用<strong>生成式模型</strong>当裁判，<strong>对 GRM 本身也做 RL 优化</strong>——评估能力和生成能力联合优化。</div>
+      <div class="s42-block-pull">
+        判官和 policy 统一——和 Anthropic Constitutional AI 的方向一致，避免 reward hacking。
+      </div>
+    </div>
+
+    <div class="s42-right">
+      <div class="s42-right-head">
+        <div class="s42-right-title"><span class="mono">DSec</span> · DeepSeek Elastic Compute</div>
+        <div class="s42-right-sub">libdsec · python sdk</div>
+      </div>
+
+      <div class="s42-runtimes">
+        <div class="s42-rt">
+          <div class="s42-rt-name">Function Call</div>
+          <div class="s42-rt-stack">预热容器池</div>
+          <div class="s42-rt-body">无状态调用，消除冷启动。最快一档。</div>
+        </div>
+        <div class="s42-rt">
+          <div class="s42-rt-name">Container</div>
+          <div class="s42-rt-stack">Docker + EROFS</div>
+          <div class="s42-rt-body">标准任务，镜像按需加载。</div>
+        </div>
+        <div class="s42-rt">
+          <div class="s42-rt-name">microVM</div>
+          <div class="s42-rt-stack">Firecracker</div>
+          <div class="s42-rt-body">高密度安全隔离，overlaybd 快照。</div>
+        </div>
+        <div class="s42-rt">
+          <div class="s42-rt-name">fullVM</div>
+          <div class="s42-rt-stack">QEMU</div>
+          <div class="s42-rt-body">任意操作系统，给最复杂的 agent。</div>
+        </div>
+      </div>
+
+      <div class="s42-scale">
+        <div class="s42-scale-box">
+          <div class="s42-scale-val">几十万</div>
+          <div class="s42-scale-label">单集群并发 sandbox 实例</div>
+        </div>
+        <div class="s42-scale-box">
+          <div class="s42-scale-val">毫秒级</div>
+          <div class="s42-scale-label">overlaybd 快照恢复</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="s42-bottom">
+    <strong>开源世界第一个工业级 agent infra。</strong>&nbsp;没有生产级 sandbox，agent RL 基本没法 scale——OpenAI 的 codex、Anthropic 的 Claude Code 都建在类似基础设施上。DeepSeek 把这套东西写进技术报告，给复现留了条路。
+  </div>
+
+  <div class="s42-footer">
+    <div>技术深度解读 · CHAPTER 06</div>
+    <div>42 / 72</div>
+  </div>
+  <div class="s42-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

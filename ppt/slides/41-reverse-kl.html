@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · Reverse KL 的学问</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s41-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s41-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s41-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s41-masthead-left img { height: 26px; }
+  .s41-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s41-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s41-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s41-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s41-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s41-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 66px; line-height: 1.15; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s41-title .accent { color: #4D6BFE; font-style: italic; }
+  .s41-sub {
+    margin-top: 22px; font-size: 22px; color: #5A5A5A; max-width: 1500px; line-height: 1.55;
+  }
+
+  .s41-body {
+    position: absolute; left: 120px; right: 120px; top: 420px;
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px;
+  }
+
+  .s41-diagram {
+    background: #F7F8FA;
+    padding: 30px 36px;
+    border: 1px solid rgba(26,26,26,0.08);
+  }
+  .s41-diagram-label {
+    font-size: 13px; letter-spacing: 0.22em; color: #5A5A5A;
+    text-transform: uppercase; font-weight: 600; margin-bottom: 20px;
+  }
+
+  .s41-scenarios {
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .s41-scene {
+    border-top: 2px solid #1A1A1A;
+    padding-top: 20px;
+  }
+  .s41-scene-label {
+    font-size: 12px; letter-spacing: 0.22em; color: #4D6BFE;
+    text-transform: uppercase; font-weight: 600; margin-bottom: 8px;
+  }
+  .s41-scene-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 26px; font-weight: 600; color: #1A1A1A; line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .s41-scene-body {
+    font-size: 15px; color: #5A5A5A; line-height: 1.6;
+  }
+
+  .s41-takeaway {
+    position: absolute; left: 120px; right: 120px; bottom: 120px;
+    border-top: 2px solid #1A1A1A;
+    padding-top: 22px;
+    font-size: 22px; color: #1A1A1A; line-height: 1.5;
+    max-width: 1500px;
+  }
+  .s41-takeaway strong { color: #4D6BFE; font-weight: 600; }
+
+  .s41-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s41-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s41-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s41-stage">
+  <div class="s41-masthead">
+    <div class="s41-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s41-masthead-right">06 · REVERSE KL</div>
+  </div>
+
+  <div class="s41-header">
+    <div class="s41-kicker">关键机制 · 为什么反向 KL 能 work</div>
+    <h1 class="s41-title">学生会<span class="accent">自动选老师</span></h1>
+    <div class="s41-sub">数学任务对齐数学专家，代码任务对齐代码专家。这个「自动路由」特性，是多 teacher 蒸馏能 work 的底层秘诀。</div>
+  </div>
+
+  <div class="s41-body">
+    <div class="s41-diagram">
+      <div class="s41-diagram-label">分布形状的差异</div>
+      <svg width="100%" height="330" viewBox="0 0 780 330" xmlns="http://www.w3.org/2000/svg">
+        <!-- teacher distribution -->
+        <text x="40" y="30" font-family="-apple-system" font-size="13" fill="#5A5A5A" font-weight="600">Teacher Mixture（多峰）</text>
+        <path d="M 40,130 C 90,130 110,60 150,60 C 190,60 200,130 240,130 C 280,130 310,80 350,80 C 390,80 420,130 470,130 C 510,130 540,90 580,90 C 620,90 660,130 700,130"
+              stroke="#1A1A1A" stroke-width="2" fill="none"/>
+        <path d="M 40,130 C 90,130 110,60 150,60 C 190,60 200,130 240,130 C 280,130 310,80 350,80 C 390,80 420,130 470,130 C 510,130 540,90 580,90 C 620,90 660,130 700,130 L 700,130 L 40,130 Z"
+              fill="#1A1A1A" fill-opacity="0.08"/>
+        <text x="150" y="155" text-anchor="middle" font-family="-apple-system" font-size="11" fill="#5A5A5A">数学</text>
+        <text x="350" y="155" text-anchor="middle" font-family="-apple-system" font-size="11" fill="#5A5A5A">代码</text>
+        <text x="580" y="155" text-anchor="middle" font-family="-apple-system" font-size="11" fill="#5A5A5A">Agent</text>
+
+        <line x1="40" y1="170" x2="740" y2="170" stroke="#D9DDE6" stroke-width="1"/>
+
+        <!-- forward KL student -->
+        <text x="40" y="200" font-family="-apple-system" font-size="13" fill="#5A5A5A" font-weight="600">正向 KL · 学生被迫 cover 所有模式（四不像）</text>
+        <path d="M 40,290 C 100,290 140,240 200,230 C 260,225 310,228 370,230 C 430,232 490,230 550,235 C 610,240 660,260 700,285"
+              stroke="#999" stroke-width="2" fill="none" stroke-dasharray="4,3"/>
+        <text x="380" y="310" text-anchor="middle" font-family="-apple-system" font-size="11" fill="#999" font-style="italic">过平滑 · 三个山头都学不精</text>
+
+        <!-- reverse KL student -->
+        <text x="40" y="225" text-anchor="start" font-family="-apple-system" font-size="13" fill="#4D6BFE" font-weight="600" display="none">反向 KL · 学生收敛到最近的高概率山头</text>
+        <g transform="translate(0, 0)">
+          <!-- one sharp peak alignment -->
+          <path d="M 320,290 C 340,290 345,240 360,230 C 380,220 385,230 400,260 C 415,290 430,290 440,290"
+                stroke="#4D6BFE" stroke-width="2.5" fill="#4D6BFE" fill-opacity="0.15"/>
+          <text x="380" y="272" text-anchor="middle" font-family="-apple-system" font-size="12" fill="#4D6BFE" font-weight="600">学生选代码山头</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="s41-scenarios">
+      <div class="s41-scene">
+        <div class="s41-scene-label">SCENE 01</div>
+        <div class="s41-scene-title">数学任务</div>
+        <div class="s41-scene-body">学生的 rollout 落在「数学模式」附近，反向 KL 逼它对齐数学专家的高概率区域——自然忽略代码和 agent 的贡献。</div>
+      </div>
+      <div class="s41-scene">
+        <div class="s41-scene-label">SCENE 02</div>
+        <div class="s41-scene-title">代码任务</div>
+        <div class="s41-scene-body">同样的学生，遇到代码请求时 rollout 落在代码模式，自动切换对齐对象。没有人显式告诉它「这是代码」。</div>
+      </div>
+      <div class="s41-scene">
+        <div class="s41-scene-label">SCENE 03</div>
+        <div class="s41-scene-title">任何新任务</div>
+        <div class="s41-scene-body">加专家就能扩展能力。只要你能训出「写毛笔字专家」，加进蒸馏池——学生自然学会在相应场景下对齐它。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="s41-takeaway">
+    这是反向 KL 在多 teacher 场景里被低估的性质：<strong>不需要一个外部 router 告诉学生「现在该听谁的」</strong>，学生自己的 on-policy 分布就是 router。
+  </div>
+
+  <div class="s41-footer">
+    <div>技术深度解读 · CHAPTER 06</div>
+    <div>41 / 72</div>
+  </div>
+  <div class="s41-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

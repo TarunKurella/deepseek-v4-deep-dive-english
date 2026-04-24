@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · Hybrid Newton-Schulz</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s27-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s27-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s27-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s27-masthead-left img { height: 26px; }
+  .s27-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s27-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+  .s27-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s27-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s27-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s27-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 60px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s27-title .accent { color: #4D6BFE; font-style: italic; }
+  .s27-subtitle {
+    margin-top: 16px;
+    font-size: 20px; color: #5A5A5A; line-height: 1.5; max-width: 1300px;
+  }
+  .s27-chart {
+    position: absolute; left: 120px; top: 400px;
+    width: 1060px;
+  }
+  .s27-chart-cap {
+    font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: #5A5A5A; margin-top: 12px;
+  }
+  .s27-right {
+    position: absolute; right: 120px; top: 400px; width: 560px;
+  }
+  .s27-stage-card {
+    border-top: 2px solid #4D6BFE;
+    padding: 20px 0 20px; margin-bottom: 22px;
+  }
+  .s27-stage-label {
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 8px;
+  }
+  .s27-stage-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 26px; font-weight: 600; color: #1A1A1A; margin-bottom: 10px; line-height: 1.2;
+  }
+  .s27-stage-coef {
+    font-family: "SF Mono", "Menlo", monospace;
+    font-size: 16px; color: #4D6BFE; margin-bottom: 10px;
+    font-variant-numeric: tabular-nums;
+  }
+  .s27-stage-body {
+    font-size: 15px; color: #5A5A5A; line-height: 1.55;
+  }
+  .s27-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s27-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s27-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s27-stage">
+  <div class="s27-masthead">
+    <div class="s27-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
+    </div>
+    <div class="s27-masthead-right">27 · HYBRID NEWTON-SCHULZ</div>
+  </div>
+
+  <div class="s27-header">
+    <div class="s27-kicker">CHAPTER 04 · TWO-STAGE 10-STEP ITERATION</div>
+    <h1 class="s27-title">The first 8 steps drag singular values toward 1, <span class="accent">the last 2 lock them in</span></h1>
+    <div class="s27-subtitle">A full SVD would be too expensive, so Newton-Schulz approximates the projection with polynomial iteration. V4’s hybrid version splits the 10 steps into two phases with different coefficients.</div>
+  </div>
+
+  <div class="s27-chart">
+    <svg width="1060" height="440" viewBox="0 0 1060 440" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="rgba(26,26,26,0.06)" stroke-width="1">
+        <line x1="80"  y1="60"  x2="1020" y2="60"/>
+        <line x1="80"  y1="130" x2="1020" y2="130"/>
+        <line x1="80"  y1="200" x2="1020" y2="200"/>
+        <line x1="80"  y1="270" x2="1020" y2="270"/>
+        <line x1="80"  y1="340" x2="1020" y2="340"/>
+      </g>
+      <line x1="80"  y1="340" x2="1020" y2="340" stroke="#1A1A1A" stroke-width="1.2"/>
+      <line x1="80"  y1="60"  x2="80"   y2="340" stroke="#1A1A1A" stroke-width="1.2"/>
+
+      <g font-family="Source Serif 4, Georgia, serif" font-size="13" fill="#999" text-anchor="end" font-variant-numeric="tabular-nums">
+        <text x="72" y="344">0</text>
+        <text x="72" y="274">0.5</text>
+        <text x="72" y="204">1.0</text>
+        <text x="72" y="134">1.5</text>
+        <text x="72" y="64">2.0</text>
+      </g>
+      <text x="40" y="200" font-family="-apple-system, sans-serif" font-size="11" fill="#999" text-anchor="middle" letter-spacing="0.18em" transform="rotate(-90 40 200)">SINGULAR VALUE</text>
+
+      <g font-family="Source Serif 4, Georgia, serif" font-size="13" fill="#5A5A5A" text-anchor="middle" font-variant-numeric="tabular-nums">
+        <text x="80"  y="364">0</text><text x="174" y="364">1</text><text x="268" y="364">2</text><text x="362" y="364">3</text><text x="456" y="364">4</text>
+        <text x="550" y="364">5</text><text x="644" y="364">6</text><text x="738" y="364">7</text><text x="832" y="364">8</text><text x="926" y="364">9</text><text x="1020" y="364">10</text>
+      </g>
+      <text x="550" y="392" font-family="-apple-system, sans-serif" font-size="11" fill="#999" text-anchor="middle" letter-spacing="0.18em">ITERATION STEP</text>
+
+      <rect x="80" y="60" width="752" height="280" fill="#4D6BFE" opacity="0.04"/>
+      <rect x="832" y="60" width="188" height="280" fill="#4D6BFE" opacity="0.10"/>
+      <line x1="832" y1="60" x2="832" y2="340" stroke="#4D6BFE" stroke-width="1" stroke-dasharray="4 4"/>
+      <text x="456" y="46" font-family="-apple-system, sans-serif" font-size="12" fill="#4D6BFE" letter-spacing="0.22em" text-anchor="middle" font-weight="600">PHASE 1 · PUSH (STEPS 1-8)</text>
+      <text x="926" y="46" font-family="-apple-system, sans-serif" font-size="12" fill="#4D6BFE" letter-spacing="0.22em" text-anchor="middle" font-weight="600">PHASE 2 · REFINE (STEPS 9-10)</text>
+      <line x1="80" y1="200" x2="1020" y2="200" stroke="#1A1A1A" stroke-width="1" stroke-dasharray="4 5"/>
+      <text x="980" y="194" font-family="Source Serif 4, Georgia, serif" font-size="13" fill="#1A1A1A" font-style="italic" text-anchor="end">target = 1</text>
+
+      <path d="M 80 90 L 174 115 L 268 150 L 362 180 L 456 200 L 550 210 L 644 215 L 738 210 L 832 205 L 926 202 L 1020 200"
+            stroke="#4D6BFE" stroke-width="2.8" fill="none"/>
+      <g fill="#4D6BFE">
+        <circle cx="80" cy="90" r="4"/><circle cx="174" cy="115" r="4"/><circle cx="268" cy="150" r="4"/><circle cx="362" cy="180" r="4"/><circle cx="456" cy="200" r="4"/>
+        <circle cx="550" cy="210" r="4"/><circle cx="644" cy="215" r="4"/><circle cx="738" cy="210" r="4"/><circle cx="832" cy="205" r="4"/><circle cx="926" cy="202" r="4"/><circle cx="1020" cy="200" r="4"/>
+      </g>
+
+      <path d="M 80 310 L 174 280 L 268 250 L 362 225 L 456 215 L 550 205 L 644 200 L 738 198 L 832 197 L 926 199 L 1020 200"
+            stroke="#8FA2F8" stroke-width="2.5" fill="none"/>
+      <g fill="#8FA2F8">
+        <circle cx="80" cy="310" r="4"/><circle cx="174" cy="280" r="4"/><circle cx="268" cy="250" r="4"/><circle cx="362" cy="225" r="4"/><circle cx="456" cy="215" r="4"/>
+        <circle cx="550" cy="205" r="4"/><circle cx="644" cy="200" r="4"/><circle cx="738" cy="198" r="4"/><circle cx="832" cy="197" r="4"/><circle cx="926" cy="199" r="4"/><circle cx="1020" cy="200" r="4"/>
+      </g>
+
+      <text x="96" y="86" font-family="Source Serif 4, Georgia, serif" font-size="14" fill="#4D6BFE" font-weight="600">Large singular values pulled downward</text>
+      <text x="96" y="328" font-family="Source Serif 4, Georgia, serif" font-size="14" fill="#8FA2F8" font-weight="600">Small singular values lifted upward</text>
+    </svg>
+    <div class="s27-chart-cap">Illustration · all singular values converge to 1 within 10 steps, approaching from both the <strong style="color:#4D6BFE">high</strong> and <strong style="color:#8FA2F8">low</strong> sides</div>
+    <div style="margin-top: 14px; font-size: 13px; color: #999; line-height: 1.5; max-width: 980px;">Newton-Schulz is a matrix-multiplication-only polynomial iteration. Each step replaces M with a combination like aM + b(MMᵀ)M + c(MMᵀ)^2M. With the right coefficients, the singular values move toward 1 without ever computing a real SVD.</div>
+  </div>
+
+  <div class="s27-right">
+    <div class="s27-stage-card">
+      <div class="s27-stage-label">PHASE 1 · STEPS 1-8</div>
+      <div class="s27-stage-title">Push hard: drag singular values near 1 quickly</div>
+      <div class="s27-stage-coef">(a, b, c) = (3.4445, -4.7750, 2.0315)</div>
+      <div class="s27-stage-body">The coefficients are aggressive, so values far from 1 get corrected violently. Overshoot is acceptable here because later steps will clean it up.</div>
+    </div>
+
+    <div class="s27-stage-card">
+      <div class="s27-stage-label">PHASE 2 · STEPS 9-10</div>
+      <div class="s27-stage-title">Refine: pin the values exactly at 1</div>
+      <div class="s27-stage-coef">(a, b, c) = (2, -1.5, 0.5)</div>
+      <div class="s27-stage-body">These coefficients are gentler and more monotonic. They stabilize the endgame and remove the small oscillations left over from Phase 1.</div>
+    </div>
+  </div>
+
+  <div class="s27-footer">
+    <div>TECHNICAL DEEP DIVE · CHAPTER 04 · M_k = aM_{k-1} + b(M M^T)M_{k-1} + c(M M^T)^2 M_{k-1}</div>
+    <div>27 / 72</div>
+  </div>
+  <div class="s27-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

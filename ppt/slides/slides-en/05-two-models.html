@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · Two Models</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: #FFFFFF; color: #1A1A1A; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+.stage { position: relative; width: 1920px; height: 1080px; }
+.masthead { position: absolute; top: 50px; left: 120px; right: 120px; display: flex; align-items: center; justify-content: space-between; padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08); }
+.left { display: flex; align-items: center; gap: 16px; }
+.left img { height: 26px; }
+.left span { font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A; }
+.right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+.header { position: absolute; top: 140px; left: 120px; right: 120px; }
+.kicker { display: inline-flex; align-items: center; gap: 12px; font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase; color: #4D6BFE; font-weight: 600; margin-bottom: 18px; }
+.kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+.title { font-family: "Source Serif 4", Georgia, serif; font-size: 56px; line-height: 1.15; font-weight: 600; }
+.title .accent { color: #4D6BFE; font-style: italic; }
+.cards { position: absolute; left: 120px; right: 120px; top: 310px; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+.card { padding: 48px 52px; position: relative; background: #FFFFFF; border: 1px solid rgba(26,26,26,0.12); height: 600px; display: flex; flex-direction: column; }
+.card.flash { background: #F7F8FA; }
+.tag { display: inline-block; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: #4D6BFE; margin-bottom: 20px; font-weight: 600; }
+.name { font-family: "Source Serif 4", Georgia, serif; font-size: 84px; font-weight: 600; color: #1A1A1A; line-height: 1; margin-bottom: 14px; }
+.name .blue { color: #4D6BFE; }
+.tag2 { font-family: "Source Serif 4", Georgia, serif; font-size: 22px; color: #5A5A5A; font-style: italic; margin-bottom: 36px; line-height: 1.4; }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding-top: 30px; border-top: 2px solid #1A1A1A; margin-bottom: 30px; }
+.label { font-size: 11px; letter-spacing: 0.22em; color: #5A5A5A; text-transform: uppercase; margin-bottom: 8px; font-weight: 600; }
+.value { font-family: "Source Serif 4", Georgia, serif; font-size: 54px; font-weight: 600; color: #4D6BFE; line-height: 1; }
+.value .unit { font-size: 24px; color: #1A1A1A; margin-left: 4px; }
+.purpose { font-size: 16px; color: #5A5A5A; line-height: 1.7; margin-top: auto; padding-top: 24px; border-top: 1px solid rgba(26,26,26,0.1); }
+.purpose strong { color: #1A1A1A; font-weight: 600; }
+.footer { position: absolute; left: 120px; right: 120px; bottom: 50px; display: flex; justify-content: space-between; font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="masthead"><div class="left"><img src="../assets/deepseek-logo.png" alt="DeepSeek"><span>DeepSeek-V4 · Technical Deep Dive</span></div><div class="right">05 · Two Models</div></div>
+  <div class="header"><div class="kicker">Chapter 1 · Two models, one architecture</div><h1 class="title">One model aimed at <span class="accent">closed-source flagships</span>, and one that redefines <span class="accent">open-model price/performance</span></h1></div>
+  <div class="cards">
+    <div class="card">
+      <div class="tag">Flagship</div>
+      <div class="name">V4-<span class="blue">Pro</span></div>
+      <div class="tag2">Redefining the state of the art<br>for open models.</div>
+      <div class="stats">
+        <div><div class="label">Total parameters</div><div class="value">1.6<span class="unit">T</span></div></div>
+        <div><div class="label">Active per token</div><div class="value">49<span class="unit">B</span></div></div>
+        <div><div class="label">Transformer layers</div><div class="value">61</div></div>
+        <div><div class="label">MoE experts</div><div class="value">384</div></div>
+      </div>
+      <div class="purpose"><strong>Use case:</strong> benchmarked against Opus 4.6 and GPT-5.4; open-model SOTA for competition coding and formal mathematics; suitable when you need the strongest reasoning and can tolerate higher API cost.</div>
+    </div>
+    <div class="card flash">
+      <div class="tag">Cost-Efficient</div>
+      <div class="name">V4-<span class="blue">Flash</span></div>
+      <div class="tag2">Closed-model reasoning,<br>open-model economics.</div>
+      <div class="stats">
+        <div><div class="label">Total parameters</div><div class="value">284<span class="unit">B</span></div></div>
+        <div><div class="label">Active per token</div><div class="value">13<span class="unit">B</span></div></div>
+        <div><div class="label">Transformer layers</div><div class="value">43</div></div>
+        <div><div class="label">MoE experts</div><div class="value">256</div></div>
+      </div>
+      <div class="purpose"><strong>Use case:</strong> beats V3.2-Base with fewer active parameters; cached input at 0.2 RMB per million tokens; ideal for large-scale agents, long-document processing, and affordable deployment.</div>
+    </div>
+  </div>
+  <div class="footer"><div>Chapter 1 · Two Models</div><div>05 / 72</div></div>
+</div>
+</body>
+</html>

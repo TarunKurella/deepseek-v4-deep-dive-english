@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · 数学 Benchmark</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s47-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s47-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s47-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s47-masthead-left img { height: 26px; }
+  .s47-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s47-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s47-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s47-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s47-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s47-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 64px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s47-title .accent { color: #4D6BFE; font-style: italic; }
+
+  .s47-table {
+    position: absolute; left: 120px; right: 120px; top: 370px;
+    border-collapse: collapse; width: calc(100% - 240px);
+    font-variant-numeric: tabular-nums;
+  }
+  .s47-table th {
+    text-align: left; font-size: 13px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: #5A5A5A; font-weight: 600;
+    padding: 14px 12px; border-bottom: 2px solid #1A1A1A;
+  }
+  .s47-table th.num { text-align: right; }
+  .s47-table td {
+    padding: 18px 12px; font-size: 19px; color: #1A1A1A;
+    border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s47-table td.num {
+    font-family: "Source Serif 4", Georgia, serif; font-weight: 600;
+    text-align: right; font-size: 22px;
+  }
+  .s47-table td.bench-name {
+    font-family: "Source Serif 4", Georgia, serif; font-size: 22px;
+  }
+  .s47-table td.bench-sub {
+    font-size: 13px; color: #999; font-style: italic;
+  }
+  .s47-table .ds-col { background: rgba(77,107,254,0.06); }
+  .s47-table td.ds-col { color: #4D6BFE; }
+  .s47-table td.winner { color: #4D6BFE; font-weight: 700; position: relative; }
+  .s47-table td.winner::before {
+    content: "★"; position: absolute; left: 2px; color: #4D6BFE; font-size: 14px;
+  }
+
+  .s47-bottom-note {
+    position: absolute; left: 120px; right: 120px; bottom: 110px;
+    border-top: 2px solid #1A1A1A; padding-top: 22px;
+    font-size: 20px; color: #5A5A5A; line-height: 1.6; max-width: 1500px;
+  }
+  .s47-bottom-note strong { color: #1A1A1A; font-weight: 600; }
+  .s47-bottom-note .blue { color: #4D6BFE; font-weight: 600; }
+
+  .s47-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s47-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s47-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s47-stage">
+  <div class="s47-masthead">
+    <div class="s47-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s47-masthead-right">07 · 擅长什么</div>
+  </div>
+
+  <div class="s47-header">
+    <div class="s47-kicker">CHAPTER 07 · 数学全景</div>
+    <h1 class="s47-title">数学赛道：Apex Shortlist <span class="accent">全场第一</span></h1>
+  </div>
+
+  <table class="s47-table">
+    <thead>
+      <tr>
+        <th style="width:28%">BENCHMARK</th>
+        <th class="num">Opus 4.6</th>
+        <th class="num">GPT-5.4</th>
+        <th class="num">Gemini 3.1</th>
+        <th class="num">K2.6</th>
+        <th class="num">GLM-5.1</th>
+        <th class="num ds-col">DS-V4-Pro</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="bench-name">HMMT 2026 Feb <span class="bench-sub">&nbsp;高中数学竞赛</span></td>
+        <td class="num">96.2</td>
+        <td class="num winner">97.7</td>
+        <td class="num">94.7</td>
+        <td class="num">92.7</td>
+        <td class="num">89.4</td>
+        <td class="num ds-col">95.2</td>
+      </tr>
+      <tr>
+        <td class="bench-name">IMOAnswerBench <span class="bench-sub">&nbsp;奥数答案</span></td>
+        <td class="num">75.3</td>
+        <td class="num winner">91.4</td>
+        <td class="num">81.0</td>
+        <td class="num">86.0</td>
+        <td class="num">83.8</td>
+        <td class="num ds-col">89.8</td>
+      </tr>
+      <tr>
+        <td class="bench-name">Apex <span class="bench-sub">&nbsp;研究级数学</span></td>
+        <td class="num">34.5</td>
+        <td class="num">54.1</td>
+        <td class="num winner">60.9</td>
+        <td class="num">24.0</td>
+        <td class="num">11.5</td>
+        <td class="num ds-col">38.3</td>
+      </tr>
+      <tr>
+        <td class="bench-name">Apex Shortlist <span class="bench-sub">&nbsp;简答版</span></td>
+        <td class="num">85.9</td>
+        <td class="num">78.1</td>
+        <td class="num">89.1</td>
+        <td class="num">75.5</td>
+        <td class="num">72.4</td>
+        <td class="num ds-col winner">90.2</td>
+      </tr>
+      <tr>
+        <td class="bench-name">Putnam-2025 <span class="bench-sub">&nbsp;形式化证明</span></td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num ds-col winner">120/120</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="s47-bottom-note">
+    DeepSeek-V4 在<strong>五项数学评测里拿下两个第一</strong>（Apex Shortlist 90.2、Putnam 满分），剩下三项全部追到 Top-2。<span class="blue">IMOAnswerBench 比 Opus 4.6 高 14.5 分，接近 GPT-5.4 的巅峰。</span>
+  </div>
+
+  <div class="s47-footer">
+    <div>技术深度解读 · CHAPTER 07</div>
+    <div>47 / 72</div>
+  </div>
+  <div class="s47-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

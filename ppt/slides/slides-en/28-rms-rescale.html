@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · RMS Rescale</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s28-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s28-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s28-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s28-masthead-left img { height: 26px; }
+  .s28-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s28-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+  .s28-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s28-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s28-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s28-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 60px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s28-title .accent { color: #4D6BFE; font-style: italic; }
+  .s28-subtitle {
+    margin-top: 16px;
+    font-size: 20px; color: #5A5A5A; line-height: 1.5; max-width: 1300px;
+  }
+  .s28-main {
+    position: absolute; left: 120px; right: 120px; top: 400px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+  }
+  .s28-panel {
+    border: 1px solid rgba(26,26,26,0.12);
+    padding: 34px 38px;
+    background: #FFFFFF;
+  }
+  .s28-panel.good { background: #F7F8FA; }
+  .s28-panel-tag {
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #5A5A5A; font-weight: 600; margin-bottom: 14px;
+  }
+  .s28-panel.good .s28-panel-tag { color: #4D6BFE; }
+  .s28-panel-head {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 34px; font-weight: 600; color: #1A1A1A; margin-bottom: 16px; line-height: 1.2;
+  }
+  .s28-panel-body {
+    font-size: 17px; color: #5A5A5A; line-height: 1.65; margin-bottom: 20px;
+  }
+  .s28-panel-body code {
+    font-family: "SF Mono", "Menlo", monospace; color: #1A1A1A;
+    background: rgba(26,26,26,0.05); padding: 1px 6px; font-size: 15px;
+  }
+  .s28-panel.good .s28-panel-body code { background: #FFFFFF; }
+  .s28-formula {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 22px; color: #1A1A1A;
+    padding: 20px 24px; background: rgba(26,26,26,0.04);
+    margin-bottom: 18px;
+    font-variant-numeric: tabular-nums;
+  }
+  .s28-panel.good .s28-formula {
+    background: #FFFFFF; color: #4D6BFE; font-weight: 600;
+  }
+  .s28-tagline {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-style: italic; font-size: 16px; color: #5A5A5A;
+  }
+  .s28-bottom-note {
+    position: absolute; left: 120px; right: 120px; bottom: 110px;
+    border-top: 2px solid #1A1A1A; padding-top: 20px;
+    font-size: 18px; color: #5A5A5A; line-height: 1.6;
+    max-width: 1400px;
+  }
+  .s28-bottom-note strong { color: #1A1A1A; font-weight: 600; }
+  .s28-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s28-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s28-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s28-stage">
+  <div class="s28-masthead">
+    <div class="s28-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
+    </div>
+    <div class="s28-masthead-right">28 · RMS RESCALE</div>
+  </div>
+
+  <div class="s28-header">
+    <div class="s28-kicker">CHAPTER 04 · NO HYPERPARAMETER RE-SWEEP</div>
+    <h1 class="s28-title">Change the optimizer, <span class="accent">not the learning rate</span></h1>
+    <div class="s28-subtitle">Muon update magnitudes live on a different scale from AdamW. Normally that would force a fresh learning-rate sweep. V4 adds one RMS rescale step to bring them back into the same regime.</div>
+  </div>
+
+  <div class="s28-main">
+    <div class="s28-panel">
+      <div class="s28-panel-tag">WITHOUT RESCALE</div>
+      <div class="s28-panel-head">Direct replacement means a full hyperparameter re-sweep</div>
+      <div class="s28-formula">
+        O<sub>t</sub> = HybridNewtonSchulz(μM<sub>t-1</sub> + G<sub>t</sub>)
+      </div>
+      <div class="s28-panel-body">
+        After orthogonalization, the RMS of the update matrix depends on the matrix dimensions. The larger <code>n × m</code> gets, the smaller the RMS becomes. That means the learning rate and weight decay tuned for AdamW no longer transfer directly.
+      </div>
+      <div class="s28-tagline">Cost: a huge retuning job, starting at tens of thousands of GPU-hours</div>
+    </div>
+
+    <div class="s28-panel good">
+      <div class="s28-panel-tag">WITH RESCALE · V4’S APPROACH</div>
+      <div class="s28-panel-head">Multiply by √max(n,m) · γ</div>
+      <div class="s28-formula">
+        O<sub>t</sub> = O′<sub>t</sub> · √max(n, m) · γ
+      </div>
+      <div class="s28-panel-body">
+        This explicitly rescales the orthogonalized update back toward the same magnitude AdamW would have produced. As a result, hyperparameters like <code>η</code> and <code>λ</code> can <strong style="color:#4D6BFE">reuse AdamW-era tuned values</strong> instead of being rediscovered from scratch.
+      </div>
+      <div class="s28-tagline">Benefit: reuse V3-era tuning knowledge and start training immediately</div>
+    </div>
+  </div>
+
+  <div class="s28-bottom-note">
+    This looks like a small detail, but it is critical in practice: <strong>it turns “change optimizer” from a research detour into a plug-in replacement</strong>. At thousand-GPU scale, that shortcut removes an entire path from the schedule.
+  </div>
+
+  <div class="s28-footer">
+    <div>TECHNICAL DEEP DIVE · CHAPTER 04 · ALGORITHM 1 LINE 6</div>
+    <div>28 / 72</div>
+  </div>
+  <div class="s28-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

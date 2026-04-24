@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · MoE Comm/Compute Overlap</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s31-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s31-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s31-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s31-masthead-left img { height: 26px; }
+  .s31-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s31-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+  .s31-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s31-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s31-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s31-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 66px; line-height: 1.15; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s31-title .accent { color: #4D6BFE; font-style: italic; }
+  .s31-body {
+    position: absolute; left: 120px; right: 120px; top: 360px;
+    display: grid; grid-template-columns: 1.25fr 1fr; gap: 70px;
+  }
+  .s31-diagram {
+    background: #F7F8FA;
+    padding: 34px 40px;
+    border: 1px solid rgba(26,26,26,0.08);
+  }
+  .s31-diagram-title {
+    font-size: 13px; letter-spacing: 0.22em; color: #5A5A5A;
+    text-transform: uppercase; margin-bottom: 24px; font-weight: 600;
+  }
+  .s31-right { display: flex; flex-direction: column; gap: 28px; }
+  .s31-metric {
+    border-top: 2px solid #1A1A1A;
+    padding-top: 18px;
+  }
+  .s31-metric-label {
+    font-size: 13px; color: #5A5A5A; letter-spacing: 0.18em;
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .s31-metric-value {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 54px; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; line-height: 1.05;
+    font-variant-numeric: tabular-nums;
+  }
+  .s31-metric-value .accent { color: #4D6BFE; }
+  .s31-metric-note { font-size: 15px; color: #5A5A5A; margin-top: 8px; line-height: 1.5; }
+  .s31-hw-note {
+    position: absolute; left: 120px; right: 120px; bottom: 120px;
+    border-top: 1px solid rgba(26,26,26,0.14);
+    padding-top: 20px; font-size: 17px; color: #5A5A5A; line-height: 1.55;
+    max-width: 1500px;
+  }
+  .s31-hw-note strong { color: #1A1A1A; font-weight: 600; }
+  .s31-hw-note .mono { font-family: "SF Mono", monospace; color: #4D6BFE; font-weight: 600; }
+  .s31-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s31-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s31-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s31-stage">
+  <div class="s31-masthead">
+    <div class="s31-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
+    </div>
+    <div class="s31-masthead-right">05 · INFRA · COMM OVERLAP</div>
+  </div>
+
+  <div class="s31-header">
+    <div class="s31-kicker">MODULE 01 · COMM/COMPUTE OVERLAP</div>
+    <h1 class="s31-title">Hide communication <span class="accent">inside</span> the shadow of compute</h1>
+  </div>
+
+  <div class="s31-body">
+    <div class="s31-diagram">
+      <div class="s31-diagram-title">Four-way split + wave scheduling</div>
+      <svg width="100%" height="360" viewBox="0 0 780 360" xmlns="http://www.w3.org/2000/svg">
+        <text x="40" y="28" font-family="-apple-system" font-size="14" fill="#5A5A5A" font-weight="600">Traditional MoE</text>
+        <text x="40" y="188" font-family="-apple-system" font-size="14" fill="#4D6BFE" font-weight="600">V4 · wave scheduling</text>
+
+        <rect x="40" y="44" width="110" height="36" fill="#D9DDE6"/><text x="95" y="68" text-anchor="middle" font-family="-apple-system" font-size="13" fill="#1A1A1A">Dispatch</text>
+        <rect x="150" y="44" width="130" height="36" fill="#F0F2F6"/><text x="215" y="68" text-anchor="middle" font-family="-apple-system" font-size="13" fill="#1A1A1A">Linear-1</text>
+        <rect x="280" y="44" width="110" height="36" fill="#D9DDE6"/><text x="335" y="68" text-anchor="middle" font-family="-apple-system" font-size="13" fill="#1A1A1A">Combine</text>
+        <rect x="390" y="44" width="130" height="36" fill="#F0F2F6"/><text x="455" y="68" text-anchor="middle" font-family="-apple-system" font-size="13" fill="#1A1A1A">Linear-2</text>
+        <text x="40" y="108" font-family="-apple-system" font-size="12" fill="#999">Communication and compute are serialized: total time = T_comm + T_compute</text>
+
+        <rect x="40" y="210" width="60" height="28" fill="#B7C2E8"/><text x="70" y="228" text-anchor="middle" font-family="-apple-system" font-size="11" fill="#1A1A1A">D₁</text>
+        <rect x="100" y="210" width="70" height="28" fill="#4D6BFE"/><text x="135" y="228" text-anchor="middle" font-family="-apple-system" font-size="11" fill="#FFF">L1₁</text>
+        <rect x="170" y="210" width="60" height="28" fill="#B7C2E8"/><text x="200" y="228" text-anchor="middle" font-family="-apple-system" font-size="11" fill="#1A1A1A">C₁</text>
+        <rect x="230" y="210" width="70" height="28" fill="#4D6BFE"/><text x="265" y="228" text-anchor="middle" font-family="-apple-system" font-size="11" fill="#FFF">L2₁</text>
+
+        <rect x="100" y="244" width="60" height="28" fill="#B7C2E8"/><text x="130" y="262" text-anchor="middle" font-family="-apple-system" font-size="11" fill="#1A1A1A">D₂</text>
+        <rect x="160" y="244" width="70" height="28" fill="#4D6BFE"/><text x="195" y="262" text-anchor="middle" font-family="-apple-system" font-size="11" fill="#FFF">L1₂</text>
+        <rect x="230" y="244" width="60" height="28" fill="#B7C2E8"/><text x="260" y="262" text-anchor="middle" font-family="-apple-system" font-size="11" fill="#1A1A1A">C₂</text>
+        <rect x="290" y="244" width="70" height="28" fill="#4D6BFE"/><text x="325" y="262" text-anchor="middle" font-family="-apple-system" font-size="11" fill="#FFF">L2₂</text>
+
+        <rect x="160" y="278" width="60" height="28" fill="#B7C2E8"/><text x="190" y="296" text-anchor="middle" font-family="-apple-system" font-size="11" fill="#1A1A1A">D₃</text>
+        <rect x="220" y="278" width="70" height="28" fill="#4D6BFE"/><text x="255" y="296" text-anchor="middle" font-family="-apple-system" font-size="11" fill="#FFF">L1₃</text>
+        <rect x="290" y="278" width="60" height="28" fill="#B7C2E8"/><text x="320" y="296" text-anchor="middle" font-family="-apple-system" font-size="11" fill="#1A1A1A">C₃</text>
+        <rect x="350" y="278" width="70" height="28" fill="#4D6BFE"/><text x="385" y="296" text-anchor="middle" font-family="-apple-system" font-size="11" fill="#FFF">L2₃</text>
+
+        <line x1="420" y1="316" x2="640" y2="316" stroke="#4D6BFE" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="530" y="340" text-anchor="middle" font-family="-apple-system" font-size="13" fill="#4D6BFE" font-weight="600">Communication gets swallowed by compute</text>
+
+        <rect x="560" y="44" width="14" height="14" fill="#B7C2E8"/><text x="580" y="56" font-family="-apple-system" font-size="12" fill="#5A5A5A">Communication (Dispatch/Combine)</text>
+        <rect x="560" y="66" width="14" height="14" fill="#4D6BFE"/><text x="580" y="78" font-family="-apple-system" font-size="12" fill="#5A5A5A">Compute (Linear-1/Linear-2)</text>
+      </svg>
+    </div>
+
+    <div class="s31-right">
+      <div class="s31-metric">
+        <div class="s31-metric-label">Theoretical speedup</div>
+        <div class="s31-metric-value"><span class="accent">1.92×</span></div>
+        <div class="s31-metric-note">The earlier Comet design reached only 1.42×. V4 slices the waves more finely.</div>
+      </div>
+      <div class="s31-metric">
+        <div class="s31-metric-label">General inference measurement</div>
+        <div class="s31-metric-value">1.50 – 1.73×</div>
+        <div class="s31-metric-note">Validated on both NVIDIA GPUs and Huawei Ascend NPUs.</div>
+      </div>
+      <div class="s31-metric">
+        <div class="s31-metric-label">Peak RL rollout gain</div>
+        <div class="s31-metric-value"><span class="accent">1.96×</span></div>
+        <div class="s31-metric-note">Open-sourced as MegaMoE, alongside DeepGEMM components.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="s31-hw-note">
+    <strong>The hardware vendor takeaway:</strong> as long as interconnect bandwidth satisfies <span class="mono">C / B ≤ 2d = 6144 FLOPs/Byte</span>, communication can be fully hidden behind compute. Beyond that point, more bandwidth is just wasted silicon area. The paper is effectively writing a design memo to NVIDIA.
+  </div>
+
+  <div class="s31-footer">
+    <div>TECHNICAL DEEP DIVE · CHAPTER 05</div>
+    <div>31 / 72</div>
+  </div>
+  <div class="s31-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

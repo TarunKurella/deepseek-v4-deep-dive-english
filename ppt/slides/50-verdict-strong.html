@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · 第七幕小结</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s50-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s50-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s50-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s50-masthead-left img { height: 26px; }
+  .s50-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s50-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s50-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s50-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s50-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s50-verdict-eyebrow {
+    font-size: 22px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: #5A5A5A; font-weight: 600;
+    font-family: "Source Serif 4", Georgia, serif; font-style: italic;
+  }
+
+  .s50-center {
+    position: absolute; left: 120px; right: 120px; top: 300px;
+  }
+  .s50-verdict {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 108px; line-height: 1.08; font-weight: 700; color: #1A1A1A;
+    letter-spacing: -0.02em; max-width: 1680px;
+  }
+  .s50-verdict .blue { color: #4D6BFE; }
+  .s50-verdict .underline {
+    position: relative; display: inline-block;
+  }
+  .s50-verdict .underline::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 2px;
+    height: 12px; background: rgba(77,107,254,0.18); z-index: -1;
+  }
+
+  .s50-pillars {
+    position: absolute; left: 120px; right: 120px; bottom: 260px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 40px;
+  }
+  .s50-pillar {
+    border-top: 2px solid #4D6BFE; padding-top: 20px;
+  }
+  .s50-pillar-label {
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #5A5A5A; margin-bottom: 10px; font-weight: 600;
+  }
+  .s50-pillar-num {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 48px; font-weight: 700; color: #4D6BFE; line-height: 1;
+    font-variant-numeric: tabular-nums; margin-bottom: 8px;
+  }
+  .s50-pillar-desc {
+    font-size: 15px; color: #5A5A5A; line-height: 1.4;
+  }
+
+  .s50-bottom-note {
+    position: absolute; left: 120px; right: 120px; bottom: 110px;
+    border-top: 2px solid #1A1A1A; padding-top: 22px;
+    font-size: 20px; color: #5A5A5A; line-height: 1.6; max-width: 1500px;
+  }
+
+  .s50-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s50-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s50-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s50-stage">
+  <div class="s50-masthead">
+    <div class="s50-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s50-masthead-right">07 · 擅长什么</div>
+  </div>
+
+  <div class="s50-header">
+    <div class="s50-kicker">CHAPTER 07 · 小结</div>
+    <div class="s50-verdict-eyebrow">The Verdict</div>
+  </div>
+
+  <div class="s50-center">
+    <div class="s50-verdict">
+      <span class="underline">标准化、有明确答案</span>的题，<br>
+      DeepSeek 是<span class="blue">开源天花板</span>。
+    </div>
+  </div>
+
+  <div class="s50-pillars">
+    <div class="s50-pillar">
+      <div class="s50-pillar-label">Codeforces</div>
+      <div class="s50-pillar-num">3206</div>
+      <div class="s50-pillar-desc">全场第一<br>超过 GPT-5.4</div>
+    </div>
+    <div class="s50-pillar">
+      <div class="s50-pillar-label">LiveCodeBench</div>
+      <div class="s50-pillar-num">93.5</div>
+      <div class="s50-pillar-desc">全场第一<br>超过 Gemini 3.1</div>
+    </div>
+    <div class="s50-pillar">
+      <div class="s50-pillar-label">Apex Shortlist</div>
+      <div class="s50-pillar-num">90.2</div>
+      <div class="s50-pillar-desc">全场第一<br>研究级数学</div>
+    </div>
+    <div class="s50-pillar">
+      <div class="s50-pillar-label">Putnam-2025</div>
+      <div class="s50-pillar-num">120/120</div>
+      <div class="s50-pillar-desc">首个满分系统<br>形式化证明</div>
+    </div>
+  </div>
+
+  <div class="s50-bottom-note">
+    竞赛选手基因里的习惯——给一道有标准答案的题，用尽全部推理能力把它做对——在 DeepSeek-V4 身上成了护城河。
+  </div>
+
+  <div class="s50-footer">
+    <div>技术深度解读 · CHAPTER 07 · END</div>
+    <div>50 / 72</div>
+  </div>
+  <div class="s50-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

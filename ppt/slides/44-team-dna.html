@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · 团队画像</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s44-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s44-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s44-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s44-masthead-left img { height: 26px; }
+  .s44-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s44-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s44-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s44-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s44-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s44-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 72px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s44-title .accent { color: #4D6BFE; font-style: italic; }
+
+  .s44-hint {
+    position: absolute; left: 120px; top: 342px;
+    font-size: 22px; color: #5A5A5A; line-height: 1.55; max-width: 1400px;
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif; font-style: italic;
+  }
+
+  .s44-persons {
+    position: absolute; left: 120px; right: 120px; top: 430px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 36px;
+  }
+  .s44-person {
+    border: 1px solid rgba(26,26,26,0.12);
+    padding: 32px 36px;
+    background: #FFFFFF;
+    min-height: 360px;
+  }
+  .s44-person.mid { background: #F7F8FA; }
+  .s44-person-tag {
+    display: inline-block; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 22px;
+  }
+  .s44-person-name {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 44px; font-weight: 600; color: #1A1A1A; line-height: 1; margin-bottom: 8px;
+  }
+  .s44-person-role {
+    font-family: "Source Serif 4", Georgia, serif; font-style: italic;
+    font-size: 17px; color: #5A5A5A; margin-bottom: 26px;
+  }
+  .s44-person-items { list-style: none; }
+  .s44-person-items li {
+    font-size: 16px; color: #1A1A1A; line-height: 1.7;
+    padding: 8px 0; border-bottom: 1px dashed rgba(26,26,26,0.1);
+  }
+  .s44-person-items li:last-child { border-bottom: none; }
+  .s44-person-items li .val {
+    font-family: "Source Serif 4", Georgia, serif;
+    color: #4D6BFE; font-weight: 600;
+  }
+
+  .s44-bottom-note {
+    position: absolute; left: 120px; right: 120px; bottom: 110px;
+    border-top: 2px solid #1A1A1A;
+    padding-top: 22px;
+    font-size: 20px; color: #5A5A5A; line-height: 1.6; max-width: 1500px;
+  }
+  .s44-bottom-note strong { color: #1A1A1A; font-weight: 600; }
+
+  .s44-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s44-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s44-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s44-stage">
+  <div class="s44-masthead">
+    <div class="s44-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s44-masthead-right">07 · 擅长什么</div>
+  </div>
+
+  <div class="s44-header">
+    <div class="s44-kicker">CHAPTER 07 · 团队基因</div>
+    <h1 class="s44-title">DeepSeek 招的是<span class="accent">竞赛获奖选手</span>——所以模型也像竞赛选手</h1>
+  </div>
+
+  <div class="s44-hint">
+    招谁像谁。一家公司的模型，长得像它的员工。
+  </div>
+
+  <div class="s44-persons">
+    <div class="s44-person">
+      <div class="s44-person-tag">CASE 01</div>
+      <div class="s44-person-name">罗福莉</div>
+      <div class="s44-person-role">MoE 核心研究员</div>
+      <ul class="s44-person-items">
+        <li>北京大学 <span class="val">计算机硕士</span></li>
+        <li>本科 北京师范大学</li>
+        <li>ACL 发表 <span class="val">8 篇一作</span></li>
+        <li>「95 后 AI 天才少女」</li>
+      </ul>
+    </div>
+    <div class="s44-person mid">
+      <div class="s44-person-tag">CASE 02</div>
+      <div class="s44-person-name">高华佐</div>
+      <div class="s44-person-role">MLA 核心作者</div>
+      <ul class="s44-person-items">
+        <li>物理奥赛 <span class="val">金牌</span></li>
+        <li>北京大学 物理系</li>
+        <li>DeepSeek-V2 MLA 提出者</li>
+        <li>Mesh-TensorFlow 贡献者</li>
+      </ul>
+    </div>
+    <div class="s44-person">
+      <div class="s44-person-tag">CASE 03</div>
+      <div class="s44-person-name">邵智宏</div>
+      <div class="s44-person-role">GRPO 算法提出者</div>
+      <ul class="s44-person-items">
+        <li>清华大学 <span class="val">交互式信息 PhD</span></li>
+        <li>DeepSeekMath 一作</li>
+        <li>GRPO 方法被 OpenAI 借用</li>
+        <li>清华奖学金获得者</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="s44-bottom-note">
+    公开可查的 DeepSeek 研究员里，<strong>竞赛金牌、清北、中科院出身是默认配置</strong>。招这样的人，模型就会在「标准化、有明确答案」的任务上表现最好——就像理科状元，命题作文答得漂亮。
+  </div>
+
+  <div class="s44-footer">
+    <div>技术深度解读 · CHAPTER 07</div>
+    <div>44 / 72</div>
+  </div>
+  <div class="s44-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · 规格大表</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s10-stage { position: relative; width: 1920px; height: 1080px; }
+  .s10-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s10-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s10-masthead-left img { height: 26px; }
+  .s10-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s10-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s10-header { position: absolute; top: 140px; left: 120px; right: 120px; }
+  .s10-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 18px;
+  }
+  .s10-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s10-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 54px; line-height: 1.15; font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .s10-title .accent { color: #4D6BFE; font-style: italic; }
+
+  .s10-table-wrap {
+    position: absolute; top: 270px; left: 120px; right: 120px;
+  }
+  .s10-table {
+    width: 100%; border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+  }
+  .s10-table thead th {
+    padding: 10px 12px; text-align: right;
+    font-size: 19px; font-weight: 600;
+    border-bottom: 2px solid #1A1A1A;
+    font-family: "Source Serif 4", Georgia, serif;
+    letter-spacing: -0.005em;
+  }
+  .s10-table thead th:first-child {
+    text-align: left; font-size: 12px; color: #5A5A5A;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    font-family: -apple-system, sans-serif;
+    font-weight: 600;
+  }
+  .s10-table thead th.pro { color: #4D6BFE; }
+  .s10-table thead th.flash { color: #1A1A1A; }
+  .s10-table thead th .sub {
+    display: block; font-size: 12px; color: #999;
+    letter-spacing: 0.15em; font-style: normal;
+    font-family: -apple-system, sans-serif;
+    font-weight: 400; margin-top: 4px;
+    text-transform: uppercase;
+  }
+
+  .s10-table tbody tr.group-head td {
+    padding-top: 12px; padding-bottom: 4px;
+    font-size: 11px; color: #5A5A5A;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    font-weight: 600;
+    border-bottom: none;
+  }
+
+  .s10-table tbody td {
+    padding: 5px 12px;
+    font-size: 15px;
+    border-bottom: 1px dashed rgba(26,26,26,0.08);
+    text-align: right;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-weight: 600; color: #1A1A1A;
+  }
+  .s10-table tbody td:first-child {
+    text-align: left; color: #1A1A1A;
+    font-family: -apple-system, sans-serif;
+    font-weight: 400; font-size: 14px;
+  }
+  .s10-table tbody td .sub-unit {
+    font-size: 12px; color: #999; margin-left: 2px; font-weight: 400;
+  }
+  .s10-table tbody td.hero { color: #4D6BFE; font-size: 18px; }
+
+  .s10-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s10-watermark { position: absolute; right: 60px; bottom: 40px; opacity: 0.08; }
+  .s10-watermark img { width: 100px; }
+</style>
+</head>
+<body>
+<div class="s10-stage">
+  <div class="s10-masthead">
+    <div class="s10-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s10-masthead-right">10 · FULL SPECS</div>
+  </div>
+
+  <div class="s10-header">
+    <div class="s10-kicker">CHAPTER 01 · 详细规格</div>
+    <h1 class="s10-title">两款模型 · <span class="accent">放在一起看</span></h1>
+  </div>
+
+  <div class="s10-table-wrap">
+    <table class="s10-table">
+      <thead>
+        <tr>
+          <th>配置项</th>
+          <th class="pro">V4-Pro<span class="sub">FLAGSHIP</span></th>
+          <th class="flash">V4-Flash<span class="sub">EFFICIENT</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="group-head"><td colspan="3">模型规模</td></tr>
+        <tr><td>总参数</td><td class="hero">1.6 T</td><td class="hero">284 B</td></tr>
+        <tr><td>每 token 激活参数</td><td>49 B</td><td>13 B</td></tr>
+        <tr><td>Transformer 层数</td><td>61</td><td>43</td></tr>
+        <tr><td>隐藏维度 d</td><td>7,168</td><td>4,096</td></tr>
+
+        <tr class="group-head"><td colspan="3">MoE 配置</td></tr>
+        <tr><td>路由专家数 / 层</td><td>384</td><td>256</td></tr>
+        <tr><td>每 token 激活专家</td><td>6 + 1 shared</td><td>6 + 1 shared</td></tr>
+        <tr><td>前 N 层使用 Hash Routing</td><td>3</td><td>3</td></tr>
+
+        <tr class="group-head"><td colspan="3">训练配置</td></tr>
+        <tr><td>预训练 tokens</td><td>33 T</td><td>32 T</td></tr>
+        <tr><td>峰值学习率</td><td>2.0 × 10<sup>-4</sup></td><td>2.7 × 10<sup>-4</sup></td></tr>
+        <tr><td>每步 batch size</td><td>94.4 M tokens</td><td>75.5 M tokens</td></tr>
+        <tr><td>优化器（主干 / 辅助）</td><td>Muon / AdamW</td><td>Muon / AdamW</td></tr>
+
+        <tr class="group-head"><td colspan="3">上下文与精度</td></tr>
+        <tr><td>原生上下文长度</td><td class="hero">1 M</td><td class="hero">1 M</td></tr>
+        <tr><td>Attention 热身阶段切稀疏</td><td>64 K 处</td><td>64 K 处</td></tr>
+        <tr><td>MoE 专家权重精度</td><td>FP4</td><td>FP4</td></tr>
+        <tr><td>KV Cache 精度</td><td>FP8</td><td>FP8</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="s10-footer">
+    <div>CHAPTER 01 · FULL SPECS</div>
+    <div>10 / 72</div>
+  </div>
+  <div class="s10-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

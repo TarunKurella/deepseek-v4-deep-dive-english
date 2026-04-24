@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · Terminal Bench</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s54-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s54-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s54-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s54-masthead-left img { height: 26px; }
+  .s54-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s54-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+  .s54-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s54-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s54-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s54-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 60px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1600px;
+  }
+  .s54-title .red { color: #C83737; }
+  .s54-chart-wrap {
+    position: absolute; left: 120px; right: 120px; top: 340px;
+  }
+  .s54-bar-row { display: flex; align-items: center; margin-bottom: 14px; }
+  .s54-bar-label {
+    width: 280px; font-size: 20px; color: #1A1A1A;
+    font-family: "Source Serif 4", Georgia, serif;
+  }
+  .s54-bar-label.ds { color: #4D6BFE; font-weight: 600; }
+  .s54-bar-label.new { color: #1A1A1A; font-weight: 700; }
+  .s54-bar-track { flex: 1; height: 44px; background: #F3F4F7; position: relative; }
+  .s54-bar-fill {
+    height: 100%; background: #D5D8DF;
+    display: flex; align-items: center; justify-content: flex-end;
+    padding-right: 18px;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 22px; font-weight: 600; color: #1A1A1A;
+    font-variant-numeric: tabular-nums;
+  }
+  .s54-bar-fill.ds { background: #4D6BFE; color: #fff; }
+  .s54-bar-fill.gpt55 { background: #1A1A1A; color: #fff; }
+  .s54-callout {
+    position: absolute; left: 120px; right: 120px; top: 870px;
+    display: flex; gap: 50px; align-items: center;
+  }
+  .s54-callout-num {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 88px; line-height: 0.9; font-weight: 700; color: #C83737;
+    font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
+  }
+  .s54-callout-num .pp { font-size: 38px; font-weight: 600; }
+  .s54-callout-text {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 22px; color: #1A1A1A; line-height: 1.4; max-width: 1100px;
+  }
+  .s54-callout-text strong { color: #4D6BFE; font-weight: 600; }
+  .s54-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s54-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s54-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s54-stage">
+  <div class="s54-masthead">
+    <div class="s54-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
+    </div>
+    <div class="s54-masthead-right">08 · Where It Struggles</div>
+  </div>
+  <div class="s54-header">
+    <div class="s54-kicker">CHAPTER 08 · TERMINAL BENCH 2.0</div>
+    <h1 class="s54-title">On real terminal tasks it is <span class="red">about 15 points behind GPT-5.5</span></h1>
+  </div>
+  <div class="s54-chart-wrap">
+    <div class="s54-bar-row"><div class="s54-bar-label new">GPT-5.5 <span style="font-size:14px; color:#999; font-style:italic;">· newer benchmark leader</span></div><div class="s54-bar-track"><div class="s54-bar-fill gpt55" style="width: 82.7%;">82.7</div></div></div>
+    <div class="s54-bar-row"><div class="s54-bar-label">GPT-5.4</div><div class="s54-bar-track"><div class="s54-bar-fill" style="width: 75.1%;">75.1</div></div></div>
+    <div class="s54-bar-row"><div class="s54-bar-label">Opus 4.7</div><div class="s54-bar-track"><div class="s54-bar-fill" style="width: 69.4%;">69.4</div></div></div>
+    <div class="s54-bar-row"><div class="s54-bar-label">Gemini 3.1 Pro</div><div class="s54-bar-track"><div class="s54-bar-fill" style="width: 68.5%;">68.5</div></div></div>
+    <div class="s54-bar-row"><div class="s54-bar-label ds">DS-V4-Pro-Max</div><div class="s54-bar-track"><div class="s54-bar-fill ds" style="width: 67.9%;">67.9</div></div></div>
+    <div class="s54-bar-row"><div class="s54-bar-label">Kimi K2.6</div><div class="s54-bar-track"><div class="s54-bar-fill" style="width: 66.7%;">66.7</div></div></div>
+    <div class="s54-bar-row"><div class="s54-bar-label">Opus 4.6</div><div class="s54-bar-track"><div class="s54-bar-fill" style="width: 65.4%;">65.4</div></div></div>
+  </div>
+  <div class="s54-callout">
+    <div class="s54-callout-num">−14.8<span class="pp">pp</span></div>
+    <div class="s54-callout-text">
+      The paper only benchmarks up to GPT-5.4, where the gap is about 7 points. But <strong>GPT-5.5 shipped on April 23, 2026</strong>, and immediately pushed Terminal-Bench 2.0 to 82.7. That means DeepSeek-V4’s real gap to the newest SOTA <strong>widens to 14.8 points</strong>.
+    </div>
+  </div>
+  <div class="s54-footer">
+    <div>Technical Deep Dive · CHAPTER 08</div>
+    <div>54 / 72</div>
+  </div>
+  <div class="s54-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

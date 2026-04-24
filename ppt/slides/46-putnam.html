@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · Putnam 满分</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s46-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s46-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s46-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s46-masthead-left img { height: 26px; }
+  .s46-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s46-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s46-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s46-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s46-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s46-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 64px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s46-title .accent { color: #4D6BFE; font-style: italic; }
+
+  .s46-main {
+    position: absolute; left: 120px; top: 380px; right: 120px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+  .s46-hero {
+    text-align: left;
+  }
+  .s46-score {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 180px; line-height: 0.9; font-weight: 700;
+    letter-spacing: -0.04em; color: #4D6BFE;
+    font-variant-numeric: tabular-nums;
+  }
+  .s46-score .slash { color: #1A1A1A; font-weight: 400; opacity: 0.25; }
+  .s46-score .total { color: #1A1A1A; font-weight: 400; opacity: 0.55; }
+  .s46-score-label {
+    font-size: 20px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: #5A5A5A; margin-top: 24px; margin-bottom: 10px; font-weight: 600;
+  }
+  .s46-score-sub {
+    font-family: "Source Serif 4", Georgia, serif; font-style: italic;
+    font-size: 22px; color: #1A1A1A; line-height: 1.35;
+  }
+
+  .s46-context {
+    border-left: 3px solid #4D6BFE; padding-left: 36px;
+  }
+  .s46-ctx-title {
+    font-size: 14px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s46-ctx-list { list-style: none; }
+  .s46-ctx-list li {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 22px; color: #1A1A1A; line-height: 1.5;
+    padding: 10px 0; border-bottom: 1px dashed rgba(26,26,26,0.1);
+  }
+  .s46-ctx-list li:last-child { border-bottom: none; }
+  .s46-ctx-list .hl {
+    color: #4D6BFE; font-weight: 600; font-style: normal;
+  }
+
+  .s46-bottom-note {
+    position: absolute; left: 120px; right: 120px; bottom: 100px;
+    border-top: 2px solid #1A1A1A; padding-top: 16px;
+    font-size: 15px; color: #5A5A5A; line-height: 1.6; max-width: 1500px;
+  }
+  .s46-bottom-note strong { color: #1A1A1A; font-weight: 600; }
+
+  .s46-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s46-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s46-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s46-stage">
+  <div class="s46-masthead">
+    <div class="s46-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s46-masthead-right">07 · 擅长什么</div>
+  </div>
+
+  <div class="s46-header">
+    <div class="s46-kicker">CHAPTER 07 · 形式化数学</div>
+    <h1 class="s46-title">Putnam-2025 形式化证明 <span class="accent">满分 120 / 120</span></h1>
+  </div>
+
+  <div class="s46-main">
+    <div class="s46-hero">
+      <div class="s46-score">120<span class="slash"> / </span><span class="total">120</span></div>
+      <div class="s46-score-label">HYBRID FORMAL-INFORMAL</div>
+      <div class="s46-score-sub">第一个在 Putnam<br>拿到满分的 AI 系统</div>
+    </div>
+
+    <div class="s46-context">
+      <div class="s46-ctx-title">超过的已知系统</div>
+      <ul class="s46-ctx-list">
+        <li>Axiom<span class="hl"> · 被超越</span></li>
+        <li>Seed-Prover<span class="hl"> · 被超越</span></li>
+        <li>Lean v4.28.0-rc1 工具链</li>
+        <li>最多 500 次工具调用<span class="hl"> · 满分达成</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="s46-bottom-note">
+    Putnam 是北美大学生数学竞赛，<strong>以题目刁钻著称</strong>。hybrid formal-informal 设置要求模型先用自然语言推理、再把证明翻译成 Lean 形式化代码——DeepSeek-V4-Pro-Max 拿下 120 的满分，全场唯一。
+  </div>
+
+  <div class="s46-footer">
+    <div>技术深度解读 · CHAPTER 07</div>
+    <div>46 / 72</div>
+  </div>
+  <div class="s46-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · Muon 正交化</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s26-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s26-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s26-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s26-masthead-left img { height: 26px; }
+  .s26-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s26-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s26-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s26-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s26-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s26-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 60px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s26-title .accent { color: #4D6BFE; font-style: italic; }
+  .s26-subtitle {
+    margin-top: 16px;
+    font-size: 20px; color: #5A5A5A; line-height: 1.5; max-width: 1300px;
+  }
+
+  .s26-main {
+    position: absolute; left: 120px; right: 120px; top: 400px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+  }
+
+  .s26-panel {
+    position: relative;
+  }
+  .s26-panel-label {
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #5A5A5A; font-weight: 600; margin-bottom: 12px;
+  }
+  .s26-panel-head {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 28px; font-weight: 600; color: #1A1A1A; margin-bottom: 16px; line-height: 1.2;
+  }
+  .s26-panel-body {
+    font-size: 17px; color: #5A5A5A; line-height: 1.6;
+    margin-top: 18px;
+  }
+  .s26-panel-body code {
+    font-family: "SF Mono", "Menlo", monospace; color: #1A1A1A;
+    background: #F7F8FA; padding: 1px 6px; font-size: 14px;
+  }
+
+  .s26-formula {
+    background: #F7F8FA; padding: 22px 28px;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 22px; color: #1A1A1A; margin-top: 16px;
+    line-height: 1.7;
+  }
+  .s26-formula .muted { color: #999; }
+  .s26-formula .accent { color: #4D6BFE; font-weight: 600; }
+
+  .s26-bottom-note {
+    position: absolute; left: 120px; right: 120px; bottom: 110px;
+    border-top: 2px solid #1A1A1A; padding-top: 20px;
+    font-size: 18px; color: #5A5A5A; line-height: 1.6;
+    max-width: 1400px;
+  }
+  .s26-bottom-note strong { color: #1A1A1A; font-weight: 600; }
+  .s26-bottom-note .accent { color: #4D6BFE; font-weight: 600; }
+
+  .s26-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s26-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s26-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s26-stage">
+  <div class="s26-masthead">
+    <div class="s26-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s26-masthead-right">26 · Muon 的正交化</div>
+  </div>
+
+  <div class="s26-header">
+    <div class="s26-kicker">CHAPTER 04 · MUON CORE IDEA</div>
+    <h1 class="s26-title">先拿走方向间的不平衡，<span class="accent">再去更新参数</span></h1>
+    <div class="s26-subtitle">AdamW 直接拿 momentum 更新参数；Muon 先把 momentum 矩阵投影成正交矩阵，让所有方向的步长一样大。</div>
+  </div>
+
+  <div class="s26-main">
+    <!-- Left panel: AdamW style (ellipse) -->
+    <div class="s26-panel">
+      <div class="s26-panel-label">BEFORE · ADAMW</div>
+      <div class="s26-panel-head">更新矩阵是个拉长的椭圆</div>
+      <svg width="720" height="360" viewBox="0 0 720 360" xmlns="http://www.w3.org/2000/svg">
+        <!-- background grid -->
+        <g stroke="rgba(26,26,26,0.04)" stroke-width="1">
+          <line x1="40"  y1="180" x2="680" y2="180"/>
+          <line x1="360" y1="20"  x2="360" y2="340"/>
+        </g>
+
+        <!-- Unit circle reference -->
+        <circle cx="360" cy="180" r="130" fill="none" stroke="#CCD0DA" stroke-width="1" stroke-dasharray="4 5"/>
+        <text x="494" y="184" font-family="Source Serif 4, Georgia, serif" font-size="13" fill="#999" font-style="italic">理想圆</text>
+
+        <!-- Elongated ellipse (AdamW's effective step) -->
+        <ellipse cx="360" cy="180" rx="280" ry="60" fill="#4D6BFE" fill-opacity="0.14" stroke="#4D6BFE" stroke-width="1.5"/>
+
+        <!-- axes arrows -->
+        <g stroke="#1A1A1A" stroke-width="1.5" fill="none">
+          <line x1="360" y1="180" x2="620" y2="180"/>
+          <polygon points="620,180 612,176 612,184" fill="#1A1A1A"/>
+          <line x1="360" y1="180" x2="360" y2="130"/>
+          <polygon points="360,130 356,138 364,138" fill="#1A1A1A"/>
+        </g>
+
+        <text x="628" y="185" font-family="Source Serif 4, Georgia, serif" font-size="14" fill="#1A1A1A">大</text>
+        <text x="370" y="124" font-family="Source Serif 4, Georgia, serif" font-size="14" fill="#1A1A1A">小</text>
+
+        <text x="360" y="330" font-family="-apple-system, sans-serif" font-size="11" fill="#999" text-anchor="middle" letter-spacing="0.18em">SINGULAR VALUES UNEQUAL</text>
+      </svg>
+      <div class="s26-panel-body">
+        SGD + momentum 算出的矩阵 <code>M</code> 的奇异值参差不齐。
+        做 SVD 会得到 <code>M = U Σ Vᵀ</code>——Σ 是对角阵，对角线上那些值就是每个方向的「步长」。
+      </div>
+    </div>
+
+    <!-- Right panel: Muon style (circle) -->
+    <div class="s26-panel">
+      <div class="s26-panel-label">AFTER · MUON</div>
+      <div class="s26-panel-head">正交化后变成一个圆</div>
+      <svg width="720" height="360" viewBox="0 0 720 360" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="rgba(26,26,26,0.04)" stroke-width="1">
+          <line x1="40"  y1="180" x2="680" y2="180"/>
+          <line x1="360" y1="20"  x2="360" y2="340"/>
+        </g>
+
+        <!-- Original ellipse faint -->
+        <ellipse cx="360" cy="180" rx="280" ry="60" fill="none" stroke="#CCD0DA" stroke-width="1" stroke-dasharray="4 5"/>
+
+        <!-- Circle: orthogonalized result -->
+        <circle cx="360" cy="180" r="130" fill="#4D6BFE" fill-opacity="0.14" stroke="#4D6BFE" stroke-width="2"/>
+
+        <!-- equal-length arrows in 6 directions -->
+        <g stroke="#4D6BFE" stroke-width="1.8" fill="none">
+          <line x1="360" y1="180" x2="490" y2="180"/>
+          <polygon points="490,180 482,176 482,184" fill="#4D6BFE"/>
+
+          <line x1="360" y1="180" x2="360" y2="50"/>
+          <polygon points="360,50 356,58 364,58" fill="#4D6BFE"/>
+
+          <line x1="360" y1="180" x2="230" y2="180"/>
+          <polygon points="230,180 238,176 238,184" fill="#4D6BFE"/>
+
+          <line x1="360" y1="180" x2="360" y2="310"/>
+          <polygon points="360,310 356,302 364,302" fill="#4D6BFE"/>
+
+          <line x1="360" y1="180" x2="452" y2="88"/>
+          <polygon points="452,88 448,98 442,92" fill="#4D6BFE"/>
+
+          <line x1="360" y1="180" x2="268" y2="272"/>
+          <polygon points="268,272 278,268 272,278" fill="#4D6BFE"/>
+        </g>
+
+        <text x="360" y="330" font-family="-apple-system, sans-serif" font-size="11" fill="#999" text-anchor="middle" letter-spacing="0.18em">SINGULAR VALUES ALL = 1</text>
+      </svg>
+      <div class="s26-panel-body">
+        Muon 把 <code>Σ</code> 替换成单位阵：<code>M → U Vᵀ</code>。
+        所有方向同等步长，训练在参数空间里向外均匀扩张，而不是沿一条窄道滑下去。
+      </div>
+    </div>
+  </div>
+
+  <div class="s26-bottom-note">
+    这件事直接做 SVD 代价太大，Muon 用 <span class="accent">Newton-Schulz 迭代</span>近似投影——下一页展开。
+  </div>
+
+  <div class="s26-footer">
+    <div>技术深度解读 · CHAPTER 04</div>
+    <div>26 / 72</div>
+  </div>
+  <div class="s26-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

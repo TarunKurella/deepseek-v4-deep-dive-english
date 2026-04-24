@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · 配套小技巧</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s21-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s21-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s21-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s21-masthead-left img { height: 26px; }
+  .s21-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s21-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s21-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s21-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s21-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s21-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 60px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s21-title .accent { color: #4D6BFE; font-style: italic; }
+  .s21-subtitle {
+    margin-top: 16px;
+    font-size: 20px; color: #5A5A5A; line-height: 1.5; max-width: 1200px;
+  }
+
+  .s21-grid {
+    position: absolute; left: 120px; right: 120px; top: 400px;
+    display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 40px 60px;
+  }
+  .s21-item {
+    border-top: 1px solid rgba(26,26,26,0.12);
+    padding-top: 26px; padding-right: 20px;
+    display: grid; grid-template-columns: 56px 1fr; gap: 20px;
+  }
+  .s21-num {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 44px; font-weight: 600; color: #4D6BFE;
+    line-height: 1; font-variant-numeric: tabular-nums;
+    font-style: italic;
+  }
+  .s21-content { }
+  .s21-label {
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #5A5A5A; font-weight: 600; margin-bottom: 10px;
+  }
+  .s21-head {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 30px; font-weight: 600; color: #1A1A1A; margin-bottom: 12px; line-height: 1.2;
+  }
+  .s21-body {
+    font-size: 17px; color: #5A5A5A; line-height: 1.6;
+  }
+  .s21-body code {
+    font-family: "SF Mono", "Menlo", monospace; color: #1A1A1A;
+    background: #F7F8FA; padding: 1px 6px; font-size: 14px;
+  }
+  .s21-body strong { color: #1A1A1A; font-weight: 600; }
+
+  .s21-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s21-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s21-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s21-stage">
+  <div class="s21-masthead">
+    <div class="s21-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s21-masthead-right">21 · 配套小技巧</div>
+  </div>
+
+  <div class="s21-header">
+    <div class="s21-kicker">CHAPTER 03 · 那些让 CSA/HCA 真正好用的细节</div>
+    <h1 class="s21-title">主结构之外，<span class="accent">还有四个决定成败的小零件</span></h1>
+    <div class="s21-subtitle">单看每一项都不起眼，但少了任何一个，百万上下文的表现都会崩一块。CSA 和 HCA 共享这套底座。</div>
+  </div>
+
+  <div class="s21-grid">
+    <div class="s21-item">
+      <div class="s21-num">01</div>
+      <div class="s21-content">
+        <div class="s21-label">SHARED KV · MQA</div>
+        <div class="s21-head">所有 head 共用一份 KV</div>
+        <div class="s21-body">
+          每个压缩 KV entry 同时充当所有 attention head 的 key 和 value。
+          <strong>head 数越多，省得越多</strong>——配合压缩本身，KV cache 又小了一个量级。
+        </div>
+      </div>
+    </div>
+
+    <div class="s21-item">
+      <div class="s21-num">02</div>
+      <div class="s21-content">
+        <div class="s21-label">SLIDING WINDOW</div>
+        <div class="s21-head">最近 <code>n_win</code> 个 token 不压缩</div>
+        <div class="s21-body">
+          压缩会吃掉局部细节——但最近的 token 恰恰最重要。
+          额外开一个滑动窗口分支，<strong>不压缩地保留最近 n_win 个 token 的 KV</strong>，和压缩块一起进 core attention。
+        </div>
+      </div>
+    </div>
+
+    <div class="s21-item">
+      <div class="s21-num">03</div>
+      <div class="s21-content">
+        <div class="s21-label">ATTENTION SINK</div>
+        <div class="s21-head">给 query 一个「弃权」出口</div>
+        <div class="s21-body">
+          每个 head 配一个可学习的 sink logit，加到 softmax 的分母里。
+          让 attention 总和可以不等于 1、甚至接近 0——<strong>query 在没话可说时就弃权</strong>，不强行关注噪声。
+        </div>
+      </div>
+    </div>
+
+    <div class="s21-item">
+      <div class="s21-num">04</div>
+      <div class="s21-content">
+        <div class="s21-label">PARTIAL ROPE</div>
+        <div class="s21-head">RoPE 只作用在最后 64 维</div>
+        <div class="s21-body">
+          其余维度保留无位置信息的通用表示。配合 output 上用 <code>position = −i</code> 再做一次 RoPE 的 trick，
+          <strong>把绝对位置偷偷换成相对位置</strong>，百万长度下依然稳定。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="s21-footer">
+    <div>技术深度解读 · CHAPTER 03</div>
+    <div>21 / 72</div>
+  </div>
+  <div class="s21-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

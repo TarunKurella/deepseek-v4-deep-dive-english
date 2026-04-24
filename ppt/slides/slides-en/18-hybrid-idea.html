@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · Coarse and Fine Together</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s18-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s18-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s18-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s18-masthead-left img { height: 26px; }
+  .s18-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s18-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+  .s18-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s18-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s18-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s18-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 64px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s18-title .accent { color: #4D6BFE; font-style: italic; }
+  .s18-analogy {
+    position: absolute; left: 120px; right: 120px; top: 360px;
+    padding: 28px 36px;
+    background: #F7F8FA;
+    border-left: 3px solid #4D6BFE;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 24px; color: #1A1A1A; line-height: 1.55; font-style: italic;
+    max-width: 1400px;
+  }
+  .s18-analogy strong { color: #4D6BFE; font-style: normal; font-weight: 600; }
+  .s18-twocards {
+    position: absolute; left: 120px; right: 120px; top: 520px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 50px;
+  }
+  .s18-card {
+    border: 1px solid rgba(26,26,26,0.12);
+    padding: 36px 44px;
+    background: #FFFFFF;
+    position: relative;
+  }
+  .s18-card-hca { background: #F7F8FA; }
+  .s18-card-tag {
+    display: inline-block;
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #4D6BFE; margin-bottom: 14px; font-weight: 600;
+  }
+  .s18-card-name {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 42px; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; line-height: 1.1; margin-bottom: 8px;
+  }
+  .s18-card-name .muted { color: #5A5A5A; font-size: 26px; }
+  .s18-card-role {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 19px; color: #5A5A5A; font-style: italic; margin-bottom: 22px;
+  }
+  .s18-card-body {
+    font-size: 18px; color: #1A1A1A; line-height: 1.6;
+  }
+  .s18-card-body strong { color: #4D6BFE; font-weight: 600; }
+  .s18-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s18-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s18-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s18-stage">
+  <div class="s18-masthead">
+    <div class="s18-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
+    </div>
+    <div class="s18-masthead-right">18 · TWO FILTERS</div>
+  </div>
+
+  <div class="s18-header">
+    <div class="s18-kicker">CHAPTER 03 · HYBRID ATTENTION CSA + HCA</div>
+    <h1 class="s18-title">Two filters, <span class="accent">one coarse and one fine</span></h1>
+  </div>
+
+  <div class="s18-analogy">
+    Anyone who researches for real knows the pattern: first scan the table of contents to find the right section, <strong>then read one or two paragraphs closely</strong>. V4 turns that workflow into the attention stack itself.
+  </div>
+
+  <div class="s18-twocards">
+    <div class="s18-card">
+      <div class="s18-card-tag">FINE FILTER</div>
+      <div class="s18-card-name">CSA <span class="muted">Compressed Sparse Attention</span></div>
+      <div class="s18-card-role">Compress + sparsify to locate the critical tokens</div>
+      <div class="s18-card-body">
+        It compresses KV into blocks at granularity <strong>m = 64</strong>, then uses a Lightning Indexer to score those blocks and only sends the top-k most relevant ones into the expensive path.
+      </div>
+    </div>
+
+    <div class="s18-card s18-card-hca">
+      <div class="s18-card-tag">COARSE FILTER</div>
+      <div class="s18-card-name">HCA <span class="muted">Heavily Compressed Attention</span></div>
+      <div class="s18-card-role">Aggressive compression, but global coverage</div>
+      <div class="s18-card-body">
+        It compresses the sequence much more aggressively at <strong>m′ ≫ m</strong>, but does not sparsify afterward. Every query still scans all compressed blocks densely. The granularity gets coarse, but the global view survives.
+      </div>
+    </div>
+  </div>
+
+  <div class="s18-footer">
+    <div>TECHNICAL DEEP DIVE · CHAPTER 03</div>
+    <div>18 / 72</div>
+  </div>
+  <div class="s18-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

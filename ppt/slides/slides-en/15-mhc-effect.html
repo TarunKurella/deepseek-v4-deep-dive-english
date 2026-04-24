@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · mHC Effect</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s15-stage { position: relative; width: 1920px; height: 1080px; }
+  .s15-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s15-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s15-masthead-left img { height: 26px; }
+  .s15-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s15-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+  .s15-header { position: absolute; top: 140px; left: 120px; right: 120px; }
+  .s15-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 18px;
+  }
+  .s15-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s15-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 54px; line-height: 1.15; font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .s15-title .accent { color: #4D6BFE; font-style: italic; }
+  .s15-chart {
+    position: absolute; top: 310px; left: 120px; right: 120px;
+    height: 500px;
+  }
+  .s15-takeaways {
+    position: absolute; bottom: 140px; left: 120px; right: 120px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+    border-top: 2px solid #1A1A1A;
+    padding-top: 24px;
+  }
+  .s15-takeaway-num {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 13px; color: #4D6BFE; font-weight: 600;
+    letter-spacing: 0.15em; margin-bottom: 6px;
+  }
+  .s15-takeaway-text {
+    font-size: 16px; color: #1A1A1A; line-height: 1.6;
+  }
+  .s15-takeaway-text strong { color: #4D6BFE; font-weight: 600; }
+  .s15-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s15-watermark { position: absolute; right: 60px; bottom: 40px; opacity: 0.08; }
+  .s15-watermark img { width: 100px; }
+</style>
+</head>
+<body>
+<div class="s15-stage">
+  <div class="s15-masthead">
+    <div class="s15-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
+    </div>
+    <div class="s15-masthead-right">15 · MHC · EFFECT</div>
+  </div>
+
+  <div class="s15-header">
+    <div class="s15-kicker">CHAPTER 02 · MHC EFFECT</div>
+    <h1 class="s15-title">The loss curve no longer <span class="accent">blows up</span></h1>
+  </div>
+
+  <svg class="s15-chart" viewBox="0 0 1680 500" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(100, 40)">
+      <line x1="0" y1="0" x2="0" y2="400" stroke="#1A1A1A" stroke-width="1.5"/>
+      <line x1="0" y1="400" x2="1480" y2="400" stroke="#1A1A1A" stroke-width="1.5"/>
+
+      <text x="-10" y="10" text-anchor="end" font-family="-apple-system, sans-serif"
+            font-size="12" fill="#999" letter-spacing="1">HIGH</text>
+      <text x="-10" y="405" text-anchor="end" font-family="-apple-system, sans-serif"
+            font-size="12" fill="#999" letter-spacing="1">LOW</text>
+      <text x="-50" y="215" font-family="-apple-system, sans-serif"
+            font-size="12" fill="#5A5A5A" letter-spacing="2"
+            text-transform="uppercase"
+            transform="rotate(-90, -50, 215)">
+        TRAINING LOSS
+      </text>
+
+      <text x="0" y="430" font-family="-apple-system, sans-serif"
+            font-size="11" fill="#999" letter-spacing="1.5">0 T</text>
+      <text x="370" y="430" font-family="-apple-system, sans-serif"
+            font-size="11" fill="#999" letter-spacing="1.5">8 T</text>
+      <text x="740" y="430" font-family="-apple-system, sans-serif"
+            font-size="11" fill="#999" letter-spacing="1.5">16 T</text>
+      <text x="1110" y="430" font-family="-apple-system, sans-serif"
+            font-size="11" fill="#999" letter-spacing="1.5">24 T</text>
+      <text x="1480" y="430" font-family="-apple-system, sans-serif"
+            font-size="11" fill="#999" letter-spacing="1.5"
+            text-anchor="end">33 T</text>
+      <text x="740" y="462" text-anchor="middle"
+            font-family="-apple-system, sans-serif" font-size="12"
+            fill="#5A5A5A" letter-spacing="2" text-transform="uppercase">
+        TOKENS PROCESSED
+      </text>
+
+      <line x1="0" y1="100" x2="1480" y2="100" stroke="#EEE" stroke-width="0.5" stroke-dasharray="3,3"/>
+      <line x1="0" y1="200" x2="1480" y2="200" stroke="#EEE" stroke-width="0.5" stroke-dasharray="3,3"/>
+      <line x1="0" y1="300" x2="1480" y2="300" stroke="#EEE" stroke-width="0.5" stroke-dasharray="3,3"/>
+
+      <path d="M 0 50
+               C 100 70, 150 110, 220 140
+               L 280 170
+               C 330 180, 370 250, 400 160
+               L 430 135
+               C 480 140, 540 200, 580 290
+               L 620 210
+               C 680 180, 730 240, 780 320
+               L 820 260
+               C 860 220, 900 180, 950 160
+               L 1000 155
+               C 1050 150, 1100 145, 1150 143
+               L 1200 142
+               C 1260 141, 1320 140, 1400 139
+               L 1480 138"
+            fill="none" stroke="#999" stroke-width="2" stroke-dasharray="4,4"/>
+
+      <path d="M 0 50
+               C 100 80, 180 110, 260 135
+               C 340 160, 430 180, 520 200
+               C 610 220, 700 230, 800 238
+               C 900 242, 1000 245, 1100 247
+               C 1200 248, 1300 249, 1400 249
+               L 1480 249"
+            fill="none" stroke="#4D6BFE" stroke-width="3"/>
+
+      <circle cx="400" cy="160" r="4" fill="#999"/>
+      <circle cx="580" cy="290" r="4" fill="#999"/>
+      <circle cx="780" cy="320" r="4" fill="#999"/>
+
+      <g transform="translate(1120, 50)">
+        <rect x="0" y="0" width="360" height="100" fill="#FFFFFF" stroke="rgba(26,26,26,0.12)" stroke-width="1"/>
+        <g transform="translate(20, 32)">
+          <line x1="0" y1="0" x2="40" y2="0" stroke="#999" stroke-width="2" stroke-dasharray="4,4"/>
+          <text x="55" y="4" font-family="-apple-system, sans-serif"
+                font-size="13" fill="#1A1A1A">Baseline · without mHC</text>
+          <text x="55" y="22" font-family="-apple-system, sans-serif"
+                font-size="11" fill="#999">Repeated loss spikes, unstable after ~40 layers</text>
+        </g>
+        <g transform="translate(20, 72)">
+          <line x1="0" y1="0" x2="40" y2="0" stroke="#4D6BFE" stroke-width="3"/>
+          <text x="55" y="4" font-family="-apple-system, sans-serif"
+                font-size="13" fill="#1A1A1A">DeepSeek-V4 · with mHC</text>
+          <text x="55" y="22" font-family="-apple-system, sans-serif"
+                font-size="11" fill="#999">Smooth convergence through the full 33T-token run</text>
+        </g>
+      </g>
+    </g>
+  </svg>
+
+  <div class="s15-takeaways">
+    <div>
+      <div class="s15-takeaway-num">TAKEAWAY 01</div>
+      <div class="s15-takeaway-text">
+        The baseline shows <strong>three major loss spikes</strong> after 8T tokens, each requiring restart or batch skipping.
+      </div>
+    </div>
+    <div>
+      <div class="s15-takeaway-num">TAKEAWAY 02</div>
+      <div class="s15-takeaway-text">
+        With mHC added, the <strong>61-layer network stays stable end to end</strong> and completes the full 33T-token pretraining budget.
+      </div>
+    </div>
+    <div>
+      <div class="s15-takeaway-num">TAKEAWAY 03</div>
+      <div class="s15-takeaway-text">
+        This curve is a <strong>reconstruction</strong> of paper §2.2 Fig.3. Check the PDF for exact values.
+      </div>
+    </div>
+  </div>
+
+  <div class="s15-footer">
+    <div>CHAPTER 02 · MHC · EFFECT</div>
+    <div>15 / 72</div>
+  </div>
+  <div class="s15-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

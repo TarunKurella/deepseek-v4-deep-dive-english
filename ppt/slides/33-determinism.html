@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · 比特级确定性</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s33-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s33-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s33-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s33-masthead-left img { height: 26px; }
+  .s33-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s33-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s33-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s33-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s33-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s33-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 66px; line-height: 1.15; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s33-title .accent { color: #4D6BFE; font-style: italic; }
+  .s33-sub {
+    margin-top: 22px; font-size: 22px; color: #5A5A5A; max-width: 1500px; line-height: 1.55;
+  }
+
+  .s33-body {
+    position: absolute; left: 120px; right: 120px; top: 430px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px;
+  }
+
+  .s33-col {
+    border-top: 2px solid #1A1A1A;
+    padding-top: 24px;
+  }
+  .s33-col-num {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 14px; letter-spacing: 0.22em; color: #4D6BFE;
+    text-transform: uppercase; font-weight: 600; margin-bottom: 12px;
+  }
+  .s33-col-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 34px; font-weight: 600; color: #1A1A1A;
+    line-height: 1.2; margin-bottom: 18px;
+  }
+  .s33-col-body {
+    font-size: 16px; color: #5A5A5A; line-height: 1.7; margin-bottom: 18px;
+  }
+  .s33-col-body code {
+    font-family: "SF Mono", monospace;
+    background: #F0F2F6; color: #1A1A1A;
+    padding: 1px 7px; font-size: 14px;
+  }
+  .s33-col-fix {
+    background: #F7F8FA;
+    padding: 16px 18px;
+    font-size: 14px; color: #1A1A1A; line-height: 1.55;
+  }
+  .s33-col-fix strong { color: #4D6BFE; font-weight: 600; }
+
+  .s33-bottom {
+    position: absolute; left: 120px; right: 120px; bottom: 120px;
+    display: flex; align-items: baseline; justify-content: space-between;
+    border-top: 1px solid rgba(26,26,26,0.14);
+    padding-top: 22px;
+  }
+  .s33-bottom-text {
+    font-size: 20px; color: #1A1A1A; line-height: 1.5; max-width: 1100px;
+  }
+  .s33-bottom-text strong { color: #4D6BFE; font-weight: 600; }
+  .s33-bottom-stat {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 52px; font-weight: 600; color: #4D6BFE;
+    letter-spacing: -0.01em; line-height: 1;
+  }
+  .s33-bottom-stat small {
+    display: block; font-family: -apple-system, sans-serif;
+    font-size: 13px; color: #5A5A5A; font-weight: 400;
+    margin-top: 6px; letter-spacing: 0.18em; text-transform: uppercase;
+  }
+
+  .s33-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s33-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s33-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s33-stage">
+  <div class="s33-masthead">
+    <div class="s33-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s33-masthead-right">05 · INFRA · DETERMINISM</div>
+  </div>
+
+  <div class="s33-header">
+    <div class="s33-kicker">MODULE 03 · 批次无关 & 确定性</div>
+    <h1 class="s33-title">训练与推理的<span class="accent">比特级一致</span></h1>
+    <div class="s33-sub">同一个 token 无论在 batch 里的什么位置，输出比特级完全相同。Debug loss spike 可以直接对齐，线上异常能在训练环境精准复现——做后训练的团队，这是省下无数夜晚的基础能力。</div>
+  </div>
+
+  <div class="s33-body">
+    <div class="s33-col">
+      <div class="s33-col-num">DIFFICULTY 01</div>
+      <div class="s33-col-title">Attention</div>
+      <div class="s33-col-body">Split-KV 会造成 wave-quantization，同一 token 在不同位置上累加顺序会变，输出漂移。</div>
+      <div class="s33-col-fix">
+        <strong>双 kernel 策略：</strong> 第一个 kernel 单 SM 处理完整序列保吞吐，第二个 kernel 多 SM 处理最后那个半满 wave 降延迟，两者严格对齐累加顺序。
+      </div>
+    </div>
+
+    <div class="s33-col">
+      <div class="s33-col-num">DIFFICULTY 02</div>
+      <div class="s33-col-title">Matmul</div>
+      <div class="s33-col-body"><code>cuBLAS</code> 做不到批次不变。放弃 split-k 又会有性能损失。</div>
+      <div class="s33-col-fix">
+        <strong>换引擎：</strong> 弃用 cuBLAS，全部切到 DeepGEMM。通过一组针对性优化把放弃 split-k 的性能损失补回来。
+      </div>
+    </div>
+
+    <div class="s33-col">
+      <div class="s33-col-num">DIFFICULTY 03</div>
+      <div class="s33-col-title">反向传播</div>
+      <div class="s33-col-body">罪魁祸首是 <code>atomicAdd</code> ——浮点加法非结合律，不同执行顺序出不同结果。</div>
+      <div class="s33-col-fix">
+        <strong>独立 buffer + 全局有序 reduce：</strong> 每个 SM 分独立累加 buffer，最后做全局确定性求和；MoE 用 token order 预处理。
+      </div>
+    </div>
+  </div>
+
+  <div class="s33-bottom">
+    <div class="s33-bottom-text">
+      这三件事合起来的含金量：<strong>RL rollout 的每一个 token，都能和训练环境比特级对齐</strong>。对任何做大模型后训练和 RL 的团队来说，这是降维打击级的基础能力。
+    </div>
+    <div class="s33-bottom-stat">
+      bit-exact
+      <small>Train ↔ Inference</small>
+    </div>
+  </div>
+
+  <div class="s33-footer">
+    <div>技术深度解读 · CHAPTER 05</div>
+    <div>33 / 72</div>
+  </div>
+  <div class="s33-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

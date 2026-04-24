@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · AdamW's Bias Problem</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s25-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s25-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s25-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s25-masthead-left img { height: 26px; }
+  .s25-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s25-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+  .s25-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s25-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s25-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s25-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 64px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s25-title .accent { color: #4D6BFE; font-style: italic; }
+  .s25-subtitle {
+    margin-top: 16px;
+    font-size: 20px; color: #5A5A5A; line-height: 1.5; max-width: 1200px;
+  }
+  .s25-main {
+    position: absolute; left: 120px; right: 120px; top: 400px;
+    display: grid; grid-template-columns: 900px 1fr; gap: 80px;
+  }
+  .s25-analogy {
+    padding: 30px 36px;
+    background: #F7F8FA;
+    border-left: 3px solid #4D6BFE;
+    margin-bottom: 36px;
+  }
+  .s25-analogy-label {
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 10px;
+  }
+  .s25-analogy-text {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 24px; color: #1A1A1A; line-height: 1.45; font-style: italic;
+  }
+  .s25-analogy-text strong { color: #4D6BFE; font-style: normal; font-weight: 600; }
+  .s25-problem-list {
+    display: grid; gap: 20px;
+  }
+  .s25-problem {
+    border-top: 1px solid rgba(26,26,26,0.12);
+    padding-top: 18px;
+    display: grid; grid-template-columns: 48px 1fr; gap: 18px;
+  }
+  .s25-problem-num {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 26px; color: #4D6BFE; font-weight: 600; font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .s25-problem-head {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 22px; color: #1A1A1A; font-weight: 600; margin-bottom: 6px;
+  }
+  .s25-problem-body {
+    font-size: 16px; color: #5A5A5A; line-height: 1.55;
+  }
+  .s25-vis {
+    display: flex; flex-direction: column; gap: 20px; padding-top: 10px;
+  }
+  .s25-vis-label {
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #5A5A5A; font-weight: 600;
+  }
+  .s25-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s25-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s25-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s25-stage">
+  <div class="s25-masthead">
+    <div class="s25-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
+    </div>
+    <div class="s25-masthead-right">25 · ADAMW BIAS PROBLEM</div>
+  </div>
+
+  <div class="s25-header">
+    <div class="s25-kicker">CHAPTER 04 · MUON OPTIMIZER</div>
+    <h1 class="s25-title">AdamW’s problem is not speed. <span class="accent">It is directional bias.</span></h1>
+    <div class="s25-subtitle">It tunes the learning rate for each parameter independently. Once gradient scales diverge, some directions get favored and others get starved. The bigger the model, the more obvious that gets.</div>
+  </div>
+
+  <div class="s25-main">
+    <div>
+      <div class="s25-analogy">
+        <div class="s25-analogy-label">ANALOGY</div>
+        <div class="s25-analogy-text">
+          It is like <strong>training only one side of the body</strong>: the strong side gets stronger, the weak side barely gets stimulus, and the overall motion deforms.
+        </div>
+      </div>
+
+      <div class="s25-problem-list">
+        <div class="s25-problem">
+          <div class="s25-problem-num">01</div>
+          <div>
+            <div class="s25-problem-head">Each dimension is normalized independently</div>
+            <div class="s25-problem-body">AdamW divides each parameter by the square root of its own historical gradient statistics. Big-gradient directions get compressed, small-gradient directions get amplified, and the relative geometry between directions gets rewritten.</div>
+          </div>
+        </div>
+
+        <div class="s25-problem">
+          <div class="s25-problem-num">02</div>
+          <div>
+            <div class="s25-problem-head">Some directions get over-updated</div>
+            <div class="s25-problem-body">Weight matrices contain dominant singular directions where gradients are naturally larger. AdamW tends to keep pushing along those directions and can drive the whole matrix toward a pathological shape.</div>
+          </div>
+        </div>
+
+        <div class="s25-problem">
+          <div class="s25-problem-num">03</div>
+          <div>
+            <div class="s25-problem-head">Other directions barely move</div>
+            <div class="s25-problem-body">Weak-signal directions fail to learn. In a 1.6T-parameter model like V4-Pro, that kind of imbalance directly hurts both convergence speed and final loss.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="s25-vis">
+      <div class="s25-vis-label">Illustration · AdamW update magnitudes across directions</div>
+      <svg width="720" height="540" viewBox="0 0 720 540" xmlns="http://www.w3.org/2000/svg">
+        <line x1="40" y1="500" x2="680" y2="500" stroke="#1A1A1A" stroke-width="1.2"/>
+        <g fill="#4D6BFE">
+          <rect x="50"  y="200" width="22" height="300"/>
+          <rect x="82"  y="440" width="22" height="60"/>
+          <rect x="114" y="380" width="22" height="120"/>
+          <rect x="146" y="120" width="22" height="380"/>
+          <rect x="178" y="460" width="22" height="40"/>
+          <rect x="210" y="340" width="22" height="160"/>
+          <rect x="242" y="80"  width="22" height="420"/>
+          <rect x="274" y="470" width="22" height="30"/>
+          <rect x="306" y="420" width="22" height="80"/>
+          <rect x="338" y="260" width="22" height="240"/>
+          <rect x="370" y="450" width="22" height="50"/>
+          <rect x="402" y="390" width="22" height="110"/>
+          <rect x="434" y="160" width="22" height="340"/>
+          <rect x="466" y="470" width="22" height="30"/>
+          <rect x="498" y="410" width="22" height="90"/>
+          <rect x="530" y="290" width="22" height="210"/>
+          <rect x="562" y="100" width="22" height="400"/>
+          <rect x="594" y="460" width="22" height="40"/>
+          <rect x="626" y="360" width="22" height="140"/>
+          <rect x="658" y="480" width="22" height="20"/>
+        </g>
+        <line x1="40" y1="350" x2="680" y2="350" stroke="#1A1A1A" stroke-width="1" stroke-dasharray="4 5"/>
+        <text x="686" y="354" font-family="Source Serif 4, Georgia, serif" font-size="14" fill="#1A1A1A" font-style="italic">ideal balanced line</text>
+        <g>
+          <text x="253" y="58" font-family="-apple-system, sans-serif" font-size="12" fill="#1A1A1A" letter-spacing="0.15em" text-anchor="middle">OVER-UPDATED</text>
+          <line x1="253" y1="66" x2="253" y2="76" stroke="#1A1A1A" stroke-width="0.8"/>
+        </g>
+        <g>
+          <line x1="669" y1="458" x2="669" y2="476" stroke="#1A1A1A" stroke-width="0.8"/>
+          <text x="669" y="450" font-family="-apple-system, sans-serif" font-size="12" fill="#1A1A1A" letter-spacing="0.15em" text-anchor="middle">UNDER-UPDATED</text>
+        </g>
+        <text x="360" y="528" font-family="-apple-system, sans-serif" font-size="11" fill="#999" text-anchor="middle" letter-spacing="0.18em">PARAMETER DIRECTIONS</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="s25-footer">
+    <div>TECHNICAL DEEP DIVE · CHAPTER 04</div>
+    <div>25 / 72</div>
+  </div>
+  <div class="s25-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · Team DNA</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s44-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s44-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s44-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s44-masthead-left img { height: 26px; }
+  .s44-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s44-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+  .s44-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s44-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s44-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s44-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 72px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s44-title .accent { color: #4D6BFE; font-style: italic; }
+  .s44-hint {
+    position: absolute; left: 120px; top: 342px;
+    font-size: 22px; color: #5A5A5A; line-height: 1.55; max-width: 1400px;
+    font-family: "Source Serif 4", Georgia, serif; font-style: italic;
+  }
+  .s44-persons {
+    position: absolute; left: 120px; right: 120px; top: 430px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 36px;
+  }
+  .s44-person {
+    border: 1px solid rgba(26,26,26,0.12);
+    padding: 32px 36px;
+    background: #FFFFFF;
+    min-height: 360px;
+  }
+  .s44-person.mid { background: #F7F8FA; }
+  .s44-person-tag {
+    display: inline-block; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 22px;
+  }
+  .s44-person-name {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 44px; font-weight: 600; color: #1A1A1A; line-height: 1; margin-bottom: 8px;
+  }
+  .s44-person-role {
+    font-family: "Source Serif 4", Georgia, serif; font-style: italic;
+    font-size: 17px; color: #5A5A5A; margin-bottom: 26px;
+  }
+  .s44-person-items { list-style: none; }
+  .s44-person-items li {
+    font-size: 16px; color: #1A1A1A; line-height: 1.7;
+    padding: 8px 0; border-bottom: 1px dashed rgba(26,26,26,0.1);
+  }
+  .s44-person-items li:last-child { border-bottom: none; }
+  .s44-person-items li .val {
+    font-family: "Source Serif 4", Georgia, serif;
+    color: #4D6BFE; font-weight: 600;
+  }
+  .s44-bottom-note {
+    position: absolute; left: 120px; right: 120px; bottom: 110px;
+    border-top: 2px solid #1A1A1A;
+    padding-top: 22px;
+    font-size: 20px; color: #5A5A5A; line-height: 1.6; max-width: 1500px;
+  }
+  .s44-bottom-note strong { color: #1A1A1A; font-weight: 600; }
+  .s44-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s44-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s44-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s44-stage">
+  <div class="s44-masthead">
+    <div class="s44-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
+    </div>
+    <div class="s44-masthead-right">07 · What It Excels At</div>
+  </div>
+  <div class="s44-header">
+    <div class="s44-kicker">CHAPTER 07 · TEAM DNA</div>
+    <h1 class="s44-title">DeepSeek hires <span class="accent">competition medalists</span>, so the model behaves like one too</h1>
+  </div>
+  <div class="s44-hint">
+    You recruit what you become. A company’s model ends up resembling its people.
+  </div>
+  <div class="s44-persons">
+    <div class="s44-person">
+      <div class="s44-person-tag">CASE 01</div>
+      <div class="s44-person-name">Luo Fuli</div>
+      <div class="s44-person-role">Core MoE Researcher</div>
+      <ul class="s44-person-items">
+        <li>Peking University <span class="val">M.S. in Computer Science</span></li>
+        <li>Bachelor's from Beijing Normal University</li>
+        <li><span class="val">8 first-author ACL papers</span></li>
+        <li>Publicly dubbed a post-95 "AI prodigy"</li>
+      </ul>
+    </div>
+    <div class="s44-person mid">
+      <div class="s44-person-tag">CASE 02</div>
+      <div class="s44-person-name">Gao Huazuo</div>
+      <div class="s44-person-role">Lead Author of MLA</div>
+      <ul class="s44-person-items">
+        <li>Physics Olympiad <span class="val">gold medalist</span></li>
+        <li>Peking University physics department</li>
+        <li>Originator of DeepSeek-V2 MLA</li>
+        <li>Contributor to Mesh-TensorFlow</li>
+      </ul>
+    </div>
+    <div class="s44-person">
+      <div class="s44-person-tag">CASE 03</div>
+      <div class="s44-person-name">Shao Zhihong</div>
+      <div class="s44-person-role">Creator of GRPO</div>
+      <ul class="s44-person-items">
+        <li>Tsinghua University <span class="val">PhD in Interactive Information</span></li>
+        <li>First author of DeepSeekMath</li>
+        <li>GRPO later borrowed by OpenAI</li>
+        <li>Tsinghua scholarship recipient</li>
+      </ul>
+    </div>
+  </div>
+  <div class="s44-bottom-note">
+    Among publicly traceable DeepSeek researchers, <strong>competition medals and elite-school pedigrees are the default setting</strong>. Hire people like that and your model will naturally dominate tasks that are standardized and have crisp right answers, like a science olympiad champion writing immaculate exam solutions.
+  </div>
+  <div class="s44-footer">
+    <div>Technical Deep Dive · CHAPTER 07</div>
+    <div>44 / 72</div>
+  </div>
+  <div class="s44-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

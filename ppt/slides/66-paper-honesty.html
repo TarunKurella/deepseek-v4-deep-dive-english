@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · 论文里的三个坦白</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s66-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s66-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s66-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s66-masthead-left img { height: 26px; }
+  .s66-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s66-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s66-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s66-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s66-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s66-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 64px; line-height: 1.12; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s66-title .accent { color: #4D6BFE; font-style: italic; }
+  .s66-subtitle {
+    margin-top: 18px;
+    font-size: 22px; color: #5A5A5A; line-height: 1.5; max-width: 1400px;
+  }
+
+  .s66-list {
+    position: absolute; left: 120px; right: 120px; top: 410px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+  }
+  .s66-item {
+    border-top: 3px solid #4D6BFE;
+    padding: 28px 0 0 0;
+  }
+  .s66-item-num {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 48px; font-weight: 600; color: #4D6BFE;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .s66-item-tag {
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #5A5A5A; font-weight: 600; margin-top: 12px;
+  }
+  .s66-item-head {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 30px; font-weight: 600; color: #1A1A1A;
+    line-height: 1.25; margin: 18px 0 22px 0;
+    letter-spacing: -0.005em;
+  }
+  .s66-item-quote {
+    background: #F7F8FA;
+    padding: 20px 24px;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-style: italic;
+    font-size: 15px; line-height: 1.55; color: #1A1A1A;
+    border-left: 2px solid #4D6BFE;
+    margin-bottom: 16px;
+  }
+  .s66-item-body {
+    font-size: 17px; color: #5A5A5A; line-height: 1.6;
+  }
+  .s66-item-body strong { color: #1A1A1A; font-weight: 600; }
+
+  .s66-bottom-note {
+    position: absolute; left: 120px; right: 120px; bottom: 110px;
+    border-top: 2px solid #1A1A1A;
+    padding-top: 22px;
+    font-size: 20px; color: #5A5A5A; line-height: 1.6;
+    max-width: 1600px;
+  }
+  .s66-bottom-note strong { color: #1A1A1A; font-weight: 600; }
+
+  .s66-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s66-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s66-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s66-stage">
+  <div class="s66-masthead">
+    <div class="s66-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s66-masthead-right">66 · 论文里的坦白</div>
+  </div>
+
+  <div class="s66-header">
+    <div class="s66-kicker">CHAPTER 10 · 观点四 · 诚实本分</div>
+    <h1 class="s66-title">论文里，<span class="accent">三个「我们还不理解」</span></h1>
+    <div class="s66-subtitle">Section 6 的 Limitations——DeepSeek 主动写出来的三个短板。这种坦白在 LLM 论文里不常见。</div>
+  </div>
+
+  <div class="s66-list">
+    <div class="s66-item">
+      <div class="s66-item-num">01</div>
+      <div class="s66-item-tag">Architecture · 架构臃肿</div>
+      <div class="s66-item-head">验证过的组件<br>堆得太多了</div>
+      <div class="s66-item-quote">
+        「We retained many preliminarily validated components and tricks, which, while effective, made the architecture relatively complex.」
+      </div>
+      <div class="s66-item-body">
+        为了降低训练风险，把一堆验证过的小技巧全堆上去了。<strong>下一版要做减法</strong>，蒸馏出最本质的设计。
+      </div>
+    </div>
+
+    <div class="s66-item">
+      <div class="s66-item-num">02</div>
+      <div class="s66-item-tag">Stability · 机制不理解</div>
+      <div class="s66-item-head">管用但<br>不知道为什么管用</div>
+      <div class="s66-item-quote">
+        「Anticipatory Routing and SwiGLU Clamping ... their underlying principles remain insufficiently understood.」
+      </div>
+      <div class="s66-item-body">
+        专家预路由和激活裁剪确实有效，但<strong>原理还没搞清楚</strong>。白纸黑字写进论文，这种诚实 LLM 圈子里少见。
+      </div>
+    </div>
+
+    <div class="s66-item">
+      <div class="s66-item-num">03</div>
+      <div class="s66-item-tag">Sparsity · 还不够极致</div>
+      <div class="s66-item-head">稀疏性的<br>天花板还没碰到</div>
+      <div class="s66-item-quote">
+        「Beyond MoE and sparse attention ... explore new dimensions of sparsity.」
+      </div>
+      <div class="s66-item-body">
+        MoE 和 sparse attention 只是起点，要沿更多维度挖。<strong>V5 大概率会走向 scalable lookup 式记忆模块</strong>。
+      </div>
+    </div>
+  </div>
+
+  <div class="s66-bottom-note">
+    别人写论文是证明自己无懈可击，<strong>DeepSeek 写论文是告诉你哪里还没做好</strong>。这是工程师的语言，不是市场部的语言。
+  </div>
+
+  <div class="s66-footer">
+    <div>技术深度解读 · CHAPTER 10</div>
+    <div>66 / 72</div>
+  </div>
+  <div class="s66-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

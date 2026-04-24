@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · 32T tokens 数据</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s08-stage { position: relative; width: 1920px; height: 1080px; }
+  .s08-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s08-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s08-masthead-left img { height: 26px; }
+  .s08-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s08-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s08-header { position: absolute; top: 140px; left: 120px; right: 120px; }
+  .s08-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 18px;
+  }
+  .s08-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s08-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 56px; line-height: 1.15; font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .s08-title .accent { color: #4D6BFE; font-style: italic; }
+
+  .s08-hero-num {
+    position: absolute; top: 340px; left: 120px;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 180px; font-weight: 600; color: #4D6BFE;
+    line-height: 1; letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+  .s08-hero-num .unit { font-size: 64px; color: #1A1A1A; margin-left: 8px; }
+  .s08-hero-label {
+    position: absolute; top: 520px; left: 120px;
+    font-size: 15px; color: #5A5A5A; letter-spacing: 0.15em;
+    text-transform: uppercase; font-weight: 600;
+  }
+
+  .s08-items {
+    position: absolute; top: 340px; right: 120px; width: 900px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px 32px;
+  }
+  .s08-item {
+    border-top: 2px solid #1A1A1A;
+    padding-top: 18px;
+  }
+  .s08-item-num {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 14px; color: #4D6BFE; font-weight: 600;
+    letter-spacing: 0.15em; margin-bottom: 8px;
+  }
+  .s08-item-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 22px; color: #1A1A1A; font-weight: 600;
+    line-height: 1.3; margin-bottom: 10px;
+  }
+  .s08-item-body {
+    font-size: 14px; color: #5A5A5A; line-height: 1.6;
+  }
+  .s08-item-body strong { color: #1A1A1A; font-weight: 600; }
+
+  .s08-bottom {
+    position: absolute; bottom: 130px; left: 120px; right: 120px;
+    border-top: 2px solid #1A1A1A;
+    padding-top: 22px;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 20px; line-height: 1.5; color: #1A1A1A;
+    max-width: 1600px;
+  }
+  .s08-bottom strong { color: #4D6BFE; font-weight: 600; }
+
+  .s08-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s08-watermark { position: absolute; right: 60px; bottom: 40px; opacity: 0.08; }
+  .s08-watermark img { width: 100px; }
+</style>
+</head>
+<body>
+<div class="s08-stage">
+  <div class="s08-masthead">
+    <div class="s08-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s08-masthead-right">08 · DATA</div>
+  </div>
+
+  <div class="s08-header">
+    <div class="s08-kicker">CHAPTER 01 · 32T tokens 的数据构造</div>
+    <h1 class="s08-title">数据不是更多就好 · <span class="accent">怎么不坍缩</span> 才是关键</h1>
+  </div>
+
+  <div class="s08-hero-num">33<span class="unit">T</span></div>
+  <div class="s08-hero-label">V4-PRO 预训练 TOKENS &nbsp;/&nbsp; V4-FLASH 32 T</div>
+
+  <div class="s08-items">
+    <div class="s08-item">
+      <div class="s08-item-num">DATA 01</div>
+      <div class="s08-item-title">过滤 AI 生成内容</div>
+      <div class="s08-item-body">
+        互联网语料里已有大量 ChatGPT/Claude 写出的文本，训练前明确识别并过滤，<strong>防止模型坍缩</strong>。
+      </div>
+    </div>
+
+    <div class="s08-item">
+      <div class="s08-item-num">DATA 02</div>
+      <div class="s08-item-title">Mid-training 引入 Agentic 数据</div>
+      <div class="s08-item-body">
+        工具调用轨迹、多步推理、搜索片段——把 <strong>Agent 行为</strong>在预训练阶段就灌进模型，不是靠后训练硬掰。
+      </div>
+    </div>
+
+    <div class="s08-item">
+      <div class="s08-item-num">DATA 03</div>
+      <div class="s08-item-title">扩充多语言长尾</div>
+      <div class="s08-item-body">
+        中文之外的小语种被有意识地补足，避免「高资源语种吃光，长尾跟不上」的常见失衡。
+      </div>
+    </div>
+
+    <div class="s08-item">
+      <div class="s08-item-num">DATA 04</div>
+      <div class="s08-item-title">精选科学论文与技术报告</div>
+      <div class="s08-item-body">
+        高质量技术文献被单独拎出来 up-sample，直接支撑了后续在 <strong>科学推理</strong> 上的表现。
+      </div>
+    </div>
+  </div>
+
+  <div class="s08-bottom">
+    关键技术细节：启用 <strong>sample-level attention masking</strong>，避免 pack 到同一序列里的样本互相「串味」——这是 32T 大规模训练的必要基础设施。
+  </div>
+
+  <div class="s08-footer">
+    <div>CHAPTER 01 · DATA</div>
+    <div>08 / 72</div>
+  </div>
+  <div class="s08-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

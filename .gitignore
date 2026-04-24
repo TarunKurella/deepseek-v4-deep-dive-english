@@ -1,0 +1,33 @@
+# node
+node_modules/
+package-lock.json
+package.json
+
+# temp / os
+.DS_Store
+*.swp
+*.tmp
+
+# dev / preview screenshots
+landing-full.png
+preview-pricing-section.png
+landing-flash-fixed.png
+
+# animation intermediate
+animation/animation-silent.mp4
+animation/animation-60fps.mp4
+animation/sfx-track.mp3
+animation/frames/
+animation/promo-silent.mp4
+animation/promo-60fps.mp4
+animation/promo-raw.webm
+animation/promo-frames/
+animation/.recordings/
+animation/node_modules/
+
+# local scripts
+export-pdf.mjs
+
+# editors
+.vscode/
+.idea/

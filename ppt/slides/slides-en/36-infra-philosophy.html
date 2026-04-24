@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · Engineering Philosophy</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s36-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s36-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s36-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s36-masthead-left img { height: 26px; }
+  .s36-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s36-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+  .s36-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s36-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s36-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s36-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 72px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s36-title .accent { color: #4D6BFE; font-style: italic; }
+  .s36-body {
+    position: absolute; left: 120px; right: 120px; top: 380px;
+    display: flex; flex-direction: column; gap: 36px;
+  }
+  .s36-row {
+    display: grid; grid-template-columns: 120px 1fr 1fr;
+    gap: 40px; align-items: start;
+    padding: 20px 0;
+    border-top: 1px solid rgba(26,26,26,0.14);
+  }
+  .s36-row-num {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 88px; font-weight: 600; color: #4D6BFE;
+    line-height: 0.9; letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .s36-row-main {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .s36-row-headline {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 32px; font-weight: 600; color: #1A1A1A;
+    line-height: 1.2; letter-spacing: -0.005em;
+  }
+  .s36-row-sub {
+    font-size: 16px; color: #5A5A5A; line-height: 1.6;
+  }
+  .s36-row-evidence {
+    font-size: 15px; color: #1A1A1A; line-height: 1.7;
+  }
+  .s36-row-evidence li {
+    list-style: none; padding-left: 18px; position: relative;
+    margin-bottom: 6px;
+  }
+  .s36-row-evidence li::before {
+    content: "-"; position: absolute; left: 0; color: #4D6BFE; font-weight: 600;
+  }
+  .s36-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s36-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s36-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s36-stage">
+  <div class="s36-masthead">
+    <div class="s36-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
+    </div>
+    <div class="s36-masthead-right">05 · INFRA · PHILOSOPHY</div>
+  </div>
+
+  <div class="s36-header">
+    <div class="s36-kicker">SUMMARY · THE ENGINEERING PHILOSOPHY OF THE INFRA CHAPTER</div>
+    <h1 class="s36-title">Three principles, <span class="accent">running through the whole chapter</span></h1>
+  </div>
+
+  <div class="s36-body">
+    <div class="s36-row">
+      <div class="s36-row-num">01</div>
+      <div class="s36-row-main">
+        <div class="s36-row-headline">Do not eat the hardware vendor’s free lunch</div>
+        <div class="s36-row-sub">Write the critical layers yourself, then push requirements back onto the hardware vendor.</div>
+      </div>
+      <ul class="s36-row-evidence">
+        <li>MegaMoE, DeepGEMM, and TileLang are all in-house</li>
+        <li>“6144 FLOPs/Byte” is effectively a hardware design requirement written back to NVIDIA</li>
+      </ul>
+    </div>
+
+    <div class="s36-row">
+      <div class="s36-row-num">02</div>
+      <div class="s36-row-main">
+        <div class="s36-row-headline">Reproducibility is a first-class feature</div>
+        <div class="s36-row-sub">Training and inference stay aligned, so debugging stops being mystical.</div>
+      </div>
+      <ul class="s36-row-evidence">
+        <li>Batch invariance + deterministic kernels + TileLang numeric control</li>
+        <li>Together, those let a loss spike be reproduced precisely instead of guessed at</li>
+      </ul>
+    </div>
+
+    <div class="s36-row">
+      <div class="s36-row-num">03</div>
+      <div class="s36-row-main">
+        <div class="s36-row-headline">Be stingy with every microsecond and every byte</div>
+        <div class="s36-row-sub">This is not “we propose X” research language. It is engineering craft built by clearing bottleneck after bottleneck.</div>
+      </div>
+      <ul class="s36-row-evidence">
+        <li>Host codegen saves tens of microseconds; Muon BF16 compression saves half the communication</li>
+        <li>Disk KV reuses prefixes; mHC recomputation is applied only where it pays off</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="s36-footer">
+    <div>TECHNICAL DEEP DIVE · CHAPTER 05</div>
+    <div>36 / 72</div>
+  </div>
+  <div class="s36-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

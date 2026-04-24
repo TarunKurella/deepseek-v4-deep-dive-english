@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · 稀疏激活的经济学</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s07-stage { position: relative; width: 1920px; height: 1080px; }
+  .s07-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s07-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s07-masthead-left img { height: 26px; }
+  .s07-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s07-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s07-header { position: absolute; top: 140px; left: 120px; right: 120px; }
+  .s07-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 18px;
+  }
+  .s07-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s07-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 54px; line-height: 1.15; font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .s07-title .accent { color: #4D6BFE; font-style: italic; }
+
+  /* 比例条 */
+  .s07-bars {
+    position: absolute; top: 320px; left: 120px; right: 120px;
+  }
+  .s07-bar-row {
+    margin-bottom: 50px;
+  }
+  .s07-bar-label {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 12px;
+  }
+  .s07-bar-label-left {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 24px; font-weight: 600; color: #1A1A1A;
+  }
+  .s07-bar-label-left .sub {
+    font-family: -apple-system, sans-serif;
+    font-size: 14px; color: #999; font-weight: 400;
+    margin-left: 10px; letter-spacing: 0.05em;
+  }
+  .s07-bar-label-right {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 36px; font-weight: 600; color: #4D6BFE;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .s07-bar-label-right .unit { font-size: 16px; color: #999; margin-left: 4px; }
+  .s07-bar-track {
+    position: relative;
+    height: 32px;
+    background: #EEF0F4;
+    overflow: hidden;
+  }
+  .s07-bar-fill {
+    position: absolute; top: 0; left: 0; bottom: 0;
+    background: #4D6BFE;
+  }
+  .s07-bar-note {
+    margin-top: 10px;
+    font-size: 14px; color: #5A5A5A; line-height: 1.5;
+  }
+
+  .s07-verdict {
+    position: absolute; bottom: 140px; left: 120px; right: 120px;
+    border-top: 2px solid #1A1A1A;
+    padding-top: 26px;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 26px; line-height: 1.5; color: #1A1A1A;
+    max-width: 1500px;
+  }
+  .s07-verdict .accent { color: #4D6BFE; font-style: italic; font-weight: 600; }
+
+  .s07-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s07-watermark { position: absolute; right: 60px; bottom: 40px; opacity: 0.08; }
+  .s07-watermark img { width: 100px; }
+</style>
+</head>
+<body>
+<div class="s07-stage">
+  <div class="s07-masthead">
+    <div class="s07-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s07-masthead-right">07 · SPARSE ECONOMICS</div>
+  </div>
+
+  <div class="s07-header">
+    <div class="s07-kicker">CHAPTER 01 · 稀疏激活的经济学</div>
+    <h1 class="s07-title">花<span class="accent">存储 1.6 T</span> 的钱 · 享受 <span class="accent">49 B 的推理速度</span></h1>
+  </div>
+
+  <div class="s07-bars">
+    <div class="s07-bar-row">
+      <div class="s07-bar-label">
+        <div class="s07-bar-label-left">
+          V4-Pro
+          <span class="sub">每 token 激活 / 总参数</span>
+        </div>
+        <div class="s07-bar-label-right">3.1<span class="unit">%</span></div>
+      </div>
+      <div class="s07-bar-track">
+        <div class="s07-bar-fill" style="width: 3.1%;"></div>
+      </div>
+      <div class="s07-bar-note">
+        49 B ÷ 1.6 T · 只有传统 dense 模型 3% 的计算成本，走完全部参数的知识密度
+      </div>
+    </div>
+
+    <div class="s07-bar-row">
+      <div class="s07-bar-label">
+        <div class="s07-bar-label-left">
+          V4-Flash
+          <span class="sub">每 token 激活 / 总参数</span>
+        </div>
+        <div class="s07-bar-label-right">4.6<span class="unit">%</span></div>
+      </div>
+      <div class="s07-bar-track">
+        <div class="s07-bar-fill" style="width: 4.6%;"></div>
+      </div>
+      <div class="s07-bar-note">
+        13 B ÷ 284 B · 推理几乎等于 13 B dense 模型，但知识面接近 284 B
+      </div>
+    </div>
+
+    <div class="s07-bar-row">
+      <div class="s07-bar-label">
+        <div class="s07-bar-label-left">
+          DeepSeek-V3
+          <span class="sub">前代对比</span>
+        </div>
+        <div class="s07-bar-label-right">5.6<span class="unit">%</span></div>
+      </div>
+      <div class="s07-bar-track">
+        <div class="s07-bar-fill" style="width: 5.6%; background: #BFC8E6;"></div>
+      </div>
+      <div class="s07-bar-note">
+        37 B ÷ 671 B · V4-Pro 的稀疏度比 V3 更激进
+      </div>
+    </div>
+  </div>
+
+  <div class="s07-verdict">
+    每个 token 只激活 <span class="accent">6 个路由专家 + 1 个共享专家</span>。前 3 层用 Hash routing 稳住早期训练，后续层由门控网络动态选路。
+  </div>
+
+  <div class="s07-footer">
+    <div>CHAPTER 01 · SPARSE ECONOMICS</div>
+    <div>07 / 72</div>
+  </div>
+  <div class="s07-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

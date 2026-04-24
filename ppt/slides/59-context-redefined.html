@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · 1M 的真实价值</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s59-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s59-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s59-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s59-masthead-left img { height: 26px; }
+  .s59-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s59-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s59-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s59-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s59-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s59-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 72px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s59-title .accent { color: #4D6BFE; font-style: italic; }
+  .s59-subtitle {
+    margin-top: 22px;
+    font-size: 22px; color: #5A5A5A; line-height: 1.5; max-width: 1200px;
+  }
+
+  .s59-main {
+    position: absolute; left: 120px; right: 120px; top: 440px;
+    display: grid; grid-template-columns: 1fr 80px 1fr; gap: 0; align-items: stretch;
+  }
+  .s59-col {
+    padding: 40px 56px;
+    border: 1px solid rgba(26,26,26,0.12);
+  }
+  .s59-col.before { background: #F7F8FA; }
+  .s59-col.after  { background: #FFFFFF; border-color: #4D6BFE; }
+  .s59-col-tag {
+    font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #5A5A5A; font-weight: 600; margin-bottom: 18px;
+  }
+  .s59-col.after .s59-col-tag { color: #4D6BFE; }
+  .s59-col-head {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 42px; font-weight: 600; color: #1A1A1A; line-height: 1.15;
+    margin-bottom: 22px;
+  }
+  .s59-col.after .s59-col-head { color: #4D6BFE; }
+  .s59-col-body {
+    font-size: 19px; color: #5A5A5A; line-height: 1.7; max-width: 560px;
+  }
+  .s59-col-body strong { color: #1A1A1A; font-weight: 600; }
+  .s59-arrow {
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 48px; color: #4D6BFE;
+  }
+
+  .s59-bottom-note {
+    position: absolute; left: 120px; right: 120px; bottom: 110px;
+    border-top: 2px solid #1A1A1A;
+    padding-top: 22px;
+    font-size: 20px; color: #5A5A5A; line-height: 1.6;
+    max-width: 1500px;
+  }
+  .s59-bottom-note strong { color: #1A1A1A; font-weight: 600; }
+
+  .s59-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s59-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s59-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s59-stage">
+  <div class="s59-masthead">
+    <div class="s59-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s59-masthead-right">59 · 1M 的真实价值</div>
+  </div>
+
+  <div class="s59-header">
+    <div class="s59-kicker">CHAPTER 09 · 观点一 · 普惠的真相</div>
+    <h1 class="s59-title">1M 不是「能用」，<span class="accent">是不再省字</span></h1>
+    <div class="s59-subtitle">之前你是在字字计较地挑哪段塞给模型。现在你想塞多少塞多少，规划本身变成了多余动作。</div>
+  </div>
+
+  <div class="s59-main">
+    <div class="s59-col before">
+      <div class="s59-col-tag">BEFORE · 128K 时代</div>
+      <div class="s59-col-head">字字计较</div>
+      <div class="s59-col-body">
+        打开一个代码仓库，先问自己「哪几个文件最关键、怎么切片、怎么做 RAG」。<br><br>
+        你在为模型做<strong>取舍规划</strong>，不是在解决问题。每一次上下文都像是打车前算路费。
+      </div>
+    </div>
+    <div class="s59-arrow">→</div>
+    <div class="s59-col after">
+      <div class="s59-col-tag">AFTER · 1M 默认</div>
+      <div class="s59-col-head">想塞多少塞多少</div>
+      <div class="s59-col-body">
+        整个仓库直接丢进去，一周的对话历史不用清，30 份 PDF 同时读。<br><br>
+        你不再<strong>为上下文省字</strong>。规划节流这个动作本身被消除了——就像从打车变成了包月公交。
+      </div>
+    </div>
+  </div>
+
+  <div class="s59-bottom-note">
+    1M context 真正的价值，不是「多了 8 倍容量」这种数字。是<strong>让一个之前需要专家判断的前置动作，变成了可以默认跳过的步骤</strong>。这才是「普惠」。
+  </div>
+
+  <div class="s59-footer">
+    <div>技术深度解读 · CHAPTER 09</div>
+    <div>59 / 72</div>
+  </div>
+  <div class="s59-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

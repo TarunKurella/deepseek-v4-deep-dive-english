@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · Versus the Latest SOTA</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s49-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s49-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s49-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s49-masthead-left img { height: 26px; }
+  .s49-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s49-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+  .s49-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s49-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 18px;
+  }
+  .s49-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s49-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 58px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1600px;
+  }
+  .s49-title .accent { color: #4D6BFE; font-style: italic; }
+  .s49-subtitle {
+    position: absolute; left: 120px; top: 314px;
+    font-family: "Source Serif 4", Georgia, serif; font-style: italic;
+    font-size: 22px; color: #5A5A5A; max-width: 1400px;
+  }
+  .s49-table {
+    position: absolute; left: 120px; right: 120px; top: 380px;
+    border-collapse: collapse; width: calc(100% - 240px);
+    font-variant-numeric: tabular-nums;
+  }
+  .s49-table th {
+    text-align: left; font-size: 12px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: #5A5A5A; font-weight: 600;
+    padding: 14px 10px; border-bottom: 2px solid #1A1A1A;
+  }
+  .s49-table th.num { text-align: right; }
+  .s49-table th.new-col { color: #4D6BFE; }
+  .s49-table td {
+    padding: 16px 10px; font-size: 17px; color: #1A1A1A;
+    border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s49-table td.num {
+    font-family: "Source Serif 4", Georgia, serif; font-weight: 600;
+    text-align: right; font-size: 20px;
+  }
+  .s49-table td.bench-name {
+    font-family: "Source Serif 4", Georgia, serif; font-size: 20px;
+  }
+  .s49-table td.bench-sub {
+    font-size: 12px; color: #999; font-style: italic; display: block; margin-top: 2px;
+  }
+  .s49-table .ds-col { background: rgba(77,107,254,0.06); }
+  .s49-table td.ds-col { color: #4D6BFE; }
+  .s49-table td.ds-win { color: #4D6BFE; font-weight: 700; }
+  .s49-table td.other-win { color: #1A1A1A; font-weight: 700; border-bottom: 2px solid #1A1A1A; }
+  .s49-bottom-note {
+    position: absolute; left: 120px; right: 120px; bottom: 110px;
+    border-top: 2px solid #1A1A1A; padding-top: 20px;
+    font-size: 19px; color: #5A5A5A; line-height: 1.6; max-width: 1600px;
+  }
+  .s49-bottom-note strong { color: #1A1A1A; font-weight: 600; }
+  .s49-bottom-note .blue { color: #4D6BFE; font-weight: 600; }
+  .s49-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s49-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s49-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s49-stage">
+  <div class="s49-masthead">
+    <div class="s49-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
+    </div>
+    <div class="s49-masthead-right">07 · What It Excels At</div>
+  </div>
+  <div class="s49-header">
+    <div class="s49-kicker">CHAPTER 07 · LATEST COMPARISON</div>
+    <h1 class="s49-title">Standardized tasks versus the <span class="accent">latest closed-source flagships as of 2026-04</span></h1>
+  </div>
+  <div class="s49-subtitle">
+    The paper only benchmarks against Opus 4.6 and GPT-5.4. But within the next ten days, Opus 4.7 launched on April 16, 2026 and GPT-5.5 launched on April 23, 2026.
+  </div>
+  <table class="s49-table">
+    <thead>
+      <tr>
+        <th style="width:26%">BENCHMARK</th>
+        <th class="num new-col">Opus 4.7</th>
+        <th class="num new-col">GPT-5.5</th>
+        <th class="num">Gemini 3.1</th>
+        <th class="num">K2.6</th>
+        <th class="num">GLM-5</th>
+        <th class="num ds-col">DS-V4-Pro</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="bench-name">Codeforces Rating<span class="bench-sub">algorithmic competition coding</span></td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num">3052</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num ds-col ds-win">3206</td>
+      </tr>
+      <tr>
+        <td class="bench-name">LiveCodeBench<span class="bench-sub">live competitive programming</span></td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num">91.7</td>
+        <td class="num">89.6</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num ds-col ds-win">93.5</td>
+      </tr>
+      <tr>
+        <td class="bench-name">Putnam-2025 Formal<span class="bench-sub">formal math proving · max 120</span></td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num ds-col ds-win">120/120</td>
+      </tr>
+      <tr>
+        <td class="bench-name">Apex Shortlist<span class="bench-sub">research-grade math</span></td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num">89.1</td>
+        <td class="num">75.5</td>
+        <td class="num">72.4</td>
+        <td class="num ds-col ds-win">90.2</td>
+      </tr>
+      <tr>
+        <td class="bench-name">SWE-Bench Verified<span class="bench-sub">engineering bug fixing</span></td>
+        <td class="num other-win">87.6</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num">80.6</td>
+        <td class="num">80.2</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num ds-col">80.6</td>
+      </tr>
+      <tr>
+        <td class="bench-name">SWE-Bench Pro<span class="bench-sub">harder engineering workloads</span></td>
+        <td class="num other-win">64.3</td>
+        <td class="num">58.6</td>
+        <td class="num">54.2</td>
+        <td class="num">58.6</td>
+        <td class="num">58.4</td>
+        <td class="num ds-col">55.4</td>
+      </tr>
+      <tr>
+        <td class="bench-name">FrontierMath T1-3<span class="bench-sub">frontier mathematics</span></td>
+        <td class="num">43.8</td>
+        <td class="num other-win">51.7</td>
+        <td class="num">36.9</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num" style="color:#999;">—</td>
+        <td class="num ds-col" style="color:#999;">—</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="s49-bottom-note">
+    <strong>On competitive programming and formal math, DeepSeek-V4 is still the outright leader</strong>, and it is the first open model to put real daylight between itself and closed-source rivals there. But <span class="blue">switch to engineering-code benchmarks like SWE-Bench Verified and Opus 4.7 opens a seven-point gap</span>. That is the fault line between standardized tasks and messy engineering complexity.
+  </div>
+  <div class="s49-footer">
+    <div>Technical Deep Dive · CHAPTER 07</div>
+    <div>49 / 72</div>
+  </div>
+  <div class="s49-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

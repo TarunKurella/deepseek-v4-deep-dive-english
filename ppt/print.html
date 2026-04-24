@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 Deep Dive English · Print Deck</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #ffffff;
+    color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  body {
+    padding: 0;
+  }
+  .sheet {
+    width: 1920px;
+    height: 1080px;
+    margin: 0 auto;
+    page-break-after: always;
+    break-after: page;
+    overflow: hidden;
+  }
+  .sheet:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+  iframe {
+    width: 1920px;
+    height: 1080px;
+    border: 0;
+    display: block;
+    background: #fff;
+  }
+  @page {
+    size: 1920px 1080px;
+    margin: 0;
+  }
+  @media print {
+    body {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+</style>
+</head>
+<body>
+<div id="pages"></div>
+
+<script>
+  const slides = [
+    "slides/00-cover.html",
+    "slides/01-onepager.html",
+    "slides/02-positioning.html",
+    "slides/03-four-theses.html",
+    "slides/04-roadmap.html",
+    "slides/05-two-models.html",
+    "slides/06-moe-basics.html",
+    "slides/07-sparse-economics.html",
+    "slides/08-training-data.html",
+    "slides/09-training-stability.html",
+    "slides/10-specs-table.html",
+    "slides/11-mhc-problem.html",
+    "slides/12-mhc-intuition.html",
+    "slides/13-mhc-math.html",
+    "slides/14-mhc-cost.html",
+    "slides/15-mhc-effect.html",
+    "slides/16-act2-transition.html",
+    "slides/17-attention-bottleneck.html",
+    "slides/18-hybrid-idea.html",
+    "slides/19-csa-explained.html",
+    "slides/20-hca-explained.html",
+    "slides/21-supporting-tricks.html",
+    "slides/22-precision-stack.html",
+    "slides/23-efficiency-chart.html",
+    "slides/24-kv-cache-diet.html",
+    "slides/25-adamw-specialization.html",
+    "slides/26-muon-orthogonal.html",
+    "slides/27-newton-schulz.html",
+    "slides/28-rms-rescale.html",
+    "slides/29-muon-vs-adamw.html",
+    "slides/30-infra-overview.html",
+    "slides/31-moe-comm-overlap.html",
+    "slides/32-tilelang.html",
+    "slides/33-determinism.html",
+    "slides/34-fp4-qat.html",
+    "slides/35-disk-kv-cache.html",
+    "slides/36-infra-philosophy.html",
+    "slides/37-posttraining-old.html",
+    "slides/38-two-stage-paradigm.html",
+    "slides/39-specialist-stage.html",
+    "slides/40-opd-stage.html",
+    "slides/41-reverse-kl.html",
+    "slides/42-grm-and-sandbox.html",
+    "slides/43-paradigm-shift.html",
+    "slides/44-team-dna.html",
+    "slides/45-codeforces.html",
+    "slides/46-putnam.html",
+    "slides/47-math-benchmarks.html",
+    "slides/48-coding-benchmarks.html",
+    "slides/49-vs-latest-sota.html",
+    "slides/50-verdict-strong.html",
+    "slides/51-transition.html",
+    "slides/52-hle.html",
+    "slides/53-hle-tools.html",
+    "slides/54-terminal-bench.html",
+    "slides/55-creative-writing.html",
+    "slides/56-aesthetic-gap.html",
+    "slides/57-paper-admits.html",
+    "slides/58-verdict-weak.html",
+    "slides/59-context-redefined.html",
+    "slides/60-agentic-prefill.html",
+    "slides/61-price-table.html",
+    "slides/62-price-vs-latest.html",
+    "slides/63-flash-is-price-killer.html",
+    "slides/64-ecosystem-hook.html",
+    "slides/65-accessibility-verdict.html",
+    "slides/66-paper-honesty.html",
+    "slides/67-roadmap-v5.html",
+    "slides/68-ascend-honest.html",
+    "slides/69-four-theses-closed.html",
+    "slides/70-xunzi.html",
+    "slides/71-overall-verdict.html",
+    "slides/72-credits.html"
+  ];
+
+  const root = document.getElementById("pages");
+  slides.forEach((src, index) => {
+    const page = document.createElement("section");
+    page.className = "sheet";
+    const frame = document.createElement("iframe");
+    frame.src = src;
+    frame.title = `Slide ${index + 1}`;
+    page.appendChild(frame);
+    root.appendChild(page);
+  });
+</script>
+</body>
+</html>

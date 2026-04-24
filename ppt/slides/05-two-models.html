@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · 两款模型</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s05-stage { position: relative; width: 1920px; height: 1080px; }
+  .s05-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s05-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s05-masthead-left img { height: 26px; }
+  .s05-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s05-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s05-header { position: absolute; top: 140px; left: 120px; right: 120px; }
+  .s05-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 18px;
+  }
+  .s05-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s05-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 56px; line-height: 1.15; font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .s05-title .accent { color: #4D6BFE; font-style: italic; }
+
+  .s05-cards {
+    position: absolute; left: 120px; right: 120px; top: 310px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 50px;
+  }
+  .s05-card {
+    padding: 48px 52px;
+    position: relative;
+    background: #FFFFFF;
+    border: 1px solid rgba(26,26,26,0.12);
+    height: 600px;
+    display: flex; flex-direction: column;
+  }
+  .s05-card.flash { background: #F7F8FA; }
+
+  .s05-card-tag {
+    display: inline-block;
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #4D6BFE; margin-bottom: 20px; font-weight: 600;
+  }
+  .s05-card-name {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 84px; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.02em; line-height: 1; margin-bottom: 14px;
+  }
+  .s05-card-name .accent-blue { color: #4D6BFE; }
+  .s05-card-tag2 {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 22px; color: #5A5A5A; font-style: italic;
+    margin-bottom: 36px; line-height: 1.4;
+  }
+
+  .s05-big-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    padding-top: 30px;
+    border-top: 2px solid #1A1A1A;
+    margin-bottom: 30px;
+  }
+  .s05-big-stat-label {
+    font-size: 11px; letter-spacing: 0.22em; color: #5A5A5A;
+    text-transform: uppercase; margin-bottom: 8px; font-weight: 600;
+  }
+  .s05-big-stat-value {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 54px; font-weight: 600; color: #4D6BFE;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .s05-big-stat-value .unit { font-size: 24px; color: #1A1A1A; margin-left: 4px; }
+
+  .s05-purpose {
+    font-size: 16px; color: #5A5A5A; line-height: 1.7;
+    margin-top: auto;
+    padding-top: 24px;
+    border-top: 1px solid rgba(26,26,26,0.1);
+  }
+  .s05-purpose strong { color: #1A1A1A; font-weight: 600; }
+
+  .s05-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s05-watermark { position: absolute; right: 60px; bottom: 40px; opacity: 0.08; }
+  .s05-watermark img { width: 100px; }
+</style>
+</head>
+<body>
+<div class="s05-stage">
+  <div class="s05-masthead">
+    <div class="s05-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s05-masthead-right">05 · TWO MODELS</div>
+  </div>
+
+  <div class="s05-header">
+    <div class="s05-kicker">CHAPTER 01 · 两款模型 · 同一套架构</div>
+    <h1 class="s05-title">一个对标<span class="accent">闭源旗舰</span>，一个重新定义<span class="accent">开源性价比</span></h1>
+  </div>
+
+  <div class="s05-cards">
+    <div class="s05-card">
+      <div class="s05-card-tag">旗舰 · FLAGSHIP</div>
+      <div class="s05-card-name">V4-<span class="accent-blue">Pro</span></div>
+      <div class="s05-card-tag2">Redefining the state-of-the-art<br>for open models.</div>
+
+      <div class="s05-big-stats">
+        <div>
+          <div class="s05-big-stat-label">总参数</div>
+          <div class="s05-big-stat-value">1.6<span class="unit">T</span></div>
+        </div>
+        <div>
+          <div class="s05-big-stat-label">每 token 激活</div>
+          <div class="s05-big-stat-value">49<span class="unit">B</span></div>
+        </div>
+        <div>
+          <div class="s05-big-stat-label">Transformer 层</div>
+          <div class="s05-big-stat-value">61</div>
+        </div>
+        <div>
+          <div class="s05-big-stat-label">MoE 专家数</div>
+          <div class="s05-big-stat-value">384</div>
+        </div>
+      </div>
+
+      <div class="s05-purpose">
+        <strong>面向：</strong>性能对标 Opus 4.6、GPT-5.4；竞赛编程与形式化数学做到开源 SOTA；适合需要最强推理能力、可接受较高 API 成本的场景。
+      </div>
+    </div>
+
+    <div class="s05-card flash">
+      <div class="s05-card-tag">轻量 · COST-EFFICIENT</div>
+      <div class="s05-card-name">V4-<span class="accent-blue">Flash</span></div>
+      <div class="s05-card-tag2">Closed-model reasoning,<br>open-model economics.</div>
+
+      <div class="s05-big-stats">
+        <div>
+          <div class="s05-big-stat-label">总参数</div>
+          <div class="s05-big-stat-value">284<span class="unit">B</span></div>
+        </div>
+        <div>
+          <div class="s05-big-stat-label">每 token 激活</div>
+          <div class="s05-big-stat-value">13<span class="unit">B</span></div>
+        </div>
+        <div>
+          <div class="s05-big-stat-label">Transformer 层</div>
+          <div class="s05-big-stat-value">43</div>
+        </div>
+        <div>
+          <div class="s05-big-stat-label">MoE 专家数</div>
+          <div class="s05-big-stat-value">256</div>
+        </div>
+      </div>
+
+      <div class="s05-purpose">
+        <strong>面向：</strong>用更少参数反超 V3.2-Base；输入缓存命中 0.2 元/M，真正的价格屠夫；适合大批量 agent、长文档处理、需要普惠部署的场景。
+      </div>
+    </div>
+  </div>
+
+  <div class="s05-footer">
+    <div>CHAPTER 01 · TWO MODELS</div>
+    <div>05 / 72</div>
+  </div>
+  <div class="s05-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

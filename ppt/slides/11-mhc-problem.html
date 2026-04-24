@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · 残差连接的问题</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s11-stage { position: relative; width: 1920px; height: 1080px; }
+  .s11-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s11-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s11-masthead-left img { height: 26px; }
+  .s11-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s11-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s11-header { position: absolute; top: 140px; left: 120px; right: 720px; }
+  .s11-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 18px;
+  }
+  .s11-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s11-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 48px; line-height: 1.2; font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .s11-title .accent { color: #4D6BFE; font-style: italic; }
+
+  .s11-intuition {
+    position: absolute; top: 330px; left: 120px; width: 850px;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 26px; line-height: 1.55; color: #1A1A1A;
+  }
+  .s11-intuition strong { color: #4D6BFE; font-weight: 600; }
+
+  .s11-mechanics {
+    position: absolute; top: 620px; left: 120px; width: 850px;
+    font-size: 15px; color: #5A5A5A; line-height: 1.8;
+  }
+  .s11-mechanics strong { color: #1A1A1A; font-weight: 600; }
+
+  /* 右侧示意图 */
+  .s11-visual {
+    position: absolute; right: 120px; top: 260px;
+    width: 550px; height: 700px;
+  }
+
+  .s11-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s11-watermark { position: absolute; right: 60px; bottom: 40px; opacity: 0.08; }
+  .s11-watermark img { width: 100px; }
+</style>
+</head>
+<body>
+<div class="s11-stage">
+  <div class="s11-masthead">
+    <div class="s11-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s11-masthead-right">11 · mHC · PROBLEM</div>
+  </div>
+
+  <div class="s11-header">
+    <div class="s11-kicker">CHAPTER 02 · 残差连接的瓶颈</div>
+    <h1 class="s11-title">深层堆叠时，<span class="accent">信号越传越失真</span></h1>
+  </div>
+
+  <div class="s11-intuition">
+    残差连接（ResNet）之所以有效，是因为它让信号可以「跳级」传播。但当模型深到 60 多层，<strong>跳级路径本身也开始积累噪声和放大</strong>——梯度要么消失、要么爆炸。
+  </div>
+
+  <div class="s11-mechanics">
+    <strong>传统做法的局限：</strong>残差连接默认每条旁路的「权重」都是 1，等价于让所有层都同等重要。但现实中某些层就是比另一些层关键，不加约束地累加会让深层模型的训练进入危险区。<br>
+    <strong>V4 的立意：</strong>不推翻残差连接，而是在它之上加一层 <strong>数学护栏</strong>——Manifold-Constrained Hyper-Connections（mHC）。下一页展开。
+  </div>
+
+  <!-- SVG: 残差堆叠的发散示意 -->
+  <svg class="s11-visual" viewBox="0 0 550 700" xmlns="http://www.w3.org/2000/svg">
+    <text x="275" y="30" text-anchor="middle"
+          font-family="-apple-system, sans-serif" font-size="12" fill="#999"
+          letter-spacing="2" text-transform="uppercase">
+      Residual signal over depth
+    </text>
+
+    <!-- 左侧：理想信号保持 -->
+    <g transform="translate(100, 70)">
+      <text x="0" y="0" font-family="Source Serif 4, Georgia, serif"
+            font-size="14" fill="#5A5A5A" font-style="italic">理想</text>
+      <!-- 背景参考 -->
+      <line x1="0" y1="20" x2="0" y2="560" stroke="#EEE" stroke-width="1" stroke-dasharray="2,4"/>
+      <!-- 理想信号：贯穿稳定的蓝色实线 -->
+      <line x1="0" y1="20" x2="0" y2="560" stroke="#4D6BFE" stroke-width="2.5"/>
+      <text x="0" y="600" text-anchor="middle" font-size="11" fill="#999">幅值稳定</text>
+    </g>
+
+    <!-- 右侧：实际信号发散 -->
+    <g transform="translate(350, 70)">
+      <text x="0" y="0" font-family="Source Serif 4, Georgia, serif"
+            font-size="14" fill="#5A5A5A" font-style="italic">实际</text>
+      <line x1="0" y1="20" x2="0" y2="560" stroke="#CCC" stroke-width="1" stroke-dasharray="2,4"/>
+      <!-- 噪声波形，模拟幅值膨胀 -->
+      <path d="M 0 300
+               Q 15 295 0 290
+               Q -12 285 5 275
+               Q 20 260 -8 245
+               Q -25 225 10 205
+               Q 35 180 -15 155
+               Q -45 125 20 95
+               Q 55 60 -25 30"
+            fill="none" stroke="#1A1A1A" stroke-width="2"/>
+      <path d="M 0 300
+               Q -15 305 0 310
+               Q 12 315 -5 325
+               Q -20 340 8 355
+               Q 25 375 -10 395
+               Q -35 420 15 445
+               Q 45 475 -20 505
+               Q -55 540 25 570"
+            fill="none" stroke="#1A1A1A" stroke-width="2"/>
+      <text x="0" y="600" text-anchor="middle" font-size="11" fill="#999">幅值失控</text>
+    </g>
+
+    <!-- 中间深度标尺 -->
+    <g transform="translate(225, 70)">
+      <text x="0" y="35" text-anchor="middle" font-family="-apple-system, sans-serif"
+            font-size="11" fill="#999" letter-spacing="1.5">LAYER 1</text>
+      <line x1="-60" y1="55" x2="60" y2="55" stroke="#EEE" stroke-width="0.5"/>
+      <text x="0" y="170" text-anchor="middle" font-size="11" fill="#999" letter-spacing="1.5">LAYER 15</text>
+      <line x1="-60" y1="190" x2="60" y2="190" stroke="#EEE" stroke-width="0.5"/>
+      <text x="0" y="305" text-anchor="middle" font-size="11" fill="#999" letter-spacing="1.5">LAYER 30</text>
+      <line x1="-60" y1="325" x2="60" y2="325" stroke="#EEE" stroke-width="0.5"/>
+      <text x="0" y="440" text-anchor="middle" font-size="11" fill="#999" letter-spacing="1.5">LAYER 45</text>
+      <line x1="-60" y1="460" x2="60" y2="460" stroke="#EEE" stroke-width="0.5"/>
+      <text x="0" y="575" text-anchor="middle" font-size="11" fill="#999" letter-spacing="1.5">LAYER 61</text>
+    </g>
+
+    <!-- 底部注释 -->
+    <text x="275" y="685" text-anchor="middle"
+          font-family="-apple-system, sans-serif" font-size="13" fill="#5A5A5A">
+      没有约束的残差累加，在 60 层处已无法收敛
+    </text>
+  </svg>
+
+  <div class="s11-footer">
+    <div>CHAPTER 02 · mHC · PROBLEM</div>
+    <div>11 / 72</div>
+  </div>
+  <div class="s11-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

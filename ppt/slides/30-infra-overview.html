@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · 基建六大模块</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s30-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s30-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s30-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s30-masthead-left img { height: 26px; }
+  .s30-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s30-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s30-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s30-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s30-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s30-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 66px; line-height: 1.15; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s30-title .accent { color: #4D6BFE; font-style: italic; }
+  .s30-sub {
+    margin-top: 22px; font-size: 22px; color: #5A5A5A; max-width: 1400px; line-height: 1.55;
+  }
+
+  .s30-grid {
+    position: absolute; left: 120px; right: 120px; top: 410px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;
+  }
+  .s30-cell {
+    border: 1px solid rgba(26,26,26,0.14);
+    padding: 32px 34px 34px;
+    min-height: 250px;
+    position: relative;
+    background: #FFFFFF;
+  }
+  .s30-cell-num {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 18px; color: #4D6BFE; font-weight: 600;
+    letter-spacing: 0.1em; margin-bottom: 14px;
+  }
+  .s30-cell-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 30px; font-weight: 600; color: #1A1A1A;
+    line-height: 1.15; margin-bottom: 14px; letter-spacing: -0.005em;
+  }
+  .s30-cell-body {
+    font-size: 16px; color: #5A5A5A; line-height: 1.6;
+  }
+  .s30-cell-tag {
+    position: absolute; right: 28px; top: 28px;
+    font-size: 11px; letter-spacing: 0.2em; color: #999; text-transform: uppercase;
+  }
+
+  .s30-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s30-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s30-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s30-stage">
+  <div class="s30-masthead">
+    <div class="s30-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s30-masthead-right">CHAPTER 05 · 基础设施</div>
+  </div>
+
+  <div class="s30-header">
+    <div class="s30-kicker">CHAPTER 05 · INFRASTRUCTURE</div>
+    <h1 class="s30-title">每一条缝都抠过：<span class="accent">基建的六个模块</span></h1>
+    <div class="s30-sub">V4 的 Section 3 是整篇报告里 infra 味最浓的部分。DeepSeek 把训练和推理的每一个工程缝隙都抠了一遍——下面是这份「工程 checklist」的六个入口。</div>
+  </div>
+
+  <div class="s30-grid">
+    <div class="s30-cell">
+      <div class="s30-cell-tag">01</div>
+      <div class="s30-cell-num">COMMUNICATION</div>
+      <div class="s30-cell-title">MoE 通信<br>计算重叠</div>
+      <div class="s30-cell-body">把 MoE 层拆成四段、用 wave 调度做细粒度流水。理论 1.92× 加速，RL rollout 实测最高 1.96×。</div>
+    </div>
+
+    <div class="s30-cell">
+      <div class="s30-cell-tag">02</div>
+      <div class="s30-cell-num">DSL</div>
+      <div class="s30-cell-title">TileLang<br>领域专用语言</div>
+      <div class="s30-cell-body">用 TileLang 融合内核，Host Codegen 把 CPU 校验从几十微秒压到 1 微秒。SMT 求解器辅助整数分析。</div>
+    </div>
+
+    <div class="s30-cell">
+      <div class="s30-cell-tag">03</div>
+      <div class="s30-cell-num">DETERMINISM</div>
+      <div class="s30-cell-title">批次无关<br>确定性 kernel</div>
+      <div class="s30-cell-body">训练与推理比特级一致。双 kernel 策略+独立累加 buffer，弃用 cuBLAS 换 DeepGEMM。</div>
+    </div>
+
+    <div class="s30-cell">
+      <div class="s30-cell-tag">04</div>
+      <div class="s30-cell-num">QUANTIZATION</div>
+      <div class="s30-cell-title">FP4 量化<br>感知训练</div>
+      <div class="s30-cell-body">MoE 权重和 indexer QK 全上 FP4。FP4→FP8 反量化无损，top-k 提速 2×，KV recall 99.7%。</div>
+    </div>
+
+    <div class="s30-cell">
+      <div class="s30-cell-tag">05</div>
+      <div class="s30-cell-num">TRAIN FRAMEWORK</div>
+      <div class="s30-cell-title">训练框架<br>三板斧</div>
+      <div class="s30-cell-body">Muon × ZeRO 用 knapsack 分桶，mHC wall-time 开销压到 6.7%，tensor 级 checkpointing 自动重计算。</div>
+    </div>
+
+    <div class="s30-cell">
+      <div class="s30-cell-tag">06</div>
+      <div class="s30-cell-num">INFERENCE FRAMEWORK</div>
+      <div class="s30-cell-title">推理框架<br>KV cache 异构管理</div>
+      <div class="s30-cell-body">State Cache + KV Cache 两级池。把 shared-prefix KV 落盘，给 agent 长上下文拉低首 token 延迟。</div>
+    </div>
+  </div>
+
+  <div class="s30-footer">
+    <div>技术深度解读 · CHAPTER 05</div>
+    <div>30 / 72</div>
+  </div>
+  <div class="s30-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · 训练稳定性</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s09-stage { position: relative; width: 1920px; height: 1080px; }
+  .s09-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s09-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s09-masthead-left img { height: 26px; }
+  .s09-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s09-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s09-header { position: absolute; top: 140px; left: 120px; right: 120px; }
+  .s09-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 18px;
+  }
+  .s09-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s09-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 54px; line-height: 1.15; font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .s09-title .accent { color: #4D6BFE; font-style: italic; }
+
+  .s09-cards {
+    position: absolute; top: 310px; left: 120px; right: 120px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 50px;
+  }
+  .s09-card {
+    padding: 36px 40px;
+    border: 1px solid rgba(26,26,26,0.12);
+    position: relative;
+    height: 400px;
+    display: flex; flex-direction: column;
+  }
+  .s09-card::before {
+    content: ""; position: absolute; top: 0; left: 0;
+    width: 60px; height: 2px; background: #4D6BFE;
+  }
+  .s09-card-tag {
+    font-size: 12px; letter-spacing: 0.22em; color: #4D6BFE;
+    text-transform: uppercase; font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .s09-card-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 30px; line-height: 1.25; font-weight: 600;
+    color: #1A1A1A; margin-bottom: 16px;
+    letter-spacing: -0.005em;
+  }
+  .s09-card-body {
+    font-size: 16px; color: #5A5A5A; line-height: 1.7;
+    flex: 1;
+  }
+  .s09-card-body strong { color: #1A1A1A; font-weight: 600; }
+
+  .s09-honesty {
+    position: absolute; bottom: 140px; left: 120px; right: 120px;
+    border-top: 2px solid #1A1A1A;
+    padding-top: 26px;
+    display: flex; gap: 40px; align-items: flex-start;
+  }
+  .s09-honesty-mark {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 86px; color: #4D6BFE; font-style: italic;
+    line-height: 0.8; margin-top: 16px;
+  }
+  .s09-honesty-text {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 22px; line-height: 1.5; color: #1A1A1A;
+    font-style: italic; flex: 1;
+  }
+  .s09-honesty-text .source {
+    display: block; margin-top: 10px;
+    font-family: -apple-system, sans-serif; font-style: normal;
+    font-size: 13px; color: #999; letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .s09-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s09-watermark { position: absolute; right: 60px; bottom: 40px; opacity: 0.08; }
+  .s09-watermark img { width: 100px; }
+</style>
+</head>
+<body>
+<div class="s09-stage">
+  <div class="s09-masthead">
+    <div class="s09-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s09-masthead-right">09 · STABILITY</div>
+  </div>
+
+  <div class="s09-header">
+    <div class="s09-kicker">CHAPTER 01 · 训练稳定性</div>
+    <h1 class="s09-title">1.6 T 模型怎么<span class="accent">不炸</span>：两个「有效但不理解原理」的救命 trick</h1>
+  </div>
+
+  <div class="s09-cards">
+    <div class="s09-card">
+      <div class="s09-card-tag">TRICK 01</div>
+      <div class="s09-card-title">Anticipatory Routing<br>预判式路由</div>
+      <div class="s09-card-body">
+        训练中 loss 突然飙高时，路由索引被拉偏。V4 的方案是用 <strong>前 Δt 步的历史参数 θ<sub>t-Δt</sub></strong> 重新估算路由，只在 spike 出现时触发。<br><br>
+        <strong>开销：</strong>约 20% 的 routing 算力，但平摊到整体训练几乎可忽略。
+      </div>
+    </div>
+
+    <div class="s09-card">
+      <div class="s09-card-tag">TRICK 02</div>
+      <div class="s09-card-title">SwiGLU Clamping<br>门控限幅</div>
+      <div class="s09-card-body">
+        SwiGLU 的 linear 分量偶尔会飞到极端值导致数值爆炸。V4 的方案很朴素：把 linear 分量 <strong>clamp 到 [-10, 10]</strong>，gate 分量上界 10。<br><br>
+        <strong>代价：</strong>理论上截断了梯度信号，但实测稳定性远胜代价。
+      </div>
+    </div>
+  </div>
+
+  <div class="s09-honesty">
+    <div class="s09-honesty-mark">"</div>
+    <div class="s09-honesty-text">
+      These two tricks are empirically effective, but we still lack a principled understanding of why they work.
+      <span class="source">— DeepSeek-V4 Tech Report, §4.2.3</span>
+    </div>
+  </div>
+
+  <div class="s09-footer">
+    <div>CHAPTER 01 · STABILITY</div>
+    <div>09 / 72</div>
+  </div>
+  <div class="s09-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

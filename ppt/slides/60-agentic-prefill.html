@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · Agentic Prefill 的真实用量</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s60-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s60-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s60-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s60-masthead-left img { height: 26px; }
+  .s60-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s60-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s60-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s60-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s60-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s60-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 64px; line-height: 1.12; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s60-title .accent { color: #4D6BFE; font-style: italic; }
+  .s60-subtitle {
+    margin-top: 20px;
+    font-size: 22px; color: #5A5A5A; line-height: 1.5; max-width: 1300px;
+  }
+
+  .s60-main {
+    position: absolute; left: 120px; right: 120px; top: 420px;
+    display: grid; grid-template-columns: 1.15fr 1fr; gap: 80px; align-items: center;
+  }
+  .s60-chart {
+    position: relative;
+    padding: 14px 0;
+  }
+  .s60-bar-row {
+    display: grid; grid-template-columns: 180px 1fr 200px;
+    align-items: center; gap: 20px; padding: 24px 0;
+    border-bottom: 1px dashed rgba(26,26,26,0.1);
+  }
+  .s60-bar-row:last-child { border-bottom: none; }
+  .s60-bar-label {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 22px; color: #1A1A1A; font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .s60-bar-label small {
+    display: block; font-family: -apple-system, sans-serif;
+    font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: #999; font-weight: 500; margin-top: 4px;
+  }
+  .s60-bar-track {
+    position: relative; height: 28px; background: rgba(26,26,26,0.05);
+  }
+  .s60-bar-fill {
+    position: absolute; top: 0; left: 0; height: 100%;
+    background: #1A1A1A;
+  }
+  .s60-bar-fill.accent { background: #4D6BFE; }
+  .s60-bar-value {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 28px; font-weight: 600; color: #1A1A1A;
+    font-variant-numeric: tabular-nums; text-align: right;
+  }
+  .s60-bar-value.accent { color: #4D6BFE; font-size: 34px; }
+
+  .s60-takeaway {
+    border-left: 3px solid #4D6BFE;
+    padding: 8px 0 8px 28px;
+  }
+  .s60-takeaway-tag {
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 16px;
+  }
+  .s60-takeaway-head {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 38px; font-weight: 600; color: #1A1A1A; line-height: 1.2;
+    margin-bottom: 20px;
+  }
+  .s60-takeaway-body {
+    font-size: 19px; color: #5A5A5A; line-height: 1.7; max-width: 560px;
+  }
+  .s60-takeaway-body strong { color: #1A1A1A; font-weight: 600; }
+
+  .s60-bottom-note {
+    position: absolute; left: 120px; right: 120px; bottom: 110px;
+    border-top: 2px solid #1A1A1A;
+    padding-top: 20px;
+    font-size: 18px; color: #5A5A5A; line-height: 1.6;
+    max-width: 1500px;
+  }
+  .s60-bottom-note strong { color: #1A1A1A; font-weight: 600; }
+
+  .s60-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s60-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s60-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s60-stage">
+  <div class="s60-masthead">
+    <div class="s60-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s60-masthead-right">60 · Agentic Prefill 实测</div>
+  </div>
+
+  <div class="s60-header">
+    <div class="s60-kicker">CHAPTER 09 · 观点一 · 普惠的真相</div>
+    <h1 class="s60-title">1M 是容量上限，<span class="accent">不是日常用量</span></h1>
+    <div class="s60-subtitle">论文 Table 10：V4-Agentic Search 的实际 prefill 只用了 13,649 tokens。1M 的真正用途是让你「不再需要规划」。</div>
+  </div>
+
+  <div class="s60-main">
+    <div class="s60-chart">
+      <div class="s60-bar-row">
+        <div class="s60-bar-label">容量上限<small>1M CONTEXT</small></div>
+        <div class="s60-bar-track">
+          <div class="s60-bar-fill" style="width: 100%;"></div>
+        </div>
+        <div class="s60-bar-value">1,000,000</div>
+      </div>
+      <div class="s60-bar-row">
+        <div class="s60-bar-label">官方 Agentic Search 实测<small>PAPER TABLE 10</small></div>
+        <div class="s60-bar-track">
+          <div class="s60-bar-fill accent" style="width: 1.4%;"></div>
+        </div>
+        <div class="s60-bar-value accent">13,649</div>
+      </div>
+      <div class="s60-bar-row">
+        <div class="s60-bar-label">日常 Coding Agent<small>ESTIMATED</small></div>
+        <div class="s60-bar-track">
+          <div class="s60-bar-fill" style="width: 2%;"></div>
+        </div>
+        <div class="s60-bar-value">10 – 20K</div>
+      </div>
+    </div>
+
+    <div class="s60-takeaway">
+      <div class="s60-takeaway-tag">WHY IT MATTERS</div>
+      <div class="s60-takeaway-head">容量买的不是字数，<br>是自由度。</div>
+      <div class="s60-takeaway-body">
+        你大部分时候仍然只用几万 token。但<strong>不用再提前做切片、RAG、排优先级</strong>——该塞就塞，该忘就忘。<br><br>
+        类比：你每天只喝一杯水，但家里还是要通自来水。因为<strong>需要时不能临时想办法</strong>。
+      </div>
+    </div>
+  </div>
+
+  <div class="s60-bottom-note">
+    1M 的商业价值不在「装得下」，而在<strong>规划开销的边际消失</strong>。这是 agent 从 demo 走到生产的关键阈值。
+  </div>
+
+  <div class="s60-footer">
+    <div>技术深度解读 · CHAPTER 09</div>
+    <div>60 / 72</div>
+  </div>
+  <div class="s60-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

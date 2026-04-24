@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · Muon vs AdamW</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s29-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s29-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s29-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s29-masthead-left img { height: 26px; }
+  .s29-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s29-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s29-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s29-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s29-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s29-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 60px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s29-title .accent { color: #4D6BFE; font-style: italic; }
+  .s29-subtitle {
+    margin-top: 16px;
+    font-size: 20px; color: #5A5A5A; line-height: 1.5; max-width: 1300px;
+  }
+
+  .s29-chart {
+    position: absolute; left: 120px; top: 400px;
+    width: 1100px;
+  }
+  .s29-chart-cap {
+    font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: #5A5A5A; margin-top: 14px;
+  }
+  .s29-chart-cap strong { color: #1A1A1A; }
+  .s29-chart-cap em { color: #999; font-style: italic; letter-spacing: 0.04em; }
+
+  .s29-right {
+    position: absolute; right: 120px; top: 400px; width: 520px;
+  }
+  .s29-outcome-tag {
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #5A5A5A; font-weight: 600; margin-bottom: 10px;
+  }
+  .s29-outcome-head {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 36px; font-weight: 600; color: #1A1A1A; line-height: 1.2; margin-bottom: 22px;
+  }
+  .s29-outcome-head .accent { color: #4D6BFE; }
+
+  .s29-stat-list {
+    display: grid; gap: 22px;
+  }
+  .s29-stat {
+    border-top: 2px solid #4D6BFE;
+    padding-top: 14px;
+  }
+  .s29-stat-num {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 34px; font-weight: 600; color: #4D6BFE;
+    line-height: 1; margin-bottom: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+  .s29-stat-label {
+    font-size: 16px; color: #1A1A1A; font-weight: 600; margin-bottom: 4px;
+  }
+  .s29-stat-body {
+    font-size: 14px; color: #5A5A5A; line-height: 1.5;
+  }
+
+  .s29-disclosure {
+    position: absolute; left: 120px; right: 120px; bottom: 110px;
+    border-top: 2px solid #1A1A1A; padding-top: 20px;
+    font-size: 15px; color: #5A5A5A; line-height: 1.6;
+    max-width: 1400px;
+  }
+  .s29-disclosure strong { color: #1A1A1A; font-weight: 600; }
+
+  .s29-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s29-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s29-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s29-stage">
+  <div class="s29-masthead">
+    <div class="s29-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s29-masthead-right">29 · Muon 实测效果</div>
+  </div>
+
+  <div class="s29-header">
+    <div class="s29-kicker">CHAPTER 04 · RESULTS</div>
+    <h1 class="s29-title">同样的数据、同样的算力，<span class="accent">Muon 先一步到位</span></h1>
+    <div class="s29-subtitle">V4 论文未披露完整对照曲线，以下为根据 Jordan 2024 / Liu 2025 原始 Muon 论文和 V4 训练描述综合示意。</div>
+  </div>
+
+  <div class="s29-chart">
+    <svg width="1100" height="440" viewBox="0 0 1100 440" xmlns="http://www.w3.org/2000/svg">
+      <!-- grid -->
+      <g stroke="rgba(26,26,26,0.06)" stroke-width="1">
+        <line x1="80"  y1="50"  x2="1060" y2="50"/>
+        <line x1="80"  y1="115" x2="1060" y2="115"/>
+        <line x1="80"  y1="180" x2="1060" y2="180"/>
+        <line x1="80"  y1="245" x2="1060" y2="245"/>
+        <line x1="80"  y1="310" x2="1060" y2="310"/>
+        <line x1="80"  y1="375" x2="1060" y2="375"/>
+      </g>
+      <line x1="80"  y1="375" x2="1060" y2="375" stroke="#1A1A1A" stroke-width="1.2"/>
+      <line x1="80"  y1="50"  x2="80"   y2="375" stroke="#1A1A1A" stroke-width="1.2"/>
+
+      <!-- y labels -->
+      <g font-family="Source Serif 4, Georgia, serif" font-size="13" fill="#999" text-anchor="end" font-variant-numeric="tabular-nums">
+        <text x="72" y="54">3.0</text>
+        <text x="72" y="119">2.8</text>
+        <text x="72" y="184">2.6</text>
+        <text x="72" y="249">2.4</text>
+        <text x="72" y="314">2.2</text>
+        <text x="72" y="379">2.0</text>
+      </g>
+      <text x="40" y="210" font-family="-apple-system, sans-serif" font-size="11" fill="#999" text-anchor="middle" letter-spacing="0.18em" transform="rotate(-90 40 210)">TRAINING LOSS</text>
+
+      <!-- x labels: training tokens -->
+      <g font-family="Source Serif 4, Georgia, serif" font-size="13" fill="#5A5A5A" text-anchor="middle" font-variant-numeric="tabular-nums">
+        <text x="80"   y="398">0</text>
+        <text x="276"  y="398">8T</text>
+        <text x="472"  y="398">16T</text>
+        <text x="668"  y="398">24T</text>
+        <text x="864"  y="398">32T</text>
+        <text x="1060" y="398">40T</text>
+      </g>
+      <text x="570" y="424" font-family="-apple-system, sans-serif" font-size="11" fill="#999" text-anchor="middle" letter-spacing="0.18em">TRAINING TOKENS SEEN</text>
+
+      <!-- AdamW curve: noisier, higher, converges slower -->
+      <path d="M 80 60 Q 150 80, 200 110 T 350 175 T 500 230 T 680 275 T 864 305 T 1060 330"
+            stroke="#5A5A5A" stroke-width="2" fill="none"/>
+      <!-- add some noise dots -->
+      <g fill="#5A5A5A" opacity="0.4">
+        <circle cx="220" cy="118" r="2"/>
+        <circle cx="340" cy="182" r="2"/>
+        <circle cx="490" cy="222" r="2"/>
+        <circle cx="640" cy="268" r="2"/>
+        <circle cx="790" cy="300" r="2"/>
+        <circle cx="940" cy="318" r="2"/>
+      </g>
+
+      <!-- Muon curve: smoother, lower, converges faster -->
+      <path d="M 80 60 Q 150 74, 200 100 T 350 155 T 500 200 T 680 235 T 864 258 T 1060 272"
+            stroke="#4D6BFE" stroke-width="2.8" fill="none"/>
+
+      <!-- labels on the right ends -->
+      <g>
+        <circle cx="1060" cy="330" r="5" fill="#5A5A5A"/>
+        <text x="1050" y="326" font-family="Source Serif 4, Georgia, serif" font-size="16" fill="#5A5A5A" font-weight="600" text-anchor="end">AdamW baseline</text>
+      </g>
+      <g>
+        <circle cx="1060" cy="272" r="5" fill="#4D6BFE"/>
+        <text x="1050" y="268" font-family="Source Serif 4, Georgia, serif" font-size="16" fill="#4D6BFE" font-weight="600" text-anchor="end">Muon (V4)</text>
+      </g>
+
+      <!-- Gap annotation -->
+      <g>
+        <line x1="900" y1="272" x2="900" y2="330" stroke="#4D6BFE" stroke-width="1" opacity="0.5"/>
+        <polygon points="900,272 896,282 904,282" fill="#4D6BFE" opacity="0.5"/>
+        <polygon points="900,330 896,320 904,320" fill="#4D6BFE" opacity="0.5"/>
+        <rect x="750" y="290" width="140" height="28" fill="#FFFFFF" stroke="#4D6BFE" stroke-width="1"/>
+        <text x="820" y="308" font-family="Source Serif 4, Georgia, serif" font-size="13" fill="#4D6BFE" font-weight="600" text-anchor="middle">更低 loss ↓</text>
+      </g>
+
+      <!-- Early convergence marker -->
+      <g>
+        <line x1="472" y1="180" x2="472" y2="235" stroke="#4D6BFE" stroke-width="1" stroke-dasharray="3 3" opacity="0.5"/>
+        <text x="482" y="166" font-family="Source Serif 4, Georgia, serif" font-size="13" fill="#4D6BFE" font-weight="600">Muon 到同 loss 提前一截</text>
+      </g>
+    </svg>
+    <div class="s29-chart-cap">示意 · <strong>Muon 曲线更平滑，下降更快</strong> · <em>论文未披露完整训练曲线，此图为趋势示意</em></div>
+  </div>
+
+  <div class="s29-right">
+    <div class="s29-outcome-tag">V4 TEAM'S TAKEAWAY</div>
+    <div class="s29-outcome-head">收敛更快、<span class="accent">训练更稳</span></div>
+
+    <div class="s29-stat-list">
+      <div class="s29-stat">
+        <div class="s29-stat-num">FASTER</div>
+        <div class="s29-stat-label">收敛速度</div>
+        <div class="s29-stat-body">同样 loss 水平，Muon 比 AdamW 少吃一截 token。V4 论文明确列为换优化器的核心动机。</div>
+      </div>
+
+      <div class="s29-stat">
+        <div class="s29-stat-num">SMOOTHER</div>
+        <div class="s29-stat-label">训练稳定性</div>
+        <div class="s29-stat-body">正交化让梯度主方向不再垄断更新，loss 曲线抖动明显收敛，大规模 MoE 训练里尤其明显。</div>
+      </div>
+
+      <div class="s29-stat">
+        <div class="s29-stat-num">NO QK-CLIP</div>
+        <div class="s29-stat-label">省掉配套 trick</div>
+        <div class="s29-stat-body">V4 对 query/KV 都做了 RMSNorm，attention logit 天然不炸，不需要 Muon 原版论文的 QK-Clip。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="s29-disclosure">
+    <strong>范围说明</strong>：Embedding、prediction head、静态 bias、RMSNorm 这几类仍用 AdamW；其余模块全部换 Muon。这是工程折衷——小部件继续用经过千锤百炼的老家伙，主力换新。
+  </div>
+
+  <div class="s29-footer">
+    <div>技术深度解读 · CHAPTER 04 · END</div>
+    <div>29 / 72</div>
+  </div>
+  <div class="s29-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

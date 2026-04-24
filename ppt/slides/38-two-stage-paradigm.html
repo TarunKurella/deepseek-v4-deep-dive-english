@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 · 两阶段范式</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px; overflow: hidden;
+    background: #FFFFFF; color: #1A1A1A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .s38-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
+  .s38-masthead {
+    position: absolute; top: 50px; left: 120px; right: 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
+  }
+  .s38-masthead-left { display: flex; align-items: center; gap: 16px; }
+  .s38-masthead-left img { height: 26px; }
+  .s38-masthead-left span {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
+  }
+  .s38-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+
+  .s38-header { position: absolute; top: 150px; left: 120px; right: 120px; }
+  .s38-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
+  }
+  .s38-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+  .s38-title {
+    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-size: 66px; line-height: 1.15; font-weight: 600; color: #1A1A1A;
+    letter-spacing: -0.01em; max-width: 1500px;
+  }
+  .s38-title .accent { color: #4D6BFE; font-style: italic; }
+  .s38-sub {
+    margin-top: 22px; font-size: 22px; color: #5A5A5A; max-width: 1500px; line-height: 1.55;
+  }
+
+  .s38-diagram {
+    position: absolute; left: 120px; right: 120px; top: 420px;
+    background: #F7F8FA;
+    padding: 40px 44px;
+    border: 1px solid rgba(26,26,26,0.08);
+  }
+
+  .s38-quote {
+    position: absolute; left: 120px; right: 120px; bottom: 160px;
+    border-left: 3px solid #4D6BFE;
+    padding-left: 24px;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 22px; color: #1A1A1A; line-height: 1.55; max-width: 1500px;
+  }
+  .s38-quote em { color: #4D6BFE; font-style: italic; }
+
+  .s38-footer {
+    position: absolute; left: 120px; right: 120px; bottom: 50px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
+  }
+  .s38-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
+  .s38-watermark img { width: 120px; }
+</style>
+</head>
+<body>
+<div class="s38-stage">
+  <div class="s38-masthead">
+    <div class="s38-masthead-left">
+      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
+      <span>DeepSeek-V4 · 技术深度解读</span>
+    </div>
+    <div class="s38-masthead-right">06 · PARADIGM</div>
+  </div>
+
+  <div class="s38-header">
+    <div class="s38-kicker">V4 两阶段范式 · 总览</div>
+    <h1 class="s38-title">分治，再合并：<span class="accent">Specialist → OPD</span></h1>
+    <div class="s38-sub">报告一句话点破：「mixed RL stage was entirely replaced by On-Policy Distillation」。RL 被隔离在专家阶段，学生模型只做稳定的蒸馏。</div>
+  </div>
+
+  <div class="s38-diagram">
+    <svg width="100%" height="400" viewBox="0 0 1620 400" xmlns="http://www.w3.org/2000/svg">
+      <!-- Stage 1 Title -->
+      <text x="40" y="38" font-family="-apple-system" font-size="14" fill="#4D6BFE" font-weight="700" letter-spacing="3">STAGE 01 · SPECIALIST TRAINING</text>
+      <text x="40" y="72" font-family="Source Serif 4, Georgia, serif" font-size="28" fill="#1A1A1A" font-weight="600">每个领域独立训专家</text>
+      <text x="40" y="98" font-family="-apple-system" font-size="14" fill="#5A5A5A">SFT → GRPO · RL 只在这里做</text>
+
+      <!-- experts boxes -->
+      <g>
+        <rect x="40" y="130" width="130" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+        <text x="105" y="162" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-size="18" fill="#1A1A1A" font-weight="600">数学</text>
+        <text x="105" y="184" text-anchor="middle" font-family="-apple-system" font-size="12" fill="#5A5A5A">Math Expert</text>
+
+        <rect x="180" y="130" width="130" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+        <text x="245" y="162" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-size="18" fill="#1A1A1A" font-weight="600">代码</text>
+        <text x="245" y="184" text-anchor="middle" font-family="-apple-system" font-size="12" fill="#5A5A5A">Code Expert</text>
+
+        <rect x="320" y="130" width="130" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+        <text x="385" y="162" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-size="18" fill="#1A1A1A" font-weight="600">Agent</text>
+        <text x="385" y="184" text-anchor="middle" font-family="-apple-system" font-size="12" fill="#5A5A5A">Agent Expert</text>
+
+        <rect x="460" y="130" width="130" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+        <text x="525" y="162" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-size="18" fill="#1A1A1A" font-weight="600">指令</text>
+        <text x="525" y="184" text-anchor="middle" font-family="-apple-system" font-size="12" fill="#5A5A5A">Instruct Expert</text>
+
+        <rect x="600" y="130" width="130" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+        <text x="665" y="162" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-size="18" fill="#1A1A1A" font-weight="600">推理</text>
+        <text x="665" y="184" text-anchor="middle" font-family="-apple-system" font-size="12" fill="#5A5A5A">Reasoning</text>
+
+        <text x="750" y="180" font-family="-apple-system" font-size="18" fill="#5A5A5A">…+ 更多</text>
+      </g>
+
+      <text x="40" y="244" font-family="-apple-system" font-size="14" fill="#999" font-style="italic">专家之间物理隔离 · reward signal 清晰 · 不折中</text>
+
+      <!-- big arrow to stage 2 -->
+      <line x1="40" y1="280" x2="1580" y2="280" stroke="#4D6BFE" stroke-width="2" stroke-dasharray="6,4"/>
+      <polygon points="1580,280 1568,272 1568,288" fill="#4D6BFE"/>
+      <text x="800" y="272" text-anchor="middle" font-family="-apple-system" font-size="14" fill="#4D6BFE" font-weight="700" letter-spacing="2">ON-POLICY DISTILLATION · REVERSE KL</text>
+
+      <!-- stage 2 -->
+      <text x="1000" y="38" font-family="-apple-system" font-size="14" fill="#4D6BFE" font-weight="700" letter-spacing="3">STAGE 02 · OPD</text>
+      <text x="1000" y="72" font-family="Source Serif 4, Georgia, serif" font-size="28" fill="#1A1A1A" font-weight="600">统一学生 · 只做蒸馏</text>
+      <text x="1000" y="98" font-family="-apple-system" font-size="14" fill="#5A5A5A">学生自己采样 · 反向 KL 对齐多个 teacher</text>
+
+      <!-- student box -->
+      <rect x="1180" y="125" width="360" height="120" fill="#4D6BFE"/>
+      <text x="1360" y="172" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-size="38" fill="#FFFFFF" font-weight="600">统一学生模型</text>
+      <text x="1360" y="202" text-anchor="middle" font-family="-apple-system" font-size="14" fill="#FFFFFF" opacity="0.85">不做 RL · 只做稳定的蒸馏</text>
+      <text x="1360" y="228" text-anchor="middle" font-family="-apple-system" font-size="13" fill="#FFFFFF" opacity="0.7" font-style="italic">拿到所有专家的能力</text>
+
+      <!-- final output -->
+      <text x="1360" y="320" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-size="22" fill="#1A1A1A">V4-Pro · V4-Flash</text>
+      <line x1="1360" y1="250" x2="1360" y2="300" stroke="#1A1A1A" stroke-width="1.5"/>
+    </svg>
+  </div>
+
+  <div class="s38-quote">
+    一句类比：<em>先培养专科医生，再让全科医生向他们学</em>——全科医生自己不做手术实验，只通过观摩和对齐各科专家获得综合能力。
+  </div>
+
+  <div class="s38-footer">
+    <div>技术深度解读 · CHAPTER 06</div>
+    <div>38 / 72</div>
+  </div>
+  <div class="s38-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+</div>
+</body>
+</html>

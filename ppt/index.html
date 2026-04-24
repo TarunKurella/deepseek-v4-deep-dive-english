@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DeepSeek-V4 Deep Dive English</title>
+
+<script>
+  window.DECK_MANIFEST = [
+    { file: "slides/00-cover.html", label: "00 · Cover" },
+    { file: "slides/01-onepager.html", label: "01 · One-Pager" },
+    { file: "slides/02-positioning.html", label: "02 · Positioning" },
+    { file: "slides/03-four-theses.html", label: "03 · Four Theses" },
+    { file: "slides/04-roadmap.html", label: "04 · Roadmap" },
+    { file: "slides/05-two-models.html", label: "05 · Two Models" },
+    { file: "slides/06-moe-basics.html", label: "06 · MoE Basics" },
+    { file: "slides/07-sparse-economics.html", label: "07 · Sparse Economics" },
+    { file: "slides/08-training-data.html", label: "08 · Training Data" },
+    { file: "slides/09-training-stability.html", label: "09 · Training Stability" },
+    { file: "slides/10-specs-table.html", label: "10 · Full Specs" },
+    { file: "slides/11-mhc-problem.html", label: "11 · mHC Problem" },
+    { file: "slides/12-mhc-intuition.html", label: "12 · mHC Intuition" },
+    { file: "slides/13-mhc-math.html", label: "13 · mHC Math" },
+    { file: "slides/14-mhc-cost.html", label: "14 · mHC Cost" },
+    { file: "slides/15-mhc-effect.html", label: "15 · mHC Effect" },
+    { file: "slides/16-act2-transition.html", label: "16 · Transition" },
+    { file: "slides/17-attention-bottleneck.html", label: "17 · Attention Bottleneck" },
+    { file: "slides/18-hybrid-idea.html", label: "18 · Hybrid Idea" },
+    { file: "slides/19-csa-explained.html", label: "19 · CSA Explained" },
+    { file: "slides/20-hca-explained.html", label: "20 · HCA Explained" },
+    { file: "slides/21-supporting-tricks.html", label: "21 · Supporting Tricks" },
+    { file: "slides/22-precision-stack.html", label: "22 · Precision Stack" },
+    { file: "slides/23-efficiency-chart.html", label: "23 · Efficiency Comparison" },
+    { file: "slides/24-kv-cache-diet.html", label: "24 · KV Cache Diet" },
+    { file: "slides/25-adamw-specialization.html", label: "25 · AdamW Bias Problem" },
+    { file: "slides/26-muon-orthogonal.html", label: "26 · Muon Orthogonalization" },
+    { file: "slides/27-newton-schulz.html", label: "27 · Newton-Schulz" },
+    { file: "slides/28-rms-rescale.html", label: "28 · RMS Rescale" },
+    { file: "slides/29-muon-vs-adamw.html", label: "29 · Muon vs AdamW" },
+    { file: "slides/30-infra-overview.html", label: "30 · Infra Overview" },
+    { file: "slides/31-moe-comm-overlap.html", label: "31 · MoE Comm Overlap" },
+    { file: "slides/32-tilelang.html", label: "32 · TileLang" },
+    { file: "slides/33-determinism.html", label: "33 · Determinism" },
+    { file: "slides/34-fp4-qat.html", label: "34 · FP4 QAT" },
+    { file: "slides/35-disk-kv-cache.html", label: "35 · Disk KV Cache" },
+    { file: "slides/36-infra-philosophy.html", label: "36 · Infra Philosophy" },
+    { file: "slides/37-posttraining-old.html", label: "37 · Old Post-Training Paradigm" },
+    { file: "slides/38-two-stage-paradigm.html", label: "38 · Two-Stage Paradigm" },
+    { file: "slides/39-specialist-stage.html", label: "39 · Specialist Stage" },
+    { file: "slides/40-opd-stage.html", label: "40 · OPD Stage" },
+    { file: "slides/41-reverse-kl.html", label: "41 · Reverse KL" },
+    { file: "slides/42-grm-and-sandbox.html", label: "42 · GRM + DSec Sandbox" },
+    { file: "slides/43-paradigm-shift.html", label: "43 · Paradigm Shift" },
+    { file: "slides/44-team-dna.html", label: "44 · Team DNA" },
+    { file: "slides/45-codeforces.html", label: "45 · Codeforces 3206" },
+    { file: "slides/46-putnam.html", label: "46 · Putnam 120/120" },
+    { file: "slides/47-math-benchmarks.html", label: "47 · Math Benchmarks" },
+    { file: "slides/48-coding-benchmarks.html", label: "48 · Coding Benchmarks" },
+    { file: "slides/49-vs-latest-sota.html", label: "49 · Versus Latest SOTA" },
+    { file: "slides/50-verdict-strong.html", label: "50 · Verdict" },
+    { file: "slides/51-transition.html", label: "51 · Transition" },
+    { file: "slides/52-hle.html", label: "52 · HLE" },
+    { file: "slides/53-hle-tools.html", label: "53 · HLE with Tools" },
+    { file: "slides/54-terminal-bench.html", label: "54 · Terminal Bench" },
+    { file: "slides/55-creative-writing.html", label: "55 · Creative Writing" },
+    { file: "slides/56-aesthetic-gap.html", label: "56 · Ground Truth vs Taste" },
+    { file: "slides/57-paper-admits.html", label: "57 · Paper-Admitted Limits" },
+    { file: "slides/58-verdict-weak.html", label: "58 · Verdict" },
+    { file: "slides/59-context-redefined.html", label: "59 · The Real Value of 1M" },
+    { file: "slides/60-agentic-prefill.html", label: "60 · Agentic Prefill" },
+    { file: "slides/61-price-table.html", label: "61 · Official Pricing" },
+    { file: "slides/62-price-vs-latest.html", label: "62 · Pro vs Latest Flagships" },
+    { file: "slides/63-flash-is-price-killer.html", label: "63 · Flash Is the Price Killer" },
+    { file: "slides/64-ecosystem-hook.html", label: "64 · Ecosystem Positioning" },
+    { file: "slides/65-accessibility-verdict.html", label: "65 · Accessibility Verdict" },
+    { file: "slides/66-paper-honesty.html", label: "66 · Three Honest Admissions" },
+    { file: "slides/67-roadmap-v5.html", label: "67 · V5 Roadmap" },
+    { file: "slides/68-ascend-honest.html", label: "68 · Ascend 950 Signal" },
+    { file: "slides/69-four-theses-closed.html", label: "69 · Four Theses Revisited" },
+    { file: "slides/70-xunzi.html", label: "70 · Closing Line" },
+    { file: "slides/71-overall-verdict.html", label: "71 · Overall Positioning" },
+    { file: "slides/72-credits.html", label: "72 · Credits" }
+  ];
+
+  window.DECK_WIDTH = 1920;
+  window.DECK_HEIGHT = 1080;
+</script>
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%;
+    background: #0a0a0a;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  #stage {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform-origin: top left;
+    will-change: transform;
+    background: #fff;
+    box-shadow: 0 10px 60px rgba(0,0,0,0.4);
+  }
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    background: #fff;
+  }
+  .counter {
+    position: fixed;
+    bottom: 20px; right: 20px;
+    background: rgba(0,0,0,0.65);
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    z-index: 100;
+    opacity: 0.85;
+  }
+  .counter .label { color: rgba(255,255,255,0.7); margin-left: 8px; }
+  .nav-zone {
+    position: fixed;
+    top: 0; bottom: 0;
+    width: 12%;
+    cursor: pointer;
+    z-index: 50;
+  }
+  .nav-zone.left { left: 0; }
+  .nav-zone.right { right: 0; }
+  .nav-hint {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    width: 44px; height: 44px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .nav-zone.left .nav-hint { left: 20px; }
+  .nav-zone.right .nav-hint { right: 20px; }
+  .nav-zone:hover .nav-hint { opacity: 1; }
+  .toc-toggle {
+    position: fixed;
+    top: 20px; left: 20px;
+    background: rgba(0,0,0,0.65);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    cursor: pointer;
+    z-index: 120;
+  }
+  .toc-panel {
+    position: fixed;
+    top: 0; left: -360px; bottom: 0;
+    width: 340px;
+    background: #0f0f0f;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    transition: left 0.25s ease;
+    z-index: 110;
+    overflow-y: auto;
+    padding: 56px 0 20px;
+    color: #ddd;
+  }
+  .toc-panel.open { left: 0; }
+  .toc-item {
+    padding: 8px 20px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: rgba(255,255,255,0.65);
+    cursor: pointer;
+    border-left: 2px solid transparent;
+  }
+  .toc-item:hover { color: #fff; background: rgba(255,255,255,0.04); }
+  .toc-item.active { color: #4D6BFE; border-left-color: #4D6BFE; }
+  .notice {
+    position: fixed;
+    top: 20px; right: 20px;
+    max-width: 360px;
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.82);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 12px 14px;
+    border-radius: 14px;
+    font-size: 12px;
+    line-height: 1.5;
+    z-index: 140;
+  }
+</style>
+</head>
+<body>
+  <div class="notice">
+    English-only deck edition.
+    Full translated slide set, 00-72.
+  </div>
+  <div class="toc-toggle" id="tocToggle">TOC</div>
+  <div class="toc-panel" id="tocPanel"></div>
+  <div class="nav-zone left" id="navL"><div class="nav-hint">‹</div></div>
+  <div class="nav-zone right" id="navR"><div class="nav-hint">›</div></div>
+  <div id="stage"><iframe id="frame" title="DeepSeek-V4 English Deck"></iframe></div>
+  <div class="counter" id="counter"></div>
+
+<script>
+  const deck = window.DECK_MANIFEST;
+  const stage = document.getElementById('stage');
+  const frame = document.getElementById('frame');
+  const counter = document.getElementById('counter');
+  const tocPanel = document.getElementById('tocPanel');
+  const tocToggle = document.getElementById('tocToggle');
+  let current = 0;
+
+  function resize() {
+    const scale = Math.min(window.innerWidth / window.DECK_WIDTH, window.innerHeight / window.DECK_HEIGHT);
+    stage.style.width = `${window.DECK_WIDTH}px`;
+    stage.style.height = `${window.DECK_HEIGHT}px`;
+    stage.style.transform = `translate(-50%, -50%) scale(${scale})`;
+  }
+
+  function renderCounter() {
+    counter.innerHTML = `${current + 1} / ${deck.length} <span class="label">${deck[current].label}</span>`;
+  }
+
+  function renderTOC() {
+    tocPanel.innerHTML = '';
+    deck.forEach((item, i) => {
+      const el = document.createElement('div');
+      el.className = `toc-item${i === current ? ' active' : ''}`;
+      el.textContent = item.label;
+      el.addEventListener('click', () => {
+        show(i);
+        tocPanel.classList.remove('open');
+      });
+      tocPanel.appendChild(el);
+    });
+  }
+
+  function show(i) {
+    current = Math.max(0, Math.min(deck.length - 1, i));
+    frame.src = deck[current].file;
+    renderCounter();
+    renderTOC();
+  }
+
+  function prev() { show(current - 1); }
+  function next() { show(current + 1); }
+
+  document.getElementById('navL').addEventListener('click', prev);
+  document.getElementById('navR').addEventListener('click', next);
+  tocToggle.addEventListener('click', () => tocPanel.classList.toggle('open'));
+  window.addEventListener('resize', resize);
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') prev();
+    if (e.key === 'ArrowRight') next();
+    if (e.key.toLowerCase() === 'i') tocPanel.classList.toggle('open');
+  });
+
+  resize();
+  show(0);
+</script>
+</body>
+</html>
