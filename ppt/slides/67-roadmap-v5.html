@@ -1,161 +1,57 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DeepSeek-V4 · V5 路线图预告</title>
+<title>DeepSeek-V4 · V5 Roadmap Preview</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body {
-    width: 1920px; height: 1080px; overflow: hidden;
-    background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #FFFFFF; color: #1A1A1A; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
   .s67-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
-  .s67-masthead {
-    position: absolute; top: 50px; left: 120px; right: 120px;
-    display: flex; align-items: center; justify-content: space-between;
-    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
-  }
+  .s67-masthead { position: absolute; top: 50px; left: 120px; right: 120px; display: flex; align-items: center; justify-content: space-between; padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08); }
   .s67-masthead-left { display: flex; align-items: center; gap: 16px; }
   .s67-masthead-left img { height: 26px; }
-  .s67-masthead-left span {
-    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
-  }
+  .s67-masthead-left span { font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A; }
   .s67-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
   .s67-header { position: absolute; top: 150px; left: 120px; right: 120px; }
-  .s67-kicker {
-    display: inline-flex; align-items: center; gap: 12px;
-    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
-    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
-  }
+  .s67-kicker { display: inline-flex; align-items: center; gap: 12px; font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase; color: #4D6BFE; font-weight: 600; margin-bottom: 20px; }
   .s67-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
-  .s67-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
-    font-size: 64px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
-    letter-spacing: -0.01em; max-width: 1500px;
-  }
+  .s67-title { font-family: "Source Serif 4", Georgia, serif; font-size: 64px; line-height: 1.1; font-weight: 600; color: #1A1A1A; letter-spacing: -0.01em; max-width: 1500px; }
   .s67-title .accent { color: #4D6BFE; font-style: italic; }
-  .s67-subtitle {
-    margin-top: 18px;
-    font-size: 22px; color: #5A5A5A; line-height: 1.5; max-width: 1400px;
-  }
-
-  .s67-timeline {
-    position: absolute; left: 120px; right: 120px; top: 430px;
-    display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px;
-    position: absolute;
-  }
-  .s67-step {
-    position: relative;
-    padding-top: 40px;
-  }
-  .s67-step::before {
-    content: ""; position: absolute; top: 10px; left: 0; right: 0;
-    height: 1px; background: rgba(26,26,26,0.15);
-  }
-  .s67-step::after {
-    content: ""; position: absolute; top: 6px; left: 0;
-    width: 10px; height: 10px; background: #4D6BFE; border-radius: 50%;
-  }
-  .s67-step-num {
-    font-family: "Source Serif 4", Georgia, serif;
-    font-size: 14px; color: #4D6BFE; font-weight: 600;
-    letter-spacing: 0.2em; text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-  .s67-step-head {
-    font-family: "Source Serif 4", Georgia, serif;
-    font-size: 24px; font-weight: 600; color: #1A1A1A;
-    line-height: 1.2; margin-bottom: 14px;
-  }
-  .s67-step-body {
-    font-size: 15px; color: #5A5A5A; line-height: 1.6;
-  }
+  .s67-subtitle { margin-top: 18px; font-size: 22px; color: #5A5A5A; line-height: 1.5; max-width: 1400px; }
+  .s67-timeline { position: absolute; left: 120px; right: 120px; top: 430px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; }
+  .s67-step { position: relative; padding-top: 40px; }
+  .s67-step::before { content: ""; position: absolute; top: 10px; left: 0; right: 0; height: 1px; background: rgba(26,26,26,0.15); }
+  .s67-step::after { content: ""; position: absolute; top: 6px; left: 0; width: 10px; height: 10px; background: #4D6BFE; border-radius: 50%; }
+  .s67-step-num { font-family: "Source Serif 4", Georgia, serif; font-size: 14px; color: #4D6BFE; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 16px; }
+  .s67-step-head { font-family: "Source Serif 4", Georgia, serif; font-size: 24px; font-weight: 600; color: #1A1A1A; line-height: 1.2; margin-bottom: 14px; }
+  .s67-step-body { font-size: 15px; color: #5A5A5A; line-height: 1.6; }
   .s67-step-body strong { color: #1A1A1A; font-weight: 600; }
-
-  .s67-highlight {
-    position: absolute; left: 120px; right: 120px; bottom: 170px;
-    padding: 30px 44px;
-    background: #F3F5FF;
-    border-left: 4px solid #4D6BFE;
-  }
-  .s67-highlight-tag {
-    font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase;
-    color: #4D6BFE; font-weight: 700; margin-bottom: 12px;
-  }
-  .s67-highlight-body {
-    font-family: "Source Serif 4", Georgia, serif;
-    font-size: 26px; line-height: 1.5; color: #1A1A1A;
-  }
+  .s67-highlight { position: absolute; left: 120px; right: 120px; bottom: 170px; padding: 30px 44px; background: #F3F5FF; border-left: 4px solid #4D6BFE; }
+  .s67-highlight-tag { font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: #4D6BFE; font-weight: 700; margin-bottom: 12px; }
+  .s67-highlight-body { font-family: "Source Serif 4", Georgia, serif; font-size: 26px; line-height: 1.5; color: #1A1A1A; }
   .s67-highlight-body strong { color: #4D6BFE; font-weight: 600; }
-
-  .s67-footer {
-    position: absolute; left: 120px; right: 120px; bottom: 50px;
-    display: flex; justify-content: space-between;
-    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
-  }
+  .s67-footer { position: absolute; left: 120px; right: 120px; bottom: 50px; display: flex; justify-content: space-between; font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase; }
   .s67-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
   .s67-watermark img { width: 120px; }
 </style>
 </head>
 <body>
 <div class="s67-stage">
-  <div class="s67-masthead">
-    <div class="s67-masthead-left">
-      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
-    </div>
-    <div class="s67-masthead-right">67 · V5 路线图</div>
-  </div>
-
+  <div class="s67-masthead"><div class="s67-masthead-left"><img src="../assets/deepseek-logo.png" alt="DeepSeek"><span>DeepSeek-V4 · Technical Deep Dive</span></div><div class="s67-masthead-right">67 · V5 Roadmap</div></div>
   <div class="s67-header">
-    <div class="s67-kicker">CHAPTER 10 · 观点四 · 诚实本分</div>
-    <h1 class="s67-title">V5 路线图：<span class="accent">直接告诉你下一步做什么</span></h1>
-    <div class="s67-subtitle">论文 Section 6 最后一段是未来五个方向。别人藏着掖着，DeepSeek 直接铺出来。</div>
+    <div class="s67-kicker">CHAPTER 10 · THESIS 4 · HONESTY AND DISCIPLINE</div>
+    <h1 class="s67-title">The V5 roadmap: <span class="accent">they tell you directly what comes next</span></h1>
+    <div class="s67-subtitle">The final paragraph of Section 6 lays out five future directions. Where others hide the roadmap, DeepSeek prints it plainly.</div>
   </div>
-
   <div class="s67-timeline">
-    <div class="s67-step">
-      <div class="s67-step-num">01</div>
-      <div class="s67-step-head">更极致的 sparse</div>
-      <div class="s67-step-body">不止 MoE 和 attention 稀疏，沿<strong>新维度挖稀疏性</strong>。</div>
-    </div>
-    <div class="s67-step">
-      <div class="s67-step-num">02</div>
-      <div class="s67-step-head">低延迟架构</div>
-      <div class="s67-step-body">让长上下文部署<strong>更响应</strong>，为 agent 交互做准备。</div>
-    </div>
-    <div class="s67-step">
-      <div class="s67-step-num">03</div>
-      <div class="s67-step-head">Long-horizon agent</div>
-      <div class="s67-step-body">多轮、跨小时的<strong>长周期任务</strong>作为下一步主攻。</div>
-    </div>
-    <div class="s67-step">
-      <div class="s67-step-num">04</div>
-      <div class="s67-step-head">多模态</div>
-      <div class="s67-step-body">V5 大概率是<strong>原生多模态</strong>，不再走 adapter 路线。</div>
-    </div>
-    <div class="s67-step">
-      <div class="s67-step-num">05</div>
-      <div class="s67-step-head">数据合成与 curation</div>
-      <div class="s67-step-body">持续优化数据策略，尤其是<strong>合成数据</strong>的质量。</div>
-    </div>
+    <div class="s67-step"><div class="s67-step-num">01</div><div class="s67-step-head">More extreme sparsity</div><div class="s67-step-body">Not just sparse MoE and sparse attention, but <strong>new dimensions of sparsity</strong>.</div></div>
+    <div class="s67-step"><div class="s67-step-num">02</div><div class="s67-step-head">Lower-latency architecture</div><div class="s67-step-body">Make long-context deployment <strong>more responsive</strong> and better suited for agent interaction.</div></div>
+    <div class="s67-step"><div class="s67-step-num">03</div><div class="s67-step-head">Long-horizon agents</div><div class="s67-step-body">Multi-turn, multi-hour <strong>long-duration tasks</strong> as a primary next target.</div></div>
+    <div class="s67-step"><div class="s67-step-num">04</div><div class="s67-step-head">Multimodality</div><div class="s67-step-body">V5 will likely be <strong>natively multimodal</strong> rather than adapter-driven.</div></div>
+    <div class="s67-step"><div class="s67-step-num">05</div><div class="s67-step-head">Synthetic data and curation</div><div class="s67-step-body">Keep improving the data pipeline, especially the quality of <strong>synthetic data</strong>.</div></div>
   </div>
-
-  <div class="s67-highlight">
-    <div class="s67-highlight-tag">V5 预告 · 最关键的一条</div>
-    <div class="s67-highlight-body">
-      参考文献指向 Cheng 等 2026 年的<strong>「Conditional Memory via Scalable Lookup」</strong>——<br>
-      V5 大概率会引入<strong>可扩展查找式的记忆模块</strong>，超越 attention 本身的范式。
-    </div>
-  </div>
-
-  <div class="s67-footer">
-    <div>技术深度解读 · CHAPTER 10</div>
-    <div>67 / 72</div>
-  </div>
+  <div class="s67-highlight"><div class="s67-highlight-tag">V5 PREVIEW · THE KEY SIGNAL</div><div class="s67-highlight-body">The references point to Cheng et al. 2026 on <strong>“Conditional Memory via Scalable Lookup”</strong>.<br>That strongly suggests V5 may introduce a <strong>scalable lookup-based memory module</strong> that moves beyond attention alone.</div></div>
+  <div class="s67-footer"><div>Technical Deep Dive · CHAPTER 10</div><div>67 / 72</div></div>
   <div class="s67-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
 </div>
 </body>

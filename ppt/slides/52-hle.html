@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>DeepSeek-V4 · HLE</title>
@@ -8,7 +8,7 @@
   html, body {
     width: 1920px; height: 1080px; overflow: hidden;
     background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   .s52-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
@@ -23,7 +23,6 @@
     font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
   }
   .s52-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
   .s52-header { position: absolute; top: 150px; left: 120px; right: 120px; }
   .s52-kicker {
     display: inline-flex; align-items: center; gap: 12px;
@@ -32,18 +31,15 @@
   }
   .s52-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
   .s52-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-family: "Source Serif 4", Georgia, serif;
     font-size: 64px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
     letter-spacing: -0.01em; max-width: 1500px;
   }
   .s52-title .accent { color: #4D6BFE; font-style: italic; }
-
   .s52-chart {
     position: absolute; left: 120px; top: 400px; width: 1100px;
   }
-  .s52-bar-row {
-    display: flex; align-items: center; margin-bottom: 22px;
-  }
+  .s52-bar-row { display: flex; align-items: center; margin-bottom: 22px; }
   .s52-bar-label {
     width: 260px; font-size: 19px; color: #1A1A1A;
     font-family: "Source Serif 4", Georgia, serif;
@@ -62,7 +58,6 @@
   }
   .s52-bar-fill.ds { background: #4D6BFE; color: #fff; }
   .s52-bar-fill.leader { background: #1A1A1A; color: #fff; }
-
   .s52-side {
     position: absolute; right: 120px; top: 400px; width: 520px;
     border-left: 3px solid #4D6BFE; padding-left: 36px;
@@ -83,14 +78,12 @@
     font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase;
     color: #5A5A5A; margin-top: 14px; font-weight: 600;
   }
-
   .s52-bottom-note {
     position: absolute; left: 120px; right: 120px; bottom: 110px;
     border-top: 2px solid #1A1A1A; padding-top: 22px;
     font-size: 20px; color: #5A5A5A; line-height: 1.6; max-width: 1500px;
   }
   .s52-bottom-note strong { color: #1A1A1A; font-weight: 600; }
-
   .s52-footer {
     position: absolute; left: 120px; right: 120px; bottom: 50px;
     display: flex; justify-content: space-between;
@@ -105,70 +98,35 @@
   <div class="s52-masthead">
     <div class="s52-masthead-left">
       <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
     </div>
-    <div class="s52-masthead-right">08 · 不擅长什么</div>
+    <div class="s52-masthead-right">08 · Where It Struggles</div>
   </div>
-
   <div class="s52-header">
-    <div class="s52-kicker">CHAPTER 08 · 硬推理</div>
-    <h1 class="s52-title">HLE——人类最终考试，<span class="accent">差距第一次露出来</span></h1>
+    <div class="s52-kicker">CHAPTER 08 · HARD REASONING</div>
+    <h1 class="s52-title">HLE, Humanity’s Last Exam, is where <span class="accent">the gap first becomes obvious</span></h1>
   </div>
-
   <div class="s52-chart">
-    <div class="s52-bar-row">
-      <div class="s52-bar-label">Gemini 3.1 Pro</div>
-      <div class="s52-bar-track"><div class="s52-bar-fill leader" style="width: 88.8%;">44.4</div></div>
-    </div>
-    <div class="s52-bar-row">
-      <div class="s52-bar-label">Opus 4.7</div>
-      <div class="s52-bar-track"><div class="s52-bar-fill" style="width: 93.8%; background:#333; color:#fff;">46.9</div></div>
-    </div>
-    <div class="s52-bar-row">
-      <div class="s52-bar-label">GPT-5.5</div>
-      <div class="s52-bar-track"><div class="s52-bar-fill" style="width: 82.8%;">41.4</div></div>
-    </div>
-    <div class="s52-bar-row">
-      <div class="s52-bar-label">Opus 4.6</div>
-      <div class="s52-bar-track"><div class="s52-bar-fill" style="width: 80%;">40.0</div></div>
-    </div>
-    <div class="s52-bar-row">
-      <div class="s52-bar-label">GPT-5.4-xHigh</div>
-      <div class="s52-bar-track"><div class="s52-bar-fill" style="width: 79.6%;">39.8</div></div>
-    </div>
-    <div class="s52-bar-row">
-      <div class="s52-bar-label" style="color:#4D6BFE; font-weight:600;">DS-V4-Pro-Max</div>
-      <div class="s52-bar-track"><div class="s52-bar-fill ds" style="width: 75.4%;">37.7</div></div>
-    </div>
-    <div class="s52-bar-row">
-      <div class="s52-bar-label">Kimi K2.6</div>
-      <div class="s52-bar-track"><div class="s52-bar-fill" style="width: 72.8%;">36.4</div></div>
-    </div>
-    <div class="s52-bar-row">
-      <div class="s52-bar-label">GLM-5.1</div>
-      <div class="s52-bar-track"><div class="s52-bar-fill" style="width: 69.4%;">34.7</div></div>
-    </div>
+    <div class="s52-bar-row"><div class="s52-bar-label">Gemini 3.1 Pro</div><div class="s52-bar-track"><div class="s52-bar-fill leader" style="width: 88.8%;">44.4</div></div></div>
+    <div class="s52-bar-row"><div class="s52-bar-label">Opus 4.7</div><div class="s52-bar-track"><div class="s52-bar-fill" style="width: 93.8%; background:#333; color:#fff;">46.9</div></div></div>
+    <div class="s52-bar-row"><div class="s52-bar-label">GPT-5.5</div><div class="s52-bar-track"><div class="s52-bar-fill" style="width: 82.8%;">41.4</div></div></div>
+    <div class="s52-bar-row"><div class="s52-bar-label">Opus 4.6</div><div class="s52-bar-track"><div class="s52-bar-fill" style="width: 80%;">40.0</div></div></div>
+    <div class="s52-bar-row"><div class="s52-bar-label">GPT-5.4-xHigh</div><div class="s52-bar-track"><div class="s52-bar-fill" style="width: 79.6%;">39.8</div></div></div>
+    <div class="s52-bar-row"><div class="s52-bar-label" style="color:#4D6BFE; font-weight:600;">DS-V4-Pro-Max</div><div class="s52-bar-track"><div class="s52-bar-fill ds" style="width: 75.4%;">37.7</div></div></div>
+    <div class="s52-bar-row"><div class="s52-bar-label">Kimi K2.6</div><div class="s52-bar-track"><div class="s52-bar-fill" style="width: 72.8%;">36.4</div></div></div>
+    <div class="s52-bar-row"><div class="s52-bar-label">GLM-5.1</div><div class="s52-bar-track"><div class="s52-bar-fill" style="width: 69.4%;">34.7</div></div></div>
   </div>
-
   <div class="s52-side">
-    <div class="s52-side-label">DS-V4 vs GEMINI</div>
+    <div class="s52-side-label">DS-V4 VS GEMINI</div>
     <div class="s52-side-num">−6.7<span class="pct">pp</span></div>
-    <div class="s52-side-gap">
-      落后 Gemini 3.1 Pro<br>
-      <span class="hl">6.7 个百分点</span>
-    </div>
-    <div class="s52-side-gap" style="margin-top:14px;">
-      落后 Opus 4.7<br>
-      <span class="hl">9.2 个百分点</span>
-    </div>
+    <div class="s52-side-gap">Behind Gemini 3.1 Pro by<br><span class="hl">6.7 percentage points</span></div>
+    <div class="s52-side-gap" style="margin-top:14px;">Behind Opus 4.7 by<br><span class="hl">9.2 percentage points</span></div>
   </div>
-
   <div class="s52-bottom-note">
-    HLE（Humanity's Last Exam）是<strong>跨学科综合硬推理题</strong>。不是做题，是「你有多通」。DeepSeek-V4 的 37.7 分在开源阵营仍是第一，但在闭源对比下开始吃瘪——<strong>这是「擅长什么」和「不擅长什么」的分水岭</strong>。
+    HLE, Humanity’s Last Exam, is a <strong>cross-disciplinary hard-reasoning benchmark</strong>. It is not about grinding one domain, but about being broadly capable. DeepSeek-V4’s 37.7 is still the best among open models, but it starts to look outmatched against closed peers. <strong>This is the fault line between what it excels at and what it does not.</strong>
   </div>
-
   <div class="s52-footer">
-    <div>技术深度解读 · CHAPTER 08</div>
+    <div>Technical Deep Dive · CHAPTER 08</div>
     <div>52 / 72</div>
   </div>
   <div class="s52-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>

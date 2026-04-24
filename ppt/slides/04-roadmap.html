@@ -1,175 +1,55 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>DeepSeek-V4 · Roadmap</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body {
-    width: 1920px; height: 1080px; overflow: hidden;
-    background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
-  .s04-stage { position: relative; width: 1920px; height: 1080px; }
-  .s04-masthead {
-    position: absolute; top: 50px; left: 120px; right: 120px;
-    display: flex; align-items: center; justify-content: space-between;
-    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
-  }
-  .s04-masthead-left { display: flex; align-items: center; gap: 16px; }
-  .s04-masthead-left img { height: 26px; }
-  .s04-masthead-left span {
-    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
-  }
-  .s04-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
-  .s04-header { position: absolute; top: 140px; left: 120px; right: 120px; }
-  .s04-kicker {
-    display: inline-flex; align-items: center; gap: 12px;
-    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
-    color: #4D6BFE; font-weight: 600; margin-bottom: 18px;
-  }
-  .s04-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
-  .s04-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
-    font-size: 56px; line-height: 1.15; font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-  .s04-title .accent { color: #4D6BFE; font-style: italic; }
-
-  .s04-toc {
-    position: absolute; top: 300px; left: 120px; right: 120px;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 0 80px;
-  }
-  .s04-row {
-    display: grid; grid-template-columns: 60px 1fr 80px;
-    gap: 20px; align-items: baseline;
-    padding: 14px 0;
-    border-bottom: 1px dashed rgba(26,26,26,0.1);
-  }
-  .s04-row-num {
-    font-family: "Source Serif 4", Georgia, serif;
-    font-size: 22px; color: #4D6BFE; font-weight: 600;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.01em;
-  }
-  .s04-row-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
-    font-size: 22px; color: #1A1A1A; font-weight: 600;
-    line-height: 1.3;
-  }
-  .s04-row-title .sub {
-    display: block; font-size: 13px; color: #999;
-    font-weight: 400; font-style: italic; margin-top: 4px;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
-  }
-  .s04-row-pages {
-    text-align: right;
-    font-size: 12px; color: #999;
-    letter-spacing: 0.08em;
-    font-variant-numeric: tabular-nums;
-  }
-  .s04-row.emphasis .s04-row-num,
-  .s04-row.emphasis .s04-row-title { color: #4D6BFE; }
-
-  .s04-footer {
-    position: absolute; left: 120px; right: 120px; bottom: 50px;
-    display: flex; justify-content: space-between;
-    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
-  }
-  .s04-watermark { position: absolute; right: 60px; bottom: 40px; opacity: 0.08; }
-  .s04-watermark img { width: 100px; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: #FFFFFF; color: #1A1A1A; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+.stage { position: relative; width: 1920px; height: 1080px; }
+.masthead { position: absolute; top: 50px; left: 120px; right: 120px; display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08); }
+.left { display: flex; align-items: center; gap: 16px; }
+.left img { height: 26px; }
+.left span { font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A; }
+.right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+.header { position: absolute; top: 140px; left: 120px; right: 120px; }
+.kicker { display: inline-flex; align-items: center; gap: 12px; font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase; color: #4D6BFE; font-weight: 600; margin-bottom: 18px; }
+.kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+.title { font-family: "Source Serif 4", Georgia, serif; font-size: 56px; line-height: 1.15; font-weight: 600; }
+.title .accent { color: #4D6BFE; font-style: italic; }
+.toc { position: absolute; top: 300px; left: 120px; right: 120px; display: grid; grid-template-columns: 1fr 1fr; gap: 0 80px; }
+.row { display: grid; grid-template-columns: 60px 1fr 80px; gap: 20px; align-items: baseline; padding: 14px 0; border-bottom: 1px dashed rgba(26,26,26,0.1); }
+.num { font-family: "Source Serif 4", Georgia, serif; font-size: 22px; color: #4D6BFE; font-weight: 600; }
+.rowtitle { font-family: "Source Serif 4", Georgia, serif; font-size: 22px; color: #1A1A1A; font-weight: 600; line-height: 1.3; }
+.sub { display: block; font-size: 13px; color: #999; font-weight: 400; font-style: italic; margin-top: 4px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.pages { text-align: right; font-size: 12px; color: #999; letter-spacing: 0.08em; }
+.emphasis .num, .emphasis .rowtitle { color: #4D6BFE; }
+.footer { position: absolute; left: 120px; right: 120px; bottom: 50px; display: flex; justify-content: space-between; font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase; }
 </style>
 </head>
 <body>
-<div class="s04-stage">
-  <div class="s04-masthead">
-    <div class="s04-masthead-left">
-      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
-    </div>
-    <div class="s04-masthead-right">04 · ROADMAP</div>
-  </div>
-
-  <div class="s04-header">
-    <div class="s04-kicker">CHAPTER 00 · 全篇目录</div>
-    <h1 class="s04-title">一份 <span class="accent">72 页</span> · 11 幕的 V4 解读地图</h1>
-  </div>
-
-  <div class="s04-toc">
+<div class="stage">
+  <div class="masthead"><div class="left"><img src="../assets/deepseek-logo.png" alt="DeepSeek"><span>DeepSeek-V4 · Technical Deep Dive</span></div><div class="right">04 · Roadmap</div></div>
+  <div class="header"><div class="kicker">Chapter 0 · Full outline</div><h1 class="title">A <span class="accent">72-slide</span>, 11-act map of the V4 analysis</h1></div>
+  <div class="toc">
     <div>
-      <div class="s04-row">
-        <div class="s04-row-num">00</div>
-        <div class="s04-row-title">开场与四个观点<span class="sub">定位反题 · 核心数据 · 全篇目录</span></div>
-        <div class="s04-row-pages">00 – 04</div>
-      </div>
-      <div class="s04-row">
-        <div class="s04-row-num">01</div>
-        <div class="s04-row-title">两款模型 · 同一套架构<span class="sub">MoE · 稀疏激活 · 32T tokens · 稳定性</span></div>
-        <div class="s04-row-pages">05 – 10</div>
-      </div>
-      <div class="s04-row">
-        <div class="s04-row-num">02</div>
-        <div class="s04-row-title">架构① mHC 残差升级<span class="sub">双随机矩阵 · Sinkhorn-Knopp 迭代</span></div>
-        <div class="s04-row-pages">11 – 16</div>
-      </div>
-      <div class="s04-row">
-        <div class="s04-row-num">03</div>
-        <div class="s04-row-title">架构② 混合注意力 CSA + HCA<span class="sub">粗细配合 · 1M 下 KV cache 只剩 2%</span></div>
-        <div class="s04-row-pages">17 – 24</div>
-      </div>
-      <div class="s04-row">
-        <div class="s04-row-num">04</div>
-        <div class="s04-row-title">架构③ Muon 优化器<span class="sub">正交化更新 · 替代 AdamW</span></div>
-        <div class="s04-row-pages">25 – 29</div>
-      </div>
-      <div class="s04-row">
-        <div class="s04-row-num">05</div>
-        <div class="s04-row-title">基础设施<span class="sub">TileLang · FP4 QAT · 磁盘 KV cache</span></div>
-        <div class="s04-row-pages">30 – 36</div>
-      </div>
+      <div class="row"><div class="num">00</div><div class="rowtitle">Opening and four theses<span class="sub">reframing · core numbers · roadmap</span></div><div class="pages">00 – 04</div></div>
+      <div class="row"><div class="num">01</div><div class="rowtitle">Two models, one architecture<span class="sub">MoE · sparse activation · 32T tokens · stability</span></div><div class="pages">05 – 10</div></div>
+      <div class="row"><div class="num">02</div><div class="rowtitle">Architecture I: mHC residual upgrade<span class="sub">doubly stochastic matrices · Sinkhorn-Knopp iteration</span></div><div class="pages">11 – 16</div></div>
+      <div class="row"><div class="num">03</div><div class="rowtitle">Architecture II: hybrid attention, CSA + HCA<span class="sub">coarse + fine routing · KV cache down to 2% at 1M</span></div><div class="pages">17 – 24</div></div>
+      <div class="row"><div class="num">04</div><div class="rowtitle">Architecture III: Muon optimizer<span class="sub">orthogonalized updates · AdamW replacement</span></div><div class="pages">25 – 29</div></div>
+      <div class="row"><div class="num">05</div><div class="rowtitle">Infrastructure<span class="sub">TileLang · FP4 QAT · disk KV cache</span></div><div class="pages">30 – 36</div></div>
     </div>
-
     <div>
-      <div class="s04-row">
-        <div class="s04-row-num">06</div>
-        <div class="s04-row-title">训练范式革命<span class="sub">Specialist + On-Policy Distillation · DSec 沙盒</span></div>
-        <div class="s04-row-pages">37 – 43</div>
-      </div>
-      <div class="s04-row emphasis">
-        <div class="s04-row-num">07</div>
-        <div class="s04-row-title">擅长什么 · 观点 ②<span class="sub">竞赛基因 · Codeforces 3206 · Putnam 满分</span></div>
-        <div class="s04-row-pages">44 – 50</div>
-      </div>
-      <div class="s04-row emphasis">
-        <div class="s04-row-num">08</div>
-        <div class="s04-row-title">不擅长什么 · 观点 ③<span class="sub">创意写作差 · HLE w/tools 倒数 · 品味差</span></div>
-        <div class="s04-row-pages">51 – 58</div>
-      </div>
-      <div class="s04-row emphasis">
-        <div class="s04-row-num">09</div>
-        <div class="s04-row-title">普惠的真相 · 观点 ①<span class="sub">1M 不是能用是不再省字 · 价格屠夫</span></div>
-        <div class="s04-row-pages">59 – 65</div>
-      </div>
-      <div class="s04-row emphasis">
-        <div class="s04-row-num">10</div>
-        <div class="s04-row-title">诚实与本分 · 观点 ④<span class="sub">论文自认局限 · 昇腾 950 · 荀子金句</span></div>
-        <div class="s04-row-pages">66 – 70</div>
-      </div>
-      <div class="s04-row">
-        <div class="s04-row-num">11</div>
-        <div class="s04-row-title">收尾<span class="sub">整体定位 · 鸣谢</span></div>
-        <div class="s04-row-pages">71 – 72</div>
-      </div>
+      <div class="row"><div class="num">06</div><div class="rowtitle">Training-paradigm shift<span class="sub">Specialist + OPD · DSec sandbox</span></div><div class="pages">37 – 43</div></div>
+      <div class="row emphasis"><div class="num">07</div><div class="rowtitle">What it does well · thesis 2<span class="sub">competition DNA · Codeforces 3206 · perfect Putnam</span></div><div class="pages">44 – 50</div></div>
+      <div class="row emphasis"><div class="num">08</div><div class="rowtitle">What it does not do well · thesis 3<span class="sub">creative-writing gap · weak HLE-with-tools · taste gap</span></div><div class="pages">51 – 58</div></div>
+      <div class="row emphasis"><div class="num">09</div><div class="rowtitle">The truth of affordability · thesis 1<span class="sub">1M means no more budgeted wording · price killer</span></div><div class="pages">59 – 65</div></div>
+      <div class="row emphasis"><div class="num">10</div><div class="rowtitle">Honesty and discipline · thesis 4<span class="sub">paper-admitted limits · Ascend 950 · Xunzi quote</span></div><div class="pages">66 – 70</div></div>
+      <div class="row"><div class="num">11</div><div class="rowtitle">Closing<span class="sub">overall positioning · credits</span></div><div class="pages">71 – 72</div></div>
     </div>
   </div>
-
-  <div class="s04-footer">
-    <div>CHAPTER 00 · ROADMAP</div>
-    <div>04 / 72</div>
-  </div>
-  <div class="s04-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+  <div class="footer"><div>Chapter 0 · Roadmap</div><div>04 / 72</div></div>
 </div>
 </body>
 </html>

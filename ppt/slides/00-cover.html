@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DeepSeek-V4 · 封面</title>
+<title>DeepSeek-V4 · Cover</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     width: 1920px; height: 1080px; overflow: hidden;
     background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   .s00-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
-
   .s00-bg-grid {
     position: absolute; inset: 0;
     background-image:
@@ -21,7 +20,6 @@
     background-size: 80px 80px;
     mask-image: radial-gradient(ellipse 1200px 700px at center, #000 10%, transparent 80%);
   }
-
   .s00-top-strip {
     position: absolute; top: 60px; left: 120px; right: 120px;
     display: flex; align-items: center; justify-content: space-between;
@@ -31,13 +29,11 @@
     font-size: 13px; letter-spacing: 0.28em; color: #5A5A5A;
     text-transform: uppercase;
   }
-
   .s00-center {
     position: absolute; top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     text-align: center; width: 1600px;
   }
-
   .s00-kicker {
     font-size: 14px; letter-spacing: 0.32em; color: #4D6BFE;
     text-transform: uppercase; font-weight: 600;
@@ -46,25 +42,19 @@
   .s00-kicker::before,
   .s00-kicker::after {
     content: ""; display: inline-block; width: 60px; height: 1px;
-    background: #4D6BFE; vertical-align: middle;
-    margin: 0 24px;
+    background: #4D6BFE; vertical-align: middle; margin: 0 24px;
   }
-
   .s00-title {
-    font-family: "Source Serif 4", "Noto Serif SC", "Songti SC", Georgia, serif;
-    font-size: 128px; line-height: 1.05; font-weight: 600;
-    letter-spacing: -0.02em;
-    margin-bottom: 40px;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 120px; line-height: 1.05; font-weight: 600;
+    letter-spacing: -0.02em; margin-bottom: 40px;
   }
   .s00-title .accent { color: #4D6BFE; font-style: italic; }
-
   .s00-subtitle {
     font-family: "Source Serif 4", Georgia, serif;
     font-size: 30px; line-height: 1.5; color: #5A5A5A;
-    font-style: italic; font-weight: 400;
-    margin-bottom: 60px;
+    font-style: italic; font-weight: 400; margin-bottom: 60px;
   }
-
   .s00-meta {
     display: flex; justify-content: center; gap: 48px;
     font-size: 14px; letter-spacing: 0.24em; color: #999;
@@ -72,19 +62,16 @@
   }
   .s00-meta span { position: relative; }
   .s00-meta span:not(:last-child)::after {
-    content: ""; position: absolute;
-    right: -24px; top: 50%;
+    content: ""; position: absolute; right: -24px; top: 50%;
     width: 4px; height: 4px; border-radius: 50%;
     background: #CCC; transform: translateY(-50%);
   }
-
   .s00-bottom {
     position: absolute; bottom: 60px; left: 120px; right: 120px;
     display: flex; justify-content: space-between; align-items: flex-end;
   }
   .s00-bottom-left {
-    font-size: 14px; letter-spacing: 0.18em; color: #999;
-    text-transform: uppercase;
+    font-size: 14px; letter-spacing: 0.18em; color: #999; text-transform: uppercase;
   }
   .s00-bottom-right {
     font-family: "Source Serif 4", Georgia, serif;
@@ -98,24 +85,24 @@
 
   <div class="s00-top-strip">
     <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-    <div class="s00-top-label">DeepSeek-V4 · 技术深度解读</div>
+    <div class="s00-top-label">DeepSeek-V4 · Technical Deep Dive</div>
   </div>
 
   <div class="s00-center">
     <div class="s00-kicker">2026 · Preview Release</div>
-    <h1 class="s00-title">迈入<span class="accent">百万上下文</span><br>普惠时代</h1>
-    <div class="s00-subtitle">DeepSeek-V4 预览版 · 论文与发布深度解读</div>
+    <h1 class="s00-title">Entering the Era of<br><span class="accent">Affordable 1M Context</span></h1>
+    <div class="s00-subtitle">DeepSeek-V4 preview release · paper and launch analysis</div>
     <div class="s00-meta">
-      <span>1.6 T Parameters</span>
-      <span>1 M Context</span>
+      <span>1.6T Parameters</span>
+      <span>1M Context</span>
       <span>Open Weights</span>
       <span>FP4 QAT</span>
     </div>
   </div>
 
   <div class="s00-bottom">
-    <div class="s00-bottom-left">00 · COVER &nbsp;&nbsp;/&nbsp;&nbsp; 2026.04.24</div>
-    <div class="s00-bottom-right">Produced by 花叔 · based on DeepSeek-V4 Tech Report</div>
+    <div class="s00-bottom-left">00 · Cover &nbsp;&nbsp;/&nbsp;&nbsp; 2026.04.24</div>
+    <div class="s00-bottom-right">Produced by Huashu · based on the DeepSeek-V4 technical report</div>
   </div>
 </div>
 </body>

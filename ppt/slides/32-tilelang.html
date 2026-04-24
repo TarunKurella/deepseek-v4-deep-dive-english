@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>DeepSeek-V4 · TileLang DSL</title>
@@ -8,7 +8,7 @@
   html, body {
     width: 1920px; height: 1080px; overflow: hidden;
     background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   .s32-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
@@ -23,7 +23,6 @@
     font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
   }
   .s32-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
   .s32-header { position: absolute; top: 150px; left: 120px; right: 120px; }
   .s32-kicker {
     display: inline-flex; align-items: center; gap: 12px;
@@ -32,7 +31,7 @@
   }
   .s32-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
   .s32-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-family: "Source Serif 4", Georgia, serif;
     font-size: 66px; line-height: 1.15; font-weight: 600; color: #1A1A1A;
     letter-spacing: -0.01em; max-width: 1500px;
   }
@@ -40,7 +39,6 @@
   .s32-sub {
     margin-top: 22px; font-size: 22px; color: #5A5A5A; max-width: 1500px; line-height: 1.55;
   }
-
   .s32-main {
     position: absolute; left: 120px; right: 120px; top: 430px;
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;
@@ -75,7 +73,6 @@
     font-size: 14px; color: #5A5A5A; font-weight: 400;
     margin-top: 4px; letter-spacing: 0.02em;
   }
-
   .s32-quote {
     position: absolute; left: 120px; right: 120px; bottom: 120px;
     border-left: 3px solid #4D6BFE;
@@ -84,7 +81,6 @@
     font-style: italic; font-size: 22px; color: #1A1A1A; line-height: 1.5;
     max-width: 1500px;
   }
-
   .s32-footer {
     position: absolute; left: 120px; right: 120px; bottom: 50px;
     display: flex; justify-content: space-between;
@@ -99,52 +95,52 @@
   <div class="s32-masthead">
     <div class="s32-masthead-left">
       <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
     </div>
     <div class="s32-masthead-right">05 · INFRA · TILELANG</div>
   </div>
 
   <div class="s32-header">
-    <div class="s32-kicker">MODULE 02 · TileLang DSL</div>
-    <h1 class="s32-title">开发效率 × 执行效率，<span class="accent">它不做单选题</span></h1>
-    <div class="s32-sub">V4 的架构若用 Torch ATen 会产生上百个细粒度算子。TileLang 是一把折衷的手艺刀——CUDA 够底层但开发慢，Triton 够快但不够灵活，TileLang 把两头接上。</div>
+    <div class="s32-kicker">MODULE 02 · TILELANG DSL</div>
+    <h1 class="s32-title">Developer efficiency × runtime efficiency: <span class="accent">it refuses to pick one</span></h1>
+    <div class="s32-sub">V4’s architecture would explode into hundreds of fine-grained operators if implemented in Torch ATen alone. TileLang is the compromise tool: CUDA is flexible but slow to build with, Triton is productive but not always flexible enough, and TileLang tries to connect both ends.</div>
   </div>
 
   <div class="s32-main">
     <div class="s32-card highlight">
       <div class="s32-card-label">HOST CODEGEN</div>
-      <div class="s32-card-title">CPU 校验<br>沉到生成代码里</div>
-      <div class="s32-card-body">把 Python host 端的 shape 检查、layout 校验下沉到生成的 host 代码，基于 TVM-FFI 实现零拷贝调用。</div>
-      <div class="s32-card-stat">几十&nbsp;μs → <span class="accent">&lt;1&nbsp;μs</span>
-        <small>CPU 侧校验开销数量级下降</small>
+      <div class="s32-card-title">CPU validation<br>drops into generated host code</div>
+      <div class="s32-card-body">Shape checking and layout validation move out of Python and into generated host code, with TVM-FFI used for zero-copy invocation.</div>
+      <div class="s32-card-stat">tens of μs → <span class="accent">&lt;1 μs</span>
+        <small>CPU-side validation overhead falls by an order of magnitude</small>
       </div>
     </div>
 
     <div class="s32-card">
       <div class="s32-card-label">SMT SOLVER</div>
-      <div class="s32-card-title">形式化<br>整数分析</div>
-      <div class="s32-card-body">把 Z3 SMT solver 集成进 TileLang 代数系统，处理 layout inference、memory hazard、bound analysis 这些编译 pass。</div>
+      <div class="s32-card-title">Formal integer<br>analysis</div>
+      <div class="s32-card-body">Z3 is integrated into TileLang’s algebraic system to handle layout inference, memory hazards, and bound analysis in the compiler passes.</div>
       <div class="s32-card-stat">Vectorize · Barrier · Simplify
-        <small>编译时开销仅增加几秒</small>
+        <small>Compile-time cost rises by only a few seconds</small>
       </div>
     </div>
 
     <div class="s32-card">
       <div class="s32-card-label">NUMERICAL PRECISION</div>
-      <div class="s32-card-title">数值精度<br>显式可控</div>
-      <div class="s32-card-body">默认关闭 fast-math。通过 T.__exp、T.__log 或 IEEE 严格模式（T.ieee_fsqrt 等）让开发者精确控制每一处数值行为。</div>
+      <div class="s32-card-title">Numerical behavior<br>stays explicitly controllable</div>
+      <div class="s32-card-body">Fast-math is off by default. Developers opt in explicitly with operations like `T.__exp`, `T.__log`, or strict IEEE modes like `T.ieee_fsqrt`, so every numerically sensitive path stays deliberate.</div>
       <div class="s32-card-stat">Opt-in only
-        <small>为确定性 kernel 铺路</small>
+        <small>Lays the groundwork for deterministic kernels</small>
       </div>
     </div>
   </div>
 
   <div class="s32-quote">
-    Torch ATen 写出上百个算子，CUDA 手写工期爆炸——TileLang 在中间找到那个可落地的点。
+    Torch ATen would produce hundreds of operators, while handwritten CUDA would explode the implementation schedule. TileLang finds the practical middle.
   </div>
 
   <div class="s32-footer">
-    <div>技术深度解读 · CHAPTER 05</div>
+    <div>TECHNICAL DEEP DIVE · CHAPTER 05</div>
     <div>32 / 72</div>
   </div>
   <div class="s32-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>

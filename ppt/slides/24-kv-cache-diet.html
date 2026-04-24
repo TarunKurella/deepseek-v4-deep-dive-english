@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DeepSeek-V4 · KV cache 只剩 2%</title>
+<title>DeepSeek-V4 · KV Cache Down to 2%</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     width: 1920px; height: 1080px; overflow: hidden;
     background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   .s24-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
@@ -23,7 +23,6 @@
     font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
   }
   .s24-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
   .s24-header { position: absolute; top: 150px; left: 120px; right: 120px; }
   .s24-kicker {
     display: inline-flex; align-items: center; gap: 12px;
@@ -32,12 +31,11 @@
   }
   .s24-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
   .s24-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-family: "Source Serif 4", Georgia, serif;
     font-size: 60px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
     letter-spacing: -0.01em; max-width: 1500px;
   }
   .s24-title .accent { color: #4D6BFE; font-style: italic; }
-
   .s24-hero {
     position: absolute; left: 120px; top: 380px;
     width: 880px;
@@ -59,8 +57,6 @@
     max-width: 820px;
   }
   .s24-hero-caption strong { color: #4D6BFE; font-style: normal; font-weight: 600; }
-
-  /* Visual bar comparison on the right */
   .s24-visual {
     position: absolute; right: 120px; top: 380px; width: 680px;
   }
@@ -68,9 +64,7 @@
     font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
     color: #5A5A5A; font-weight: 600; margin-bottom: 24px;
   }
-  .s24-visual-row {
-    margin-bottom: 28px;
-  }
+  .s24-visual-row { margin-bottom: 28px; }
   .s24-visual-row-top {
     display: flex; justify-content: space-between; align-items: baseline;
     margin-bottom: 8px;
@@ -93,7 +87,6 @@
   }
   .s24-visual-bar.baseline { background: #1A1A1A; }
   .s24-visual-bar.dim { background: #B8C4FF; }
-
   .s24-bottom-note {
     position: absolute; left: 120px; right: 120px; bottom: 110px;
     border-top: 2px solid #1A1A1A;
@@ -102,7 +95,6 @@
     max-width: 1400px;
   }
   .s24-bottom-note strong { color: #1A1A1A; font-weight: 600; }
-
   .s24-footer {
     position: absolute; left: 120px; right: 120px; bottom: 50px;
     display: flex; justify-content: space-between;
@@ -117,26 +109,26 @@
   <div class="s24-masthead">
     <div class="s24-masthead-left">
       <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
     </div>
-    <div class="s24-masthead-right">24 · KV cache 减肥记</div>
+    <div class="s24-masthead-right">24 · KV CACHE DIET</div>
   </div>
 
   <div class="s24-header">
     <div class="s24-kicker">CHAPTER 03 · DIET SIGNAL</div>
-    <h1 class="s24-title">KV cache <span class="accent">只剩 baseline 的 2%</span></h1>
+    <h1 class="s24-title">The KV cache shrinks to <span class="accent">about 2% of baseline</span></h1>
   </div>
 
   <div class="s24-hero">
     <div class="s24-hero-label">vs BF16 GQA-8 BASELINE · 1M CONTEXT</div>
     <div class="s24-hero-value">~2<span class="pct">%</span></div>
     <div class="s24-hero-caption">
-      在最常见的 <strong>BF16 GQA-8（head dim = 128）</strong>对照组下，V4 系列把 1M 上下文的 KV cache 压到只剩 2% 量级。
+      Against a common <strong>BF16 GQA-8 baseline (head dim = 128)</strong>, the V4 family compresses the KV cache for 1M context down to roughly the 2% range.
     </div>
   </div>
 
   <div class="s24-visual">
-    <div class="s24-visual-title">VISUAL RATIO · 相对 baseline</div>
+    <div class="s24-visual-title">VISUAL RATIO · RELATIVE TO BASELINE</div>
 
     <div class="s24-visual-row">
       <div class="s24-visual-row-top">
@@ -170,12 +162,12 @@
   </div>
 
   <div class="s24-bottom-note">
-    这 2% 不是单点优化的战果，是 <strong>CSA/HCA 双压缩 + Shared KV MQA + FP8 主存 / BF16 位置维</strong> 四件事叠加的结果。
-    说人话：把 50 份缩成 1 份，百万上下文就能从机房搬进一张卡。
+    That 2% is not the result of one isolated trick. It comes from the combination of <strong>CSA/HCA dual compression, shared-KV MQA, and FP8 main storage with BF16 positional dimensions</strong>.
+    In plain language: compress fifty parts down to one, and million-token context moves from “data-center problem” toward “single-card feasible”.
   </div>
 
   <div class="s24-footer">
-    <div>技术深度解读 · CHAPTER 03 · SOURCE: §2.3.4</div>
+    <div>TECHNICAL DEEP DIVE · CHAPTER 03 · SOURCE: §2.3.4</div>
     <div>24 / 72</div>
   </div>
   <div class="s24-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>

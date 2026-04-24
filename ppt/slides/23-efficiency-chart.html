@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DeepSeek-V4 · 效率对比</title>
+<title>DeepSeek-V4 · Efficiency Comparison</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     width: 1920px; height: 1080px; overflow: hidden;
     background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   .s23-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
@@ -23,7 +23,6 @@
     font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
   }
   .s23-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
   .s23-header { position: absolute; top: 140px; left: 120px; right: 120px; }
   .s23-kicker {
     display: inline-flex; align-items: center; gap: 12px;
@@ -32,7 +31,7 @@
   }
   .s23-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
   .s23-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-family: "Source Serif 4", Georgia, serif;
     font-size: 56px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
     letter-spacing: -0.01em; max-width: 1500px;
   }
@@ -41,7 +40,6 @@
     margin-top: 14px;
     font-size: 19px; color: #5A5A5A; line-height: 1.5; max-width: 1400px;
   }
-
   .s23-charts {
     position: absolute; left: 120px; right: 120px; top: 360px;
     display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
@@ -58,15 +56,11 @@
   .s23-chart-sub {
     font-size: 13px; color: #999; letter-spacing: 0.08em; margin-bottom: 12px;
   }
-
   .s23-legend {
     display: flex; gap: 24px; font-size: 13px; color: #5A5A5A;
     margin-bottom: 4px;
   }
   .s23-legend-item { display: flex; align-items: center; gap: 8px; }
-  .s23-swatch { width: 24px; height: 3px; }
-  .s23-swatch.d32 { background: #5A5A5A; border-top: 1px dashed #5A5A5A; background: transparent; border-top: 0; border-bottom: 0; height: 0; }
-
   .s23-keyfacts {
     position: absolute; left: 120px; right: 120px; bottom: 120px;
     border-top: 2px solid #1A1A1A; padding-top: 22px;
@@ -89,7 +83,6 @@
   .s23-fact-body {
     font-size: 14px; color: #5A5A5A; line-height: 1.5; margin-top: 6px;
   }
-
   .s23-footer {
     position: absolute; left: 120px; right: 120px; bottom: 50px;
     display: flex; justify-content: space-between;
@@ -104,29 +97,27 @@
   <div class="s23-masthead">
     <div class="s23-masthead-left">
       <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
     </div>
-    <div class="s23-masthead-right">23 · 效率对比（复刻 Fig.1）</div>
+    <div class="s23-masthead-right">23 · EFFICIENCY COMPARISON (FIG.1 RECONSTRUCTION)</div>
   </div>
 
   <div class="s23-header">
-    <div class="s23-kicker">CHAPTER 03 · Efficiency Discussion</div>
-    <h1 class="s23-title">V3.2 的曲线还在往上爬，<span class="accent">V4 的曲线几乎是贴着地面走</span></h1>
-    <div class="s23-subtitle">同样推到 1024K token 长度，DeepSeek-V3.2 的 FLOPs 和 KV cache 线性攀升；V4-Pro 的曲线被压扁到贴近 x 轴。差距来自 CSA/HCA 双压缩 + FP4 indexer + 混合精度存储。</div>
+    <div class="s23-kicker">CHAPTER 03 · EFFICIENCY DISCUSSION</div>
+    <h1 class="s23-title">V3.2 still climbs upward. <span class="accent">V4 almost hugs the floor.</span></h1>
+    <div class="s23-subtitle">At the same 1024K-token length, DeepSeek-V3.2’s FLOPs and KV cache keep climbing with sequence length, while V4-Pro stays pressed close to the x-axis. The gap comes from CSA/HCA dual compression, the FP4 indexer, and mixed-precision storage.</div>
   </div>
 
   <div class="s23-charts">
-    <!-- Chart 1: FLOPs -->
     <div class="s23-chart-card">
       <div class="s23-chart-title">Single-Token Inference FLOPs (T)</div>
-      <div class="s23-chart-sub">COMPUTE COST PER TOKEN · 数值越低越好</div>
+      <div class="s23-chart-sub">COMPUTE COST PER TOKEN · LOWER IS BETTER</div>
       <div class="s23-legend">
         <div class="s23-legend-item"><svg width="24" height="3"><line x1="0" y1="1.5" x2="24" y2="1.5" stroke="#5A5A5A" stroke-width="1.5" stroke-dasharray="4 3"/></svg> DeepSeek-V3.2</div>
         <div class="s23-legend-item"><svg width="24" height="3"><line x1="0" y1="1.5" x2="24" y2="1.5" stroke="#4D6BFE" stroke-width="2.5"/></svg> DeepSeek-V4-Pro</div>
         <div class="s23-legend-item"><svg width="24" height="3"><line x1="0" y1="1.5" x2="24" y2="1.5" stroke="#8FA2F8" stroke-width="2"/></svg> DeepSeek-V4-Flash</div>
       </div>
       <svg width="740" height="440" viewBox="0 0 740 440" xmlns="http://www.w3.org/2000/svg">
-        <!-- grid -->
         <g stroke="rgba(26,26,26,0.06)" stroke-width="1">
           <line x1="80" y1="50"  x2="700" y2="50"/>
           <line x1="80" y1="110" x2="700" y2="110"/>
@@ -135,11 +126,9 @@
           <line x1="80" y1="290" x2="700" y2="290"/>
           <line x1="80" y1="350" x2="700" y2="350"/>
         </g>
-        <!-- axes -->
         <line x1="80" y1="350" x2="700" y2="350" stroke="#1A1A1A" stroke-width="1.2"/>
         <line x1="80" y1="50"  x2="80"  y2="350" stroke="#1A1A1A" stroke-width="1.2"/>
 
-        <!-- y-axis labels (0 ~ 1.2 T) -->
         <g font-family="Source Serif 4, Georgia, serif" font-size="12" fill="#999" text-anchor="end" font-variant-numeric="tabular-nums">
           <text x="72" y="354">0</text>
           <text x="72" y="294">0.2</text>
@@ -149,7 +138,6 @@
           <text x="72" y="54">1.2</text>
         </g>
 
-        <!-- x-axis labels -->
         <g font-family="Source Serif 4, Georgia, serif" font-size="12" fill="#5A5A5A" text-anchor="middle" font-variant-numeric="tabular-nums">
           <text x="80" y="372">0</text>
           <text x="235" y="372">256</text>
@@ -159,30 +147,22 @@
         </g>
         <text x="390" y="400" font-family="-apple-system, sans-serif" font-size="11" fill="#999" text-anchor="middle" letter-spacing="0.18em">TOKEN POSITION (K)</text>
 
-        <!-- V3.2 line (dashed, steep) - ends at ~1.0 T at 1024K -->
         <line x1="80" y1="350" x2="700" y2="60" stroke="#5A5A5A" stroke-width="1.5" stroke-dasharray="5 4"/>
 
-        <!-- V4-Flash line - ends at ~0.27 T (3.7× lower than 1.0) -->
         <g>
           <polygon points="80,350 700,270 700,350" fill="#4D6BFE" opacity="0.05"/>
           <line x1="80" y1="350" x2="700" y2="270" stroke="#8FA2F8" stroke-width="2"/>
         </g>
-
-        <!-- V4-Pro line - ends at ~0.10 T (9.8× lower than 1.0) -->
         <g>
           <polygon points="80,350 700,320 700,350" fill="#4D6BFE" opacity="0.10"/>
           <line x1="80" y1="350" x2="700" y2="320" stroke="#4D6BFE" stroke-width="2.8"/>
         </g>
 
-        <!-- gap annotations at x=1024 -->
-        <!-- 3.7× lower: between V3.2 (60) and V4-Flash (270) -->
         <g transform="translate(570, 160)">
           <rect x="0" y="0" width="112" height="30" fill="#FFFFFF" stroke="#4D6BFE" stroke-width="1"/>
           <text x="56" y="20" font-family="Source Serif 4, Georgia, serif" font-size="14" fill="#4D6BFE" font-weight="600" text-anchor="middle">3.7× lower</text>
         </g>
         <line x1="680" y1="60" x2="680" y2="270" stroke="#4D6BFE" stroke-width="0.8" opacity="0.5" stroke-dasharray="4 3"/>
-
-        <!-- 9.8× lower: between V3.2 and V4-Pro -->
         <g transform="translate(570, 295)">
           <rect x="0" y="0" width="112" height="30" fill="#4D6BFE"/>
           <text x="56" y="20" font-family="Source Serif 4, Georgia, serif" font-size="14" fill="#FFFFFF" font-weight="600" text-anchor="middle">9.8× lower</text>
@@ -190,17 +170,15 @@
       </svg>
     </div>
 
-    <!-- Chart 2: KV cache -->
     <div class="s23-chart-card">
       <div class="s23-chart-title">Accumulated KV Cache (GB)</div>
-      <div class="s23-chart-sub">MEMORY FOOTPRINT · 数值越低越好</div>
+      <div class="s23-chart-sub">MEMORY FOOTPRINT · LOWER IS BETTER</div>
       <div class="s23-legend">
         <div class="s23-legend-item"><svg width="24" height="3"><line x1="0" y1="1.5" x2="24" y2="1.5" stroke="#5A5A5A" stroke-width="1.5" stroke-dasharray="4 3"/></svg> DeepSeek-V3.2</div>
         <div class="s23-legend-item"><svg width="24" height="3"><line x1="0" y1="1.5" x2="24" y2="1.5" stroke="#4D6BFE" stroke-width="2.5"/></svg> DeepSeek-V4-Pro</div>
         <div class="s23-legend-item"><svg width="24" height="3"><line x1="0" y1="1.5" x2="24" y2="1.5" stroke="#8FA2F8" stroke-width="2"/></svg> DeepSeek-V4-Flash</div>
       </div>
       <svg width="740" height="440" viewBox="0 0 740 440" xmlns="http://www.w3.org/2000/svg">
-        <!-- grid -->
         <g stroke="rgba(26,26,26,0.06)" stroke-width="1">
           <line x1="80" y1="50"  x2="700" y2="50"/>
           <line x1="80" y1="110" x2="700" y2="110"/>
@@ -209,11 +187,9 @@
           <line x1="80" y1="290" x2="700" y2="290"/>
           <line x1="80" y1="350" x2="700" y2="350"/>
         </g>
-        <!-- axes -->
         <line x1="80" y1="350" x2="700" y2="350" stroke="#1A1A1A" stroke-width="1.2"/>
         <line x1="80" y1="50"  x2="80"  y2="350" stroke="#1A1A1A" stroke-width="1.2"/>
 
-        <!-- y-axis labels (0 ~ 50 GB) -->
         <g font-family="Source Serif 4, Georgia, serif" font-size="12" fill="#999" text-anchor="end" font-variant-numeric="tabular-nums">
           <text x="72" y="354">0</text>
           <text x="72" y="294">10</text>
@@ -223,7 +199,6 @@
           <text x="72" y="54">50</text>
         </g>
 
-        <!-- x-axis labels -->
         <g font-family="Source Serif 4, Georgia, serif" font-size="12" fill="#5A5A5A" text-anchor="middle" font-variant-numeric="tabular-nums">
           <text x="80" y="372">0</text>
           <text x="235" y="372">256</text>
@@ -233,27 +208,20 @@
         </g>
         <text x="390" y="400" font-family="-apple-system, sans-serif" font-size="11" fill="#999" text-anchor="middle" letter-spacing="0.18em">SEQUENCE LENGTH (K)</text>
 
-        <!-- V3.2 line (dashed) - ends at ~40 GB at 1024K -->
         <line x1="80" y1="350" x2="700" y2="110" stroke="#5A5A5A" stroke-width="1.5" stroke-dasharray="5 4"/>
-
-        <!-- V4-Flash line - ends at ~4.2 GB (9.5× smaller than 40) -->
         <g>
           <polygon points="80,350 700,325 700,350" fill="#4D6BFE" opacity="0.05"/>
           <line x1="80" y1="350" x2="700" y2="325" stroke="#8FA2F8" stroke-width="2"/>
         </g>
-
-        <!-- V4-Pro line - ends at ~2.9 GB (13.7× smaller than 40) -->
         <g>
           <polygon points="80,350 700,332 700,350" fill="#4D6BFE" opacity="0.10"/>
           <line x1="80" y1="350" x2="700" y2="332" stroke="#4D6BFE" stroke-width="2.8"/>
         </g>
 
-        <!-- gap annotations -->
         <g transform="translate(570, 195)">
           <rect x="0" y="0" width="122" height="30" fill="#FFFFFF" stroke="#4D6BFE" stroke-width="1"/>
           <text x="61" y="20" font-family="Source Serif 4, Georgia, serif" font-size="14" fill="#4D6BFE" font-weight="600" text-anchor="middle">9.5× smaller</text>
         </g>
-
         <g transform="translate(570, 300)">
           <rect x="0" y="0" width="122" height="30" fill="#4D6BFE"/>
           <text x="61" y="20" font-family="Source Serif 4, Georgia, serif" font-size="14" fill="#FFFFFF" font-weight="600" text-anchor="middle">13.7× smaller</text>
@@ -266,22 +234,22 @@
     <div class="s23-fact">
       <div class="s23-fact-label">INFERENCE FLOPS · V4-PRO vs V3.2</div>
       <div class="s23-fact-value">9.8<span class="unit">× lower</span></div>
-      <div class="s23-fact-body">1M context 下单 token 前向算力</div>
+      <div class="s23-fact-body">Single-token forward cost at 1M context</div>
     </div>
     <div class="s23-fact">
       <div class="s23-fact-label">KV CACHE · V4-PRO vs V3.2</div>
       <div class="s23-fact-value">13.7<span class="unit">× smaller</span></div>
-      <div class="s23-fact-body">累积显存占用（同为 1024K 长度）</div>
+      <div class="s23-fact-body">Accumulated memory footprint at the same 1024K length</div>
     </div>
     <div class="s23-fact">
       <div class="s23-fact-label">COMPARED WITH V3.2</div>
       <div class="s23-fact-value">27<span class="unit">% FLOPs · 10% cache</span></div>
-      <div class="s23-fact-body">来自 DeepSeek-V4 abstract 明确披露</div>
+      <div class="s23-fact-body">Numbers explicitly disclosed in the DeepSeek-V4 abstract</div>
     </div>
   </div>
 
   <div class="s23-footer">
-    <div>技术深度解读 · CHAPTER 03 · SOURCE: DEEPSEEK-V4 FIG.1</div>
+    <div>TECHNICAL DEEP DIVE · CHAPTER 03 · SOURCE: DEEPSEEK-V4 FIG.1</div>
     <div>23 / 72</div>
   </div>
   <div class="s23-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DeepSeek-V4 · 磁盘 KV Cache</title>
+<title>DeepSeek-V4 · Disk KV Cache</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     width: 1920px; height: 1080px; overflow: hidden;
     background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   .s35-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
@@ -23,7 +23,6 @@
     font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
   }
   .s35-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
   .s35-header { position: absolute; top: 150px; left: 120px; right: 120px; }
   .s35-kicker {
     display: inline-flex; align-items: center; gap: 12px;
@@ -32,7 +31,7 @@
   }
   .s35-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
   .s35-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-family: "Source Serif 4", Georgia, serif;
     font-size: 66px; line-height: 1.15; font-weight: 600; color: #1A1A1A;
     letter-spacing: -0.01em; max-width: 1500px;
   }
@@ -40,17 +39,14 @@
   .s35-sub {
     margin-top: 20px; font-size: 21px; color: #5A5A5A; max-width: 1500px; line-height: 1.55;
   }
-
   .s35-body {
     position: absolute; left: 120px; right: 120px; top: 410px;
   }
-
   .s35-diagram {
     background: #F7F8FA;
     padding: 34px 40px;
     border: 1px solid rgba(26,26,26,0.08);
   }
-
   .s35-analogy {
     margin-top: 34px;
     display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px;
@@ -71,7 +67,6 @@
   .s35-analogy-body {
     font-size: 15px; color: #5A5A5A; line-height: 1.55;
   }
-
   .s35-quote {
     margin-top: 26px;
     border-left: 3px solid #4D6BFE;
@@ -80,7 +75,6 @@
     font-style: italic; font-size: 20px; color: #1A1A1A; line-height: 1.5;
     max-width: 1500px;
   }
-
   .s35-footer {
     position: absolute; left: 120px; right: 120px; bottom: 50px;
     display: flex; justify-content: space-between;
@@ -95,80 +89,73 @@
   <div class="s35-masthead">
     <div class="s35-masthead-left">
       <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
     </div>
     <div class="s35-masthead-right">05 · INFRA · DISK KV</div>
   </div>
 
   <div class="s35-header">
-    <div class="s35-kicker">MODULE 06 · 推理框架 · 异构 KV + 落盘</div>
-    <h1 class="s35-title">大胆一招：<span class="accent">把 KV Cache 落到磁盘</span></h1>
-    <div class="s35-sub">混合注意力带来 KV cache 的异构性——CSA、HCA、SWA、indexer 各有不同大小、更新规则、命中淘汰策略，PagedAttention 的假设整个失效。V4 拆成两级池，再把共享前缀落盘。</div>
+    <div class="s35-kicker">MODULE 06 · INFERENCE FRAMEWORK · HETEROGENEOUS KV + DISK SPILL</div>
+    <h1 class="s35-title">A bold move: <span class="accent">spill KV cache to disk</span></h1>
+    <div class="s35-sub">Hybrid attention makes KV cache heterogeneous: CSA, HCA, SWA, and the indexer all have different sizes, update rules, and eviction patterns. That breaks the assumptions behind PagedAttention. V4 responds with a two-level pool, then pushes shared prefixes all the way to disk.</div>
   </div>
 
   <div class="s35-body">
     <div class="s35-diagram">
       <svg width="100%" height="260" viewBox="0 0 1680 260" xmlns="http://www.w3.org/2000/svg">
-        <!-- State Cache -->
         <rect x="40" y="30" width="420" height="200" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
         <text x="60" y="62" font-family="-apple-system" font-size="14" fill="#4D6BFE" font-weight="700" letter-spacing="2">STATE CACHE</text>
-        <text x="60" y="98" font-family="Source Serif 4, Georgia, serif" font-size="24" fill="#1A1A1A" font-weight="600">最近 n_win 个 token 的 KV</text>
-        <text x="60" y="130" font-family="-apple-system" font-size="15" fill="#5A5A5A">• SWA 窗口内的完整 KV</text>
-        <text x="60" y="156" font-family="-apple-system" font-size="15" fill="#5A5A5A">• CSA/HCA 还没攒够压缩的 tail tokens</text>
-        <text x="60" y="190" font-family="-apple-system" font-size="13" fill="#999" font-style="italic">预分配固定池，按请求动态分配</text>
+        <text x="60" y="98" font-family="Source Serif 4, Georgia, serif" font-size="24" fill="#1A1A1A" font-weight="600">KV for the most recent n_win tokens</text>
+        <text x="60" y="130" font-family="-apple-system" font-size="15" fill="#5A5A5A">• full SWA-window KV</text>
+        <text x="60" y="156" font-family="-apple-system" font-size="15" fill="#5A5A5A">• uncompressed CSA/HCA tail tokens that have not filled a compression block yet</text>
+        <text x="60" y="190" font-family="-apple-system" font-size="13" fill="#999" font-style="italic">Fixed preallocated pool, dynamically assigned per request</text>
 
-        <!-- arrow -->
-        <line x1="480" y1="130" x2="540" y2="130" stroke="#4D6BFE" stroke-width="2"/>
-        <polygon points="540,130 530,124 530,136" fill="#4D6BFE"/>
+        <line x1="480" y1="130" x2="540" y2="130" stroke="#4D6BFE" stroke-width="2"/><polygon points="540,130 530,124 530,136" fill="#4D6BFE"/>
 
-        <!-- KV Cache -->
         <rect x="560" y="30" width="420" height="200" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
         <text x="580" y="62" font-family="-apple-system" font-size="14" fill="#4D6BFE" font-weight="700" letter-spacing="2">KV CACHE</text>
-        <text x="580" y="98" font-family="Source Serif 4, Georgia, serif" font-size="24" fill="#1A1A1A" font-weight="600">已压缩的 CSA/HCA entries</text>
-        <text x="580" y="130" font-family="-apple-system" font-size="15" fill="#5A5A5A">• block size 对齐 lcm(m, m')</text>
-        <text x="580" y="156" font-family="-apple-system" font-size="15" fill="#5A5A5A">• sparse attention kernel 跨层复用</text>
-        <text x="580" y="190" font-family="-apple-system" font-size="13" fill="#999" font-style="italic">压缩比：CSA 1/m · HCA 1/m'</text>
+        <text x="580" y="98" font-family="Source Serif 4, Georgia, serif" font-size="24" fill="#1A1A1A" font-weight="600">Compressed CSA/HCA entries</text>
+        <text x="580" y="130" font-family="-apple-system" font-size="15" fill="#5A5A5A">• block size aligned to lcm(m, m′)</text>
+        <text x="580" y="156" font-family="-apple-system" font-size="15" fill="#5A5A5A">• sparse-attention kernels reused across layers</text>
+        <text x="580" y="190" font-family="-apple-system" font-size="13" fill="#999" font-style="italic">Compression ratio: CSA 1/m · HCA 1/m′</text>
 
-        <!-- arrow down to disk -->
-        <line x1="1000" y1="130" x2="1060" y2="130" stroke="#4D6BFE" stroke-width="2" stroke-dasharray="6,4"/>
-        <polygon points="1060,130 1050,124 1050,136" fill="#4D6BFE"/>
-        <text x="1030" y="118" text-anchor="middle" font-family="-apple-system" font-size="12" fill="#4D6BFE" font-weight="600">落盘</text>
+        <line x1="1000" y1="130" x2="1060" y2="130" stroke="#4D6BFE" stroke-width="2" stroke-dasharray="6,4"/><polygon points="1060,130 1050,124 1050,136" fill="#4D6BFE"/>
+        <text x="1030" y="118" text-anchor="middle" font-family="-apple-system" font-size="12" fill="#4D6BFE" font-weight="600">spill</text>
 
-        <!-- Disk -->
         <rect x="1080" y="30" width="560" height="200" fill="#4D6BFE"/>
         <text x="1100" y="62" font-family="-apple-system" font-size="14" fill="#FFFFFF" font-weight="700" letter-spacing="2" opacity="0.85">DISK KV CACHE</text>
-        <text x="1100" y="100" font-family="Source Serif 4, Georgia, serif" font-size="28" fill="#FFFFFF" font-weight="600">Shared-Prefix 落盘复用</text>
-        <text x="1100" y="138" font-family="-apple-system" font-size="15" fill="#FFFFFF" opacity="0.88">• 系统提示 · 长上下文模板 · 多轮历史</text>
-        <text x="1100" y="164" font-family="-apple-system" font-size="15" fill="#FFFFFF" opacity="0.88">• 压缩后的 CSA/HCA + SWA 未压缩分开落盘</text>
-        <text x="1100" y="198" font-family="-apple-system" font-size="13" fill="#FFFFFF" opacity="0.7" font-style="italic">压缩比本来就高，磁盘带宽扛得住</text>
+        <text x="1100" y="100" font-family="Source Serif 4, Georgia, serif" font-size="28" fill="#FFFFFF" font-weight="600">Shared-prefix reuse on disk</text>
+        <text x="1100" y="138" font-family="-apple-system" font-size="15" fill="#FFFFFF" opacity="0.88">• system prompts · long-context templates · multi-turn history</text>
+        <text x="1100" y="164" font-family="-apple-system" font-size="15" fill="#FFFFFF" opacity="0.88">• compressed CSA/HCA and uncompressed SWA spill separately</text>
+        <text x="1100" y="198" font-family="-apple-system" font-size="13" fill="#FFFFFF" opacity="0.7" font-style="italic">Compression is already high enough that disk bandwidth can keep up</text>
       </svg>
     </div>
 
     <div class="s35-analogy">
       <div class="s35-analogy-cell">
-        <div class="s35-analogy-label">类比</div>
-        <div class="s35-analogy-title">像数据库给 page 做 buffer pool</div>
-        <div class="s35-analogy-body">热数据在内存、温数据在 SSD、冷数据在磁盘。KV cache 第一次享受到这种分层待遇。</div>
+        <div class="s35-analogy-label">Analogy</div>
+        <div class="s35-analogy-title">Like a database buffer pool for pages</div>
+        <div class="s35-analogy-body">Hot data stays in memory, warm data sits on SSD, cold data goes to disk. KV cache finally gets treated with the same hierarchy.</div>
       </div>
       <div class="s35-analogy-cell">
-        <div class="s35-analogy-label">谁受益最大</div>
-        <div class="s35-analogy-title">Agent 长上下文 · 多轮对话</div>
-        <div class="s35-analogy-body">shared-prefix 的重复度极高，省掉的 prefill 直接变首 token 延迟下降。</div>
+        <div class="s35-analogy-label">Who benefits most</div>
+        <div class="s35-analogy-title">Long-context agents and multi-turn chat</div>
+        <div class="s35-analogy-body">Shared prefixes repeat constantly, so skipping that prefill work directly lowers first-token latency.</div>
       </div>
       <div class="s35-analogy-cell">
-        <div class="s35-analogy-label">为什么以前没人这么做</div>
-        <div class="s35-analogy-title">没压缩之前磁盘扛不住</div>
-        <div class="s35-analogy-body">V4 的 CSA/HCA 把 KV 压到 1/m，落盘的带宽需求才降到磁盘 IO 能承受的量级。</div>
+        <div class="s35-analogy-label">Why nobody did this earlier</div>
+        <div class="s35-analogy-title">Without compression, disk could not keep up</div>
+        <div class="s35-analogy-body">CSA/HCA already compress KV to roughly 1/m scale. Only after that reduction does disk I/O become viable.</div>
       </div>
     </div>
 
     <div class="s35-quote">
-      这不是学术论文的「我们提出」，是工程师扫雷扫出来的工艺——先有压缩比，才敢谈落盘。
+      This is not a paper-style “we propose.” It is the kind of move engineers arrive at only after clearing every other systems constraint first: you get compression first, and only then do you earn the right to talk about disk spill.
     </div>
   </div>
 
   <div class="s35-footer">
-    <div>技术深度解读 · CHAPTER 05</div>
+    <div>TECHNICAL DEEP DIVE · CHAPTER 05</div>
     <div>35 / 72</div>
   </div>
   <div class="s35-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DeepSeek-V4 · mHC 的代价</title>
+<title>DeepSeek-V4 · The Cost of mHC</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     width: 1920px; height: 1080px; overflow: hidden;
     background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   .s14-stage { position: relative; width: 1920px; height: 1080px; }
@@ -23,7 +23,6 @@
     font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
   }
   .s14-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
   .s14-header { position: absolute; top: 140px; left: 120px; right: 120px; }
   .s14-kicker {
     display: inline-flex; align-items: center; gap: 12px;
@@ -32,12 +31,11 @@
   }
   .s14-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
   .s14-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-family: "Source Serif 4", Georgia, serif;
     font-size: 54px; line-height: 1.15; font-weight: 600;
     letter-spacing: -0.01em;
   }
   .s14-title .accent { color: #4D6BFE; font-style: italic; }
-
   .s14-hero {
     position: absolute; top: 320px; left: 120px; width: 800px;
   }
@@ -58,7 +56,6 @@
     font-size: 22px; color: #5A5A5A; line-height: 1.6; max-width: 720px;
   }
   .s14-hero-desc strong { color: #1A1A1A; font-weight: 600; }
-
   .s14-cost-breakdown {
     position: absolute; top: 320px; right: 120px; width: 720px;
   }
@@ -90,7 +87,6 @@
     font-style: italic;
   }
   .s14-cost-note strong { color: #1A1A1A; font-weight: 600; font-style: normal; }
-
   .s14-bottom {
     position: absolute; bottom: 140px; left: 120px; right: 120px;
     padding-top: 26px; border-top: 2px solid #1A1A1A;
@@ -98,7 +94,6 @@
     font-size: 22px; line-height: 1.5; color: #1A1A1A;
   }
   .s14-bottom strong { color: #4D6BFE; font-weight: 600; }
-
   .s14-footer {
     position: absolute; left: 120px; right: 120px; bottom: 50px;
     display: flex; justify-content: space-between;
@@ -113,53 +108,53 @@
   <div class="s14-masthead">
     <div class="s14-masthead-left">
       <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
     </div>
-    <div class="s14-masthead-right">14 · mHC · COST</div>
+    <div class="s14-masthead-right">14 · MHC · COST</div>
   </div>
 
   <div class="s14-header">
-    <div class="s14-kicker">CHAPTER 02 · mHC 的代价</div>
-    <h1 class="s14-title">每一层要投影回流形 · <span class="accent">这不是免费的</span></h1>
+    <div class="s14-kicker">CHAPTER 02 · THE COST OF MHC</div>
+    <h1 class="s14-title">Every layer must project back to the manifold · <span class="accent">that is not free</span></h1>
   </div>
 
   <div class="s14-hero">
-    <div class="s14-hero-label">Sinkhorn-Knopp 迭代次数 / 层 / 前向</div>
+    <div class="s14-hero-label">Sinkhorn-Knopp iterations / layer / forward pass</div>
     <div class="s14-hero-num">20<span class="unit">iters</span></div>
     <div class="s14-hero-desc">
-      把任意矩阵投影到双随机流形上的经典算法，<strong>交替归一化行和列 20 次</strong>，足以让误差衰减到可忽略。
+      This is the classic algorithm for projecting an arbitrary matrix onto the doubly stochastic manifold. <strong>Alternating row and column normalization 20 times</strong> is enough to make the projection error negligible.
     </div>
   </div>
 
   <div class="s14-cost-breakdown">
-    <div class="s14-cost-header">工程层面的摊销</div>
+    <div class="s14-cost-header">Engineering amortization</div>
     <div class="s14-cost-row">
-      <div class="s14-cost-label">1F1B pipeline 中的时间占比</div>
+      <div class="s14-cost-label">Time share inside a 1F1B pipeline</div>
       <div class="s14-cost-value accent">6.7%</div>
     </div>
     <div class="s14-cost-row">
-      <div class="s14-cost-label">借助 fused kernel 合并投影</div>
+      <div class="s14-cost-label">Projection folded into a fused kernel</div>
       <div class="s14-cost-value">✓</div>
     </div>
     <div class="s14-cost-row">
-      <div class="s14-cost-label">借助重计算省显存</div>
+      <div class="s14-cost-label">Recomputation used to save memory</div>
       <div class="s14-cost-value">✓</div>
     </div>
     <div class="s14-cost-row">
-      <div class="s14-cost-label">最终训练吞吐损失</div>
+      <div class="s14-cost-label">Final training throughput penalty</div>
       <div class="s14-cost-value accent">≈ 5%</div>
     </div>
     <div class="s14-cost-note">
-      代价看起来不小，但考虑到 <strong>深层稳定性的回报</strong>（否则连训练都跑不完），这是极其划算的交易。
+      The overhead is real, but compared with the <strong>return in deep-model stability</strong>, it is still an excellent trade. Without that stability, the run may not finish at all.
     </div>
   </div>
 
   <div class="s14-bottom">
-    mHC 不是性能游戏，是 <strong>可训练性</strong> 游戏——让 1.6 T · 61 层的模型从「训不出来」变成「稳稳训下来」。
+    mHC is not a performance trick. It is a <strong>trainability</strong> trick: it turns a 1.6T, 61-layer model from “cannot be trained reliably” into “can be trained stably”.
   </div>
 
   <div class="s14-footer">
-    <div>CHAPTER 02 · mHC · COST</div>
+    <div>CHAPTER 02 · MHC · COST</div>
     <div>14 / 72</div>
   </div>
   <div class="s14-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>

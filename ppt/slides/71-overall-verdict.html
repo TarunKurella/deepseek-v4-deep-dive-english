@@ -1,123 +1,50 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DeepSeek-V4 · 整体定位</title>
+<title>DeepSeek-V4 · Overall Positioning</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body {
-    width: 1920px; height: 1080px; overflow: hidden;
-    background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #FFFFFF; color: #1A1A1A; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
   .s71-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
-  .s71-masthead {
-    position: absolute; top: 50px; left: 120px; right: 120px;
-    display: flex; align-items: center; justify-content: space-between;
-    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
-  }
+  .s71-masthead { position: absolute; top: 50px; left: 120px; right: 120px; display: flex; align-items: center; justify-content: space-between; padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08); }
   .s71-masthead-left { display: flex; align-items: center; gap: 16px; }
   .s71-masthead-left img { height: 26px; }
-  .s71-masthead-left span {
-    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
-  }
+  .s71-masthead-left span { font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A; }
   .s71-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
-  .s71-body {
-    position: absolute; top: 180px; left: 120px; right: 120px; bottom: 140px;
-    display: flex; flex-direction: column; justify-content: center;
-  }
-
-  .s71-kicker {
-    display: inline-flex; align-items: center; gap: 12px;
-    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
-    color: #4D6BFE; font-weight: 600; margin-bottom: 40px;
-  }
+  .s71-body { position: absolute; top: 180px; left: 120px; right: 120px; bottom: 140px; display: flex; flex-direction: column; justify-content: center; }
+  .s71-kicker { display: inline-flex; align-items: center; gap: 12px; font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase; color: #4D6BFE; font-weight: 600; margin-bottom: 40px; }
   .s71-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
-
-  .s71-verdict {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
-    font-size: 104px; line-height: 1.15; font-weight: 600; color: #1A1A1A;
-    letter-spacing: -0.02em; max-width: 1700px;
-  }
+  .s71-verdict { font-family: "Source Serif 4", Georgia, serif; font-size: 104px; line-height: 1.15; font-weight: 600; color: #1A1A1A; letter-spacing: -0.02em; max-width: 1700px; }
   .s71-verdict .accent { color: #4D6BFE; font-style: italic; }
   .s71-verdict .sub-weight { font-weight: 500; color: #5A5A5A; font-size: 80px; }
-
-  .s71-divider {
-    width: 120px; height: 3px; background: #1A1A1A;
-    margin: 60px 0 36px 0;
-  }
-
-  .s71-coda {
-    font-size: 26px; line-height: 1.55; color: #5A5A5A;
-    max-width: 1500px;
-  }
+  .s71-divider { width: 120px; height: 3px; background: #1A1A1A; margin: 60px 0 36px 0; }
+  .s71-coda { font-size: 26px; line-height: 1.55; color: #5A5A5A; max-width: 1500px; }
   .s71-coda strong { color: #1A1A1A; font-weight: 600; }
-
-  .s71-closing-tags {
-    position: absolute; bottom: 140px; left: 120px; right: 120px;
-    display: flex; gap: 44px;
-    padding-top: 26px;
-    border-top: 1px solid rgba(26,26,26,0.15);
-  }
-  .s71-closing-tag {
-    font-family: "Source Serif 4", Georgia, serif;
-    font-size: 18px;
-    color: #5A5A5A;
-    font-style: italic;
-  }
-  .s71-closing-tag strong {
-    color: #4D6BFE; font-weight: 600;
-    font-style: normal;
-  }
-
-  .s71-footer {
-    position: absolute; left: 120px; right: 120px; bottom: 50px;
-    display: flex; justify-content: space-between;
-    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
-  }
+  .s71-closing-tags { position: absolute; bottom: 140px; left: 120px; right: 120px; display: flex; gap: 44px; padding-top: 26px; border-top: 1px solid rgba(26,26,26,0.15); }
+  .s71-closing-tag { font-family: "Source Serif 4", Georgia, serif; font-size: 18px; color: #5A5A5A; font-style: italic; }
+  .s71-closing-tag strong { color: #4D6BFE; font-weight: 600; font-style: normal; }
+  .s71-footer { position: absolute; left: 120px; right: 120px; bottom: 50px; display: flex; justify-content: space-between; font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase; }
   .s71-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
   .s71-watermark img { width: 120px; }
 </style>
 </head>
 <body>
 <div class="s71-stage">
-  <div class="s71-masthead">
-    <div class="s71-masthead-left">
-      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
-    </div>
-    <div class="s71-masthead-right">71 · 整体定位</div>
-  </div>
-
+  <div class="s71-masthead"><div class="s71-masthead-left"><img src="../assets/deepseek-logo.png" alt="DeepSeek"><span>DeepSeek-V4 · Technical Deep Dive</span></div><div class="s71-masthead-right">71 · Overall Positioning</div></div>
   <div class="s71-body">
-    <div class="s71-kicker">CHAPTER 11 · 收尾 · 一句话定位</div>
-
-    <h1 class="s71-verdict">
-      <span class="sub-weight">DeepSeek-V4 是</span><br>
-      最<span class="accent">诚实</span>、最<span class="accent">本分</span>的<br>
-      开源旗舰。
-    </h1>
-
+    <div class="s71-kicker">CHAPTER 11 · CLOSE · ONE-SENTENCE POSITIONING</div>
+    <h1 class="s71-verdict"><span class="sub-weight">DeepSeek-V4 is</span><br>the most <span class="accent">honest</span> and most <span class="accent">disciplined</span><br>open-source flagship.</h1>
     <div class="s71-divider"></div>
-
-    <div class="s71-coda">
-      不是世界最佳，不必是。它做的事更重要——<strong>把百万上下文、agent 原生支持、开发者工具链生态，打包成独立开发者也能用得起的底座</strong>。地板抬高的速度，决定了 AI 应用爆发的规模。
-    </div>
+    <div class="s71-coda">It is not the best model in the world, and it does not need to be. What it is doing may matter more: <strong>packaging million-token context, native agent support, and developer-toolchain integration into a foundation that independent developers can actually afford</strong>. The speed at which the floor rises determines the scale of the AI application boom.</div>
   </div>
-
   <div class="s71-closing-tags">
-    <div class="s71-closing-tag"><strong>1M</strong> · 上下文普惠</div>
-    <div class="s71-closing-tag"><strong>$0.14</strong> · Flash 输入未缓存</div>
-    <div class="s71-closing-tag"><strong>昇腾 950</strong> · 下半年降价</div>
-    <div class="s71-closing-tag"><strong>不诱于誉</strong> · 官方姿态</div>
+    <div class="s71-closing-tag"><strong>1M</strong> · accessible context</div>
+    <div class="s71-closing-tag"><strong>$0.14</strong> · Flash uncached input</div>
+    <div class="s71-closing-tag"><strong>Ascend 950</strong> · price cut later this year</div>
+    <div class="s71-closing-tag"><strong>not swayed by praise</strong> · official stance</div>
   </div>
-
-  <div class="s71-footer">
-    <div>技术深度解读 · CHAPTER 11</div>
-    <div>71 / 72</div>
-  </div>
+  <div class="s71-footer"><div>Technical Deep Dive · CHAPTER 11</div><div>71 / 72</div></div>
   <div class="s71-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
 </div>
 </body>

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DeepSeek-V4 · Specialist 阶段</title>
+<title>DeepSeek-V4 · Specialist Stage</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     width: 1920px; height: 1080px; overflow: hidden;
     background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   .s39-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
@@ -23,7 +23,6 @@
     font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
   }
   .s39-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
   .s39-header { position: absolute; top: 150px; left: 120px; right: 120px; }
   .s39-kicker {
     display: inline-flex; align-items: center; gap: 12px;
@@ -32,7 +31,7 @@
   }
   .s39-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
   .s39-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-family: "Source Serif 4", Georgia, serif;
     font-size: 66px; line-height: 1.15; font-weight: 600; color: #1A1A1A;
     letter-spacing: -0.01em; max-width: 1500px;
   }
@@ -40,15 +39,11 @@
   .s39-sub {
     margin-top: 22px; font-size: 22px; color: #5A5A5A; max-width: 1500px; line-height: 1.55;
   }
-
   .s39-body {
     position: absolute; left: 120px; right: 120px; top: 410px;
     display: grid; grid-template-columns: 1.1fr 1fr; gap: 60px;
   }
-
-  .s39-pipeline {
-    padding-right: 30px;
-  }
+  .s39-pipeline { padding-right: 30px; }
   .s39-pipeline-label {
     font-size: 13px; letter-spacing: 0.22em; color: #5A5A5A;
     text-transform: uppercase; font-weight: 600; margin-bottom: 24px;
@@ -75,7 +70,6 @@
     font-family: "SF Mono", monospace; background: #F0F2F6;
     color: #1A1A1A; padding: 1px 6px; font-size: 13px;
   }
-
   .s39-side {
     display: flex; flex-direction: column; gap: 24px;
   }
@@ -90,13 +84,12 @@
   }
   .s39-card-title {
     font-family: "Source Serif 4", Georgia, serif;
-    font-size: 26px; font-weight: 600; color: #1A1A1A; line-height: 1.3;
-    margin-bottom: 12px;
+    font-size: 26px; font-weight: 600; color: #1A1A1A;
+    line-height: 1.3; margin-bottom: 12px;
   }
   .s39-card-body {
     font-size: 15px; color: #5A5A5A; line-height: 1.6;
   }
-
   .s39-modes {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
     margin-top: 16px;
@@ -113,7 +106,6 @@
   .s39-mode-desc {
     font-size: 13px; color: #1A1A1A; line-height: 1.4;
   }
-
   .s39-footer {
     position: absolute; left: 120px; right: 120px; bottom: 50px;
     display: flex; justify-content: space-between;
@@ -128,68 +120,68 @@
   <div class="s39-masthead">
     <div class="s39-masthead-left">
       <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
     </div>
     <div class="s39-masthead-right">06 · STAGE 01 · SPECIALIST</div>
   </div>
 
   <div class="s39-header">
-    <div class="s39-kicker">STAGE 01 · Specialist Training</div>
-    <h1 class="s39-title">每个领域<span class="accent">独立训一个专家</span></h1>
-    <div class="s39-sub">先 SFT 打底，再 GRPO 做 RL。每个专家只管自己那块，reward signal 清晰不折中。V4 一共训了十多个专家。</div>
+    <div class="s39-kicker">STAGE 01 · SPECIALIST TRAINING</div>
+    <h1 class="s39-title">Train <span class="accent">one expert per domain</span></h1>
+    <div class="s39-sub">First use SFT for a base layer, then run GRPO for RL. Each expert is responsible only for its own domain, so the reward signal stays clear and uncompromised. V4 trains more than ten such experts.</div>
   </div>
 
   <div class="s39-body">
     <div class="s39-pipeline">
-      <div class="s39-pipeline-label">单个专家的训练管线</div>
+      <div class="s39-pipeline-label">Training pipeline for a single expert</div>
 
       <div class="s39-step">
         <div class="s39-step-num">01</div>
         <div>
-          <div class="s39-step-title">SFT 打底</div>
-          <div class="s39-step-body">在该领域的高质量监督数据上做标准 fine-tuning，把基础能力带起来。</div>
+          <div class="s39-step-title">Lay the base with SFT</div>
+          <div class="s39-step-body">Run standard fine-tuning on high-quality supervised data inside that domain to build the basic capability first.</div>
         </div>
       </div>
 
       <div class="s39-step">
         <div class="s39-step-num">02</div>
         <div>
-          <div class="s39-step-title">GRPO 做 RL</div>
-          <div class="s39-step-body">DeepSeek 自研的 Group Relative Policy Optimization。相比 PPO 不需要 value model，在一组采样里算相对优势——显存小、训练稳。V3、R1、V4 一脉相承。</div>
+          <div class="s39-step-title">Run RL with GRPO</div>
+          <div class="s39-step-body">DeepSeek’s Group Relative Policy Optimization removes the need for a separate value model. Relative advantage is computed across sampled groups, which lowers memory use and improves stability. V3, R1, and V4 all build on this lineage.</div>
         </div>
       </div>
 
       <div class="s39-step">
         <div class="s39-step-num">03</div>
         <div>
-          <div class="s39-step-title">输出：一个专家模型</div>
-          <div class="s39-step-body">整套管线重复十多次，训出数学 / 代码 / agent / 指令 / 推理等专家。每个都是独立的 checkpoint。</div>
+          <div class="s39-step-title">Output: one expert checkpoint</div>
+          <div class="s39-step-body">Repeat the full pipeline more than ten times to train math, code, agent, instruction, reasoning, and other experts. Each becomes its own checkpoint.</div>
         </div>
       </div>
     </div>
 
     <div class="s39-side">
       <div class="s39-card">
-        <div class="s39-card-label">创新 · Generative Reward Model</div>
-        <div class="s39-card-title">让 actor 自己当裁判</div>
-        <div class="s39-card-body">写作质量、helpful 程度这类「不好用规则验证」的任务，传统做法是标量打分 reward model。V4 反着来：用生成式模型当裁判，并对 GRM 本身做 RL——评估和生成联合优化，打分更鲁棒，对抗 reward hacking。</div>
+        <div class="s39-card-label">Innovation · Generative Reward Model</div>
+        <div class="s39-card-title">Let the actor become the judge</div>
+        <div class="s39-card-body">For tasks that are hard to validate with explicit rules, such as writing quality or helpfulness, V4 flips the usual reward-model setup: it uses a <strong>generative model</strong> as the judge, and even runs RL on the GRM itself. Evaluation ability and generation ability are optimized together.</div>
       </div>
 
       <div class="s39-card">
-        <div class="s39-card-label">创新 · 三档推理强度</div>
-        <div class="s39-card-title">思考深度可调</div>
+        <div class="s39-card-label">Innovation · Three reasoning intensities</div>
+        <div class="s39-card-title">Adjustable thinking depth</div>
         <div class="s39-modes">
           <div class="s39-mode">
             <div class="s39-mode-name">Non-think</div>
-            <div class="s39-mode-desc">快速响应，不展开推理</div>
+            <div class="s39-mode-desc">fast response, no expanded reasoning</div>
           </div>
           <div class="s39-mode">
             <div class="s39-mode-name">Think High</div>
-            <div class="s39-mode-desc">默认推理强度</div>
+            <div class="s39-mode-desc">default reasoning strength</div>
           </div>
           <div class="s39-mode">
             <div class="s39-mode-name">Think Max</div>
-            <div class="s39-mode-desc">system prompt 强拉思考深度</div>
+            <div class="s39-mode-desc">system prompt forces deeper thinking</div>
           </div>
         </div>
       </div>
@@ -197,7 +189,7 @@
   </div>
 
   <div class="s39-footer">
-    <div>技术深度解读 · CHAPTER 06</div>
+    <div>TECHNICAL DEEP DIVE · CHAPTER 06</div>
     <div>39 / 72</div>
   </div>
   <div class="s39-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>

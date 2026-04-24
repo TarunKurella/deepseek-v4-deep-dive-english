@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>DeepSeek-V4 · FP4 QAT</title>
@@ -8,7 +8,7 @@
   html, body {
     width: 1920px; height: 1080px; overflow: hidden;
     background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   .s34-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
@@ -23,7 +23,6 @@
     font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
   }
   .s34-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
   .s34-header { position: absolute; top: 150px; left: 120px; right: 120px; }
   .s34-kicker {
     display: inline-flex; align-items: center; gap: 12px;
@@ -32,7 +31,7 @@
   }
   .s34-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
   .s34-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-family: "Source Serif 4", Georgia, serif;
     font-size: 66px; line-height: 1.15; font-weight: 600; color: #1A1A1A;
     letter-spacing: -0.01em; max-width: 1500px;
   }
@@ -40,12 +39,10 @@
   .s34-sub {
     margin-top: 22px; font-size: 22px; color: #5A5A5A; max-width: 1500px; line-height: 1.55;
   }
-
   .s34-body {
     position: absolute; left: 120px; right: 120px; top: 400px;
     display: grid; grid-template-columns: 1.4fr 1fr; gap: 60px;
   }
-
   .s34-left-title {
     font-size: 13px; letter-spacing: 0.22em; color: #5A5A5A;
     text-transform: uppercase; font-weight: 600; margin-bottom: 20px;
@@ -63,7 +60,6 @@
     font-size: 22px; font-weight: 600; color: #1A1A1A; margin-bottom: 6px;
   }
   .s34-target-desc { font-size: 14px; color: #5A5A5A; line-height: 1.5; }
-
   .s34-flow {
     background: #FFF; border: 1px solid rgba(26,26,26,0.14);
     padding: 26px 28px;
@@ -88,7 +84,6 @@
     font-size: 20px; font-weight: 600;
   }
   .s34-flow-note { font-size: 14px; color: #5A5A5A; line-height: 1.55; }
-
   .s34-right {
     display: flex; flex-direction: column; gap: 22px;
   }
@@ -108,7 +103,6 @@
   }
   .s34-right-value .accent { color: #4D6BFE; }
   .s34-right-note { font-size: 15px; color: #5A5A5A; margin-top: 6px; line-height: 1.5; }
-
   .s34-footer {
     position: absolute; left: 120px; right: 120px; bottom: 50px;
     display: flex; justify-content: space-between;
@@ -123,33 +117,33 @@
   <div class="s34-masthead">
     <div class="s34-masthead-left">
       <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
     </div>
     <div class="s34-masthead-right">05 · INFRA · FP4 QAT</div>
   </div>
 
   <div class="s34-header">
-    <div class="s34-kicker">MODULE 04 · FP4 量化感知训练</div>
-    <h1 class="s34-title">把最重的两个位置<span class="accent">压到 FP4</span></h1>
-    <div class="s34-sub">post-training 阶段做 QAT，MoE 权重和 CSA indexer 的 Query-Key 路径全上 MXFP4。关键是 FP4→FP8 反量化无损——不用重写训练框架就能复用 FP8 pipeline。</div>
+    <div class="s34-kicker">MODULE 04 · FP4 QUANTIZATION-AWARE TRAINING</div>
+    <h1 class="s34-title">Push the two heaviest spots <span class="accent">all the way down to FP4</span></h1>
+    <div class="s34-sub">QAT is applied in post-training. Both MoE expert weights and the CSA indexer’s query-key path move to MXFP4. The key systems fact is that FP4→FP8 dequantization is lossless, so the existing FP8 pipeline can be reused without rewriting the whole training stack.</div>
   </div>
 
   <div class="s34-body">
     <div>
-      <div class="s34-left-title">两个压缩目标</div>
+      <div class="s34-left-title">Two compression targets</div>
       <div class="s34-targets">
         <div class="s34-target">
           <div class="s34-target-name">MoE Expert Weights</div>
-          <div class="s34-target-desc">GPU 显存大头。专家权重量化后显著降低 memory traffic。</div>
+          <div class="s34-target-desc">One of the biggest GPU-memory consumers. Quantizing expert weights cuts memory traffic directly.</div>
         </div>
         <div class="s34-target">
           <div class="s34-target-name">CSA Indexer QK</div>
-          <div class="s34-target-desc">长文本注意力打分热点。top-k selector 是推理瓶颈。</div>
+          <div class="s34-target-desc">A hotspot in long-context scoring. The top-k selector is a real inference bottleneck.</div>
         </div>
       </div>
 
       <div class="s34-flow">
-        <div class="s34-flow-label">反量化链路 · 为什么无损</div>
+        <div class="s34-flow-label">Dequantization path · why it stays lossless</div>
         <div class="s34-flow-chain">
           <span class="s34-chip fp4">FP4 (E2M1)</span>
           <span class="s34-arrow">→</span>
@@ -157,7 +151,7 @@
           <span class="s34-arrow">→</span>
           <span class="s34-chip fp32">FP32 master</span>
         </div>
-        <div class="s34-flow-note">FP8 比 FP4 多 2 个指数位，动态范围足够大，能完整吸收 FP4 sub-block（1×32 tiles）的 scale factor。反向传播用 STE 直接把梯度传回 FP32 master weights。RL rollout 直接用真 FP4 量化权重，采样与线上部署行为完全一致。</div>
+        <div class="s34-flow-note">FP8 has two more exponent bits than FP4, so its dynamic range is large enough to absorb the FP4 sub-block scale factors completely. Backprop uses STE to pass gradients directly back to the FP32 master weights. RL rollout uses the true FP4-quantized weights, so training-time sampling matches deployment-time behavior.</div>
       </div>
     </div>
 
@@ -165,23 +159,23 @@
       <div class="s34-right-row">
         <div class="s34-right-label">Indexer top-k selector</div>
         <div class="s34-right-value"><span class="accent">2×</span></div>
-        <div class="s34-right-note">FP32 → BF16 之后的提速。</div>
+        <div class="s34-right-note">Speedup after moving from FP32 to BF16.</div>
       </div>
       <div class="s34-right-row">
         <div class="s34-right-label">KV entries recall</div>
         <div class="s34-right-value">99.7<span style="font-size: 32px;">%</span></div>
-        <div class="s34-right-note">几乎无损——推理质量守住。</div>
+        <div class="s34-right-note">Essentially lossless in quality retention.</div>
       </div>
       <div class="s34-right-row">
-        <div class="s34-right-label">训练框架改动</div>
-        <div class="s34-right-value" style="font-size: 36px;">复用 FP8<br>pipeline</div>
-        <div class="s34-right-note">不需要重写 backward。</div>
+        <div class="s34-right-label">Training framework changes</div>
+        <div class="s34-right-value" style="font-size: 36px;">reuse the FP8<br>pipeline</div>
+        <div class="s34-right-note">No need to rewrite backward.</div>
       </div>
     </div>
   </div>
 
   <div class="s34-footer">
-    <div>技术深度解读 · CHAPTER 05</div>
+    <div>TECHNICAL DEEP DIVE · CHAPTER 05</div>
     <div>34 / 72</div>
   </div>
   <div class="s34-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>

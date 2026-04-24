@@ -1,193 +1,63 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DeepSeek-V4 · V4-Pro vs 最新旗舰</title>
+<title>DeepSeek-V4 · V4-Pro vs Latest Flagships</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body {
-    width: 1920px; height: 1080px; overflow: hidden;
-    background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #FFFFFF; color: #1A1A1A; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
   .s62-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
-  .s62-masthead {
-    position: absolute; top: 50px; left: 120px; right: 120px;
-    display: flex; align-items: center; justify-content: space-between;
-    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
-  }
+  .s62-masthead { position: absolute; top: 50px; left: 120px; right: 120px; display: flex; align-items: center; justify-content: space-between; padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08); }
   .s62-masthead-left { display: flex; align-items: center; gap: 16px; }
   .s62-masthead-left img { height: 26px; }
-  .s62-masthead-left span {
-    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
-  }
+  .s62-masthead-left span { font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A; }
   .s62-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
   .s62-header { position: absolute; top: 150px; left: 120px; right: 120px; }
-  .s62-kicker {
-    display: inline-flex; align-items: center; gap: 12px;
-    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
-    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
-  }
+  .s62-kicker { display: inline-flex; align-items: center; gap: 12px; font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase; color: #4D6BFE; font-weight: 600; margin-bottom: 20px; }
   .s62-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
-  .s62-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
-    font-size: 60px; line-height: 1.12; font-weight: 600; color: #1A1A1A;
-    letter-spacing: -0.01em; max-width: 1500px;
-  }
+  .s62-title { font-family: "Source Serif 4", Georgia, serif; font-size: 60px; line-height: 1.12; font-weight: 600; color: #1A1A1A; letter-spacing: -0.01em; max-width: 1500px; }
   .s62-title .accent { color: #4D6BFE; font-style: italic; }
-  .s62-subtitle {
-    margin-top: 16px;
-    font-size: 20px; color: #5A5A5A; line-height: 1.5; max-width: 1400px;
-  }
-
-  .s62-table {
-    position: absolute; left: 120px; right: 120px; top: 380px;
-    border-top: 2px solid #1A1A1A;
-  }
-  .s62-row {
-    display: grid;
-    grid-template-columns: 280px 1fr 1fr 240px;
-    align-items: center;
-    border-bottom: 1px solid rgba(26,26,26,0.12);
-    padding: 18px 0;
-  }
-  .s62-row.head {
-    border-bottom: 2px solid #1A1A1A;
-    padding: 12px 0;
-  }
-  .s62-row.head div {
-    font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase;
-    color: #5A5A5A; font-weight: 600;
-  }
+  .s62-subtitle { margin-top: 16px; font-size: 20px; color: #5A5A5A; line-height: 1.5; max-width: 1400px; }
+  .s62-table { position: absolute; left: 120px; right: 120px; top: 380px; border-top: 2px solid #1A1A1A; }
+  .s62-row { display: grid; grid-template-columns: 280px 1fr 1fr 240px; align-items: center; border-bottom: 1px solid rgba(26,26,26,0.12); padding: 18px 0; }
+  .s62-row.head { border-bottom: 2px solid #1A1A1A; padding: 12px 0; }
+  .s62-row.head div { font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: #5A5A5A; font-weight: 600; }
   .s62-row.head div:last-child { text-align: right; padding-right: 16px; }
   .s62-row.v4 { background: #F3F5FF; }
-
-  .s62-model {
-    font-family: "Source Serif 4", Georgia, serif;
-    font-size: 26px; font-weight: 600; color: #1A1A1A;
-    padding-left: 16px;
-  }
-  .s62-model small {
-    display: block;
-    font-family: -apple-system, sans-serif;
-    font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
-    color: #5A5A5A; font-weight: 500; margin-top: 3px;
-  }
+  .s62-model { font-family: "Source Serif 4", Georgia, serif; font-size: 26px; font-weight: 600; color: #1A1A1A; padding-left: 16px; }
+  .s62-model small { display: block; font-family: -apple-system, sans-serif; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #5A5A5A; font-weight: 500; margin-top: 3px; }
   .s62-model .accent-blue { color: #4D6BFE; }
-
-  .s62-price {
-    font-family: "Source Serif 4", Georgia, serif;
-    font-size: 32px; font-weight: 600; color: #1A1A1A;
-    font-variant-numeric: tabular-nums;
-  }
-  .s62-price .unit {
-    font-size: 15px; color: #999; font-weight: 500;
-    font-family: -apple-system, sans-serif;
-    letter-spacing: 0.06em;
-  }
+  .s62-price { font-family: "Source Serif 4", Georgia, serif; font-size: 32px; font-weight: 600; color: #1A1A1A; font-variant-numeric: tabular-nums; }
+  .s62-price .unit { font-size: 15px; color: #999; font-weight: 500; font-family: -apple-system, sans-serif; letter-spacing: 0.06em; }
   .s62-price.accent { color: #4D6BFE; }
-
-  .s62-mult {
-    font-family: "Source Serif 4", Georgia, serif;
-    font-size: 24px; font-weight: 600; color: #4D6BFE;
-    text-align: right; padding-right: 16px;
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-  }
+  .s62-mult { font-family: "Source Serif 4", Georgia, serif; font-size: 24px; font-weight: 600; color: #4D6BFE; text-align: right; padding-right: 16px; font-variant-numeric: tabular-nums; white-space: nowrap; }
   .s62-mult.dash { color: #CCC; }
-
-  .s62-caveat {
-    position: absolute; left: 120px; right: 120px; bottom: 140px;
-    background: #F7F8FA;
-    padding: 22px 36px;
-    border-left: 4px solid #4D6BFE;
-  }
-  .s62-caveat-tag {
-    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
-    color: #4D6BFE; font-weight: 600; margin-bottom: 10px;
-  }
-  .s62-caveat-body {
-    font-family: "Source Serif 4", Georgia, serif;
-    font-size: 22px; line-height: 1.45; color: #1A1A1A;
-  }
+  .s62-caveat { position: absolute; left: 120px; right: 120px; bottom: 140px; background: #F7F8FA; padding: 22px 36px; border-left: 4px solid #4D6BFE; }
+  .s62-caveat-tag { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: #4D6BFE; font-weight: 600; margin-bottom: 10px; }
+  .s62-caveat-body { font-family: "Source Serif 4", Georgia, serif; font-size: 22px; line-height: 1.45; color: #1A1A1A; }
   .s62-caveat-body strong { color: #4D6BFE; font-weight: 600; }
-
-  .s62-footer {
-    position: absolute; left: 120px; right: 120px; bottom: 50px;
-    display: flex; justify-content: space-between;
-    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
-  }
+  .s62-footer { position: absolute; left: 120px; right: 120px; bottom: 50px; display: flex; justify-content: space-between; font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase; }
   .s62-watermark { position: absolute; right: 60px; bottom: 50px; opacity: 0.08; }
   .s62-watermark img { width: 120px; }
 </style>
 </head>
 <body>
 <div class="s62-stage">
-  <div class="s62-masthead">
-    <div class="s62-masthead-left">
-      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
-    </div>
-    <div class="s62-masthead-right">62 · Pro vs 闭源旗舰</div>
-  </div>
-
+  <div class="s62-masthead"><div class="s62-masthead-left"><img src="../assets/deepseek-logo.png" alt="DeepSeek"><span>DeepSeek-V4 · Technical Deep Dive</span></div><div class="s62-masthead-right">62 · Pro vs Closed Flagships</div></div>
   <div class="s62-header">
-    <div class="s62-kicker">CHAPTER 09 · 观点一 · 普惠的真相</div>
-    <h1 class="s62-title">V4-Pro vs 最新闭源旗舰：<span class="accent">输出便宜 22 倍</span></h1>
-    <div class="s62-subtitle">对标 Opus 4.7、GPT-5.5、Gemini 3.1 Pro。单位：美元 / 百万 tokens（输入未缓存 · 输出）。</div>
+    <div class="s62-kicker">CHAPTER 09 · THESIS 1 · THE TRUTH OF ACCESSIBILITY</div>
+    <h1 class="s62-title">V4-Pro vs the newest closed flagships: <span class="accent">output is up to 22x cheaper</span></h1>
+    <div class="s62-subtitle">Compared against Opus 4.7, GPT-5.5, and Gemini 3.1 Pro. Unit: USD per million tokens, uncached input and output.</div>
   </div>
-
   <div class="s62-table">
-    <div class="s62-row head">
-      <div>模型</div>
-      <div>输入 · 未缓存</div>
-      <div>输出</div>
-      <div>vs V4-Pro</div>
-    </div>
-
-    <div class="s62-row v4">
-      <div class="s62-model">DeepSeek <span class="accent-blue">V4-Pro</span><small>OPEN FLAGSHIP</small></div>
-      <div class="s62-price accent">$1.67 <span class="unit">/ M</span></div>
-      <div class="s62-price accent">$3.33 <span class="unit">/ M</span></div>
-      <div class="s62-mult dash">baseline</div>
-    </div>
-
-    <div class="s62-row">
-      <div class="s62-model">Claude Opus <span class="accent-blue">4.7</span><small>ANTHROPIC · 2026</small></div>
-      <div class="s62-price">$15 <span class="unit">/ M</span></div>
-      <div class="s62-price">$75 <span class="unit">/ M</span></div>
-      <div class="s62-mult">9× / 22.5×</div>
-    </div>
-
-    <div class="s62-row">
-      <div class="s62-model">GPT-<span class="accent-blue">5.5</span><small>OPENAI · 2026</small></div>
-      <div class="s62-price">$5 – 10 <span class="unit">/ M</span></div>
-      <div class="s62-price">$30 – 40 <span class="unit">/ M</span></div>
-      <div class="s62-mult">3 – 6× / 9 – 12×</div>
-    </div>
-
-    <div class="s62-row">
-      <div class="s62-model">Gemini <span class="accent-blue">3.1 Pro</span><small>GOOGLE · 2026</small></div>
-      <div class="s62-price">~$5 <span class="unit">/ M</span></div>
-      <div class="s62-price">~$30 <span class="unit">/ M</span></div>
-      <div class="s62-mult">3× / 9×</div>
-    </div>
+    <div class="s62-row head"><div>Model</div><div>Input · uncached</div><div>Output</div><div>vs V4-Pro</div></div>
+    <div class="s62-row v4"><div class="s62-model">DeepSeek <span class="accent-blue">V4-Pro</span><small>OPEN FLAGSHIP</small></div><div class="s62-price accent">$1.67 <span class="unit">/ M</span></div><div class="s62-price accent">$3.33 <span class="unit">/ M</span></div><div class="s62-mult dash">baseline</div></div>
+    <div class="s62-row"><div class="s62-model">Claude Opus <span class="accent-blue">4.7</span><small>ANTHROPIC · 2026</small></div><div class="s62-price">$15 <span class="unit">/ M</span></div><div class="s62-price">$75 <span class="unit">/ M</span></div><div class="s62-mult">9× / 22.5×</div></div>
+    <div class="s62-row"><div class="s62-model">GPT-<span class="accent-blue">5.5</span><small>OPENAI · 2026</small></div><div class="s62-price">$5 – 10 <span class="unit">/ M</span></div><div class="s62-price">$30 – 40 <span class="unit">/ M</span></div><div class="s62-mult">3 – 6× / 9 – 12×</div></div>
+    <div class="s62-row"><div class="s62-model">Gemini <span class="accent-blue">3.1 Pro</span><small>GOOGLE · 2026</small></div><div class="s62-price">~$5 <span class="unit">/ M</span></div><div class="s62-price">~$30 <span class="unit">/ M</span></div><div class="s62-mult">3× / 9×</div></div>
   </div>
-
-  <div class="s62-caveat">
-    <div class="s62-caveat-tag">CAVEAT · 诚实说</div>
-    <div class="s62-caveat-body">
-      V4-Pro <strong>不是无脑便宜</strong>。是「对标顶级闭源的开源性价比」。<br>
-      $1.67 的输入价格在全球模型里只是中档——便宜是相对旗舰，绝对价格已经是主流水平。
-    </div>
-  </div>
-
-  <div class="s62-footer">
-    <div>技术深度解读 · CHAPTER 09</div>
-    <div>62 / 72</div>
-  </div>
+  <div class="s62-caveat"><div class="s62-caveat-tag">CAVEAT · TO BE HONEST</div><div class="s62-caveat-body">V4-Pro is <strong>not mindlessly cheap</strong>. It is “the best open-model price/performance against top closed models.” At $1.67 for input, it is only cheap relative to flagship rivals. In absolute terms, it is already mainstream pricing.</div></div>
+  <div class="s62-footer"><div>Technical Deep Dive · CHAPTER 09</div><div>62 / 72</div></div>
   <div class="s62-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
 </div>
 </body>

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DeepSeek-V4 · CSA 细节</title>
+<title>DeepSeek-V4 · CSA Explained</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     width: 1920px; height: 1080px; overflow: hidden;
     background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   .s19-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
@@ -23,7 +23,6 @@
     font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
   }
   .s19-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
   .s19-header { position: absolute; top: 150px; left: 120px; right: 120px; }
   .s19-kicker {
     display: inline-flex; align-items: center; gap: 12px;
@@ -32,7 +31,7 @@
   }
   .s19-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
   .s19-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-family: "Source Serif 4", Georgia, serif;
     font-size: 64px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
     letter-spacing: -0.01em; max-width: 1500px;
   }
@@ -41,11 +40,9 @@
     margin-top: 16px;
     font-size: 20px; color: #5A5A5A; line-height: 1.5; max-width: 1200px;
   }
-
   .s19-diagram {
     position: absolute; left: 120px; right: 120px; top: 380px;
   }
-
   .s19-steps {
     position: absolute; left: 120px; right: 120px; top: 740px;
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
@@ -69,7 +66,6 @@
     font-family: "SF Mono", "Menlo", monospace;
     color: #1A1A1A; background: #F7F8FA; padding: 1px 6px; font-size: 14px;
   }
-
   .s19-footer {
     position: absolute; left: 120px; right: 120px; bottom: 50px;
     display: flex; justify-content: space-between;
@@ -84,25 +80,23 @@
   <div class="s19-masthead">
     <div class="s19-masthead-left">
       <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
     </div>
-    <div class="s19-masthead-right">19 · CSA 展开</div>
+    <div class="s19-masthead-right">19 · CSA EXPLAINED</div>
   </div>
 
   <div class="s19-header">
-    <div class="s19-kicker">CHAPTER 03 · CSA · Compressed Sparse Attention</div>
-    <h1 class="s19-title">把 64 个 token 揉成 1 块，<span class="accent">再挑出最相关的几块精读</span></h1>
-    <div class="s19-subtitle">压缩 + 稀疏两次降维，既省算力又省显存。Lightning Indexer 负责打分，只让真正要紧的块走进 core attention。</div>
+    <div class="s19-kicker">CHAPTER 03 · CSA · COMPRESSED SPARSE ATTENTION</div>
+    <h1 class="s19-title">Merge 64 tokens into one block, <span class="accent">then read only the most relevant blocks closely</span></h1>
+    <div class="s19-subtitle">Compression plus sparsity gives two rounds of dimensionality reduction. The Lightning Indexer does the scoring and only lets important blocks into core attention.</div>
   </div>
 
   <div class="s19-diagram">
     <svg width="1680" height="320" viewBox="0 0 1680 320" xmlns="http://www.w3.org/2000/svg">
-      <!-- Stage 1: raw tokens -->
       <g font-family="-apple-system, sans-serif" font-size="12" fill="#999" letter-spacing="0.18em">
-        <text x="40" y="30">STAGE 1 · 原始序列 (n tokens)</text>
+        <text x="40" y="30">STAGE 1 · RAW SEQUENCE (n tokens)</text>
       </g>
       <g>
-        <!-- 32 small squares representing tokens -->
         <g fill="#E8EBF0" stroke="#CCD0DA" stroke-width="0.5">
           <rect x="40"  y="50" width="14" height="30"/>
           <rect x="56"  y="50" width="14" height="30"/>
@@ -133,19 +127,17 @@
           <rect x="456" y="50" width="14" height="30"/>
           <rect x="472" y="50" width="14" height="30"/>
         </g>
-        <text x="40" y="108" font-family="Source Serif 4, Georgia, serif" font-size="14" fill="#5A5A5A">每 m = 64 个 token 为一组</text>
+        <text x="40" y="108" font-family="Source Serif 4, Georgia, serif" font-size="14" fill="#5A5A5A">Group every m = 64 tokens together</text>
       </g>
 
-      <!-- arrow 1 -->
       <g stroke="#4D6BFE" stroke-width="1.5" fill="none">
         <line x1="510" y1="65" x2="600" y2="65"/>
         <polygon points="600,65 590,60 590,70" fill="#4D6BFE" stroke="none"/>
       </g>
       <text x="555" y="55" font-family="Source Serif 4, Georgia, serif" font-size="13" fill="#4D6BFE" text-anchor="middle" font-style="italic">compress</text>
 
-      <!-- Stage 2: compressed entries -->
       <g font-family="-apple-system, sans-serif" font-size="12" fill="#999" letter-spacing="0.18em">
-        <text x="640" y="30">STAGE 2 · 压缩块 (n / m entries)</text>
+        <text x="640" y="30">STAGE 2 · COMPRESSED BLOCKS (n / m entries)</text>
       </g>
       <g>
         <g fill="#D6DEFC" stroke="#4D6BFE" stroke-width="1">
@@ -166,29 +158,25 @@
           <text x="910" y="70">C₆</text>
           <text x="960" y="70">C₇</text>
         </g>
-        <text x="640" y="108" font-family="Source Serif 4, Georgia, serif" font-size="14" fill="#5A5A5A">1/m 倍的体积，但保留语义</text>
+        <text x="640" y="108" font-family="Source Serif 4, Georgia, serif" font-size="14" fill="#5A5A5A">1/m the size, while preserving semantics</text>
       </g>
 
-      <!-- arrow 2 -->
       <g stroke="#4D6BFE" stroke-width="1.5" fill="none">
         <line x1="1010" y1="65" x2="1100" y2="65"/>
         <polygon points="1100,65 1090,60 1090,70" fill="#4D6BFE" stroke="none"/>
       </g>
       <text x="1055" y="55" font-family="Source Serif 4, Georgia, serif" font-size="13" fill="#4D6BFE" text-anchor="middle" font-style="italic">score &amp; select</text>
 
-      <!-- Stage 3: selected top-k -->
       <g font-family="-apple-system, sans-serif" font-size="12" fill="#999" letter-spacing="0.18em">
-        <text x="1140" y="30">STAGE 3 · Top-k 稀疏选择</text>
+        <text x="1140" y="30">STAGE 3 · TOP-K SPARSE SELECTION</text>
       </g>
       <g>
-        <!-- dimmed blocks -->
         <g fill="#F7F8FA" stroke="#CCD0DA" stroke-width="0.5">
           <rect x="1140" y="50" width="40" height="30"/>
           <rect x="1240" y="50" width="40" height="30"/>
           <rect x="1340" y="50" width="40" height="30"/>
           <rect x="1440" y="50" width="40" height="30"/>
         </g>
-        <!-- selected blocks -->
         <g fill="#4D6BFE" stroke="#4D6BFE" stroke-width="1">
           <rect x="1190" y="50" width="40" height="30"/>
           <rect x="1290" y="50" width="40" height="30"/>
@@ -199,22 +187,20 @@
           <text x="1310" y="70">★</text>
           <text x="1410" y="70">★</text>
         </g>
-        <text x="1140" y="108" font-family="Source Serif 4, Georgia, serif" font-size="14" fill="#5A5A5A">Lightning Indexer 打分，query 只看 top-k 块</text>
+        <text x="1140" y="108" font-family="Source Serif 4, Georgia, serif" font-size="14" fill="#5A5A5A">Lightning Indexer scores them, and the query only reads top-k blocks</text>
       </g>
 
-      <!-- Footnote arrows showing score flow -->
       <g stroke="#4D6BFE" stroke-width="0.8" fill="none" stroke-dasharray="3 3" opacity="0.5">
         <path d="M 680 80 Q 720 150, 1210 50"/>
         <path d="M 860 80 Q 900 150, 1310 50"/>
         <path d="M 960 80 Q 1000 150, 1410 50"/>
       </g>
 
-      <!-- Lightning Indexer annotation -->
       <g transform="translate(940, 200)">
         <rect x="0" y="0" width="320" height="80" fill="#FFFFFF" stroke="#4D6BFE" stroke-width="1"/>
         <text x="16" y="22" font-family="-apple-system, sans-serif" font-size="11" fill="#4D6BFE" letter-spacing="0.2em">LIGHTNING INDEXER</text>
-        <text x="16" y="48" font-family="Source Serif 4, Georgia, serif" font-size="16" fill="#1A1A1A">低秩 query · FP4 compute</text>
-        <text x="16" y="68" font-family="Source Serif 4, Georgia, serif" font-size="14" fill="#5A5A5A">每 query 对每压缩块算 index score</text>
+        <text x="16" y="48" font-family="Source Serif 4, Georgia, serif" font-size="16" fill="#1A1A1A">Low-rank query · FP4 compute</text>
+        <text x="16" y="68" font-family="Source Serif 4, Georgia, serif" font-size="14" fill="#5A5A5A">Compute an index score for every query against every compressed block</text>
       </g>
     </svg>
   </div>
@@ -222,23 +208,23 @@
   <div class="s19-steps">
     <div class="s19-step">
       <div class="s19-step-num">STEP 01 · COMPRESS</div>
-      <div class="s19-step-head">每 64 个 token 合成 1 个 entry</div>
-      <div class="s19-step-body">用可学习的 compression weights 加权求和，序列长度降到 <code>n / m</code>。两路 KV（<code>Cᵃ</code>、<code>Cᵇ</code>）配合带 overlap 的 stride，保留边界信息。</div>
+      <div class="s19-step-head">Merge every 64 tokens into one entry</div>
+      <div class="s19-step-body">Use learned compression weights to form weighted sums, shrinking the sequence to <code>n / m</code>. Two KV tracks, <code>Cᵃ</code> and <code>Cᵇ</code>, plus overlapping stride preserve boundary information.</div>
     </div>
     <div class="s19-step">
       <div class="s19-step-num">STEP 02 · INDEX</div>
-      <div class="s19-step-head">Lightning Indexer 打分</div>
-      <div class="s19-step-body">low-rank 投影出 indexer query，对每个压缩块算 index score <code>I<sub>t,s</sub></code>。计算用 FP4，拿速度换精度里那 2% 左右的差异。</div>
+      <div class="s19-step-head">Score with the Lightning Indexer</div>
+      <div class="s19-step-body">A low-rank projection produces the indexer query, which computes an index score <code>I<sub>t,s</sub></code> for every compressed block. FP4 is used here to buy speed at the cost of a tiny precision hit.</div>
     </div>
     <div class="s19-step">
       <div class="s19-step-num">STEP 03 · SELECT</div>
-      <div class="s19-step-head">只让 top-k 走进 core attention</div>
-      <div class="s19-step-body">按 index score 选 top-k 压缩块做 DSA（DeepSeek Sparse Attention）。压缩给了 1/m 倍，稀疏再给了 k / (n/m) 倍，双重节省。</div>
+      <div class="s19-step-head">Only top-k enters core attention</div>
+      <div class="s19-step-body">The query selects the top-k compressed blocks and runs DSA, DeepSeek Sparse Attention, only on them. Compression gives you a 1/m factor, and sparsity adds another k / (n/m) reduction.</div>
     </div>
   </div>
 
   <div class="s19-footer">
-    <div>技术深度解读 · CHAPTER 03</div>
+    <div>TECHNICAL DEEP DIVE · CHAPTER 03</div>
     <div>19 / 72</div>
   </div>
   <div class="s19-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>

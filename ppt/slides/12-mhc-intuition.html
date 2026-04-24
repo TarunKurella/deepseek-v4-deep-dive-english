@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DeepSeek-V4 · mHC 核心思想</title>
+<title>DeepSeek-V4 · mHC Intuition</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     width: 1920px; height: 1080px; overflow: hidden;
     background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   .s12-stage { position: relative; width: 1920px; height: 1080px; }
@@ -23,7 +23,6 @@
     font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
   }
   .s12-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
   .s12-header { position: absolute; top: 140px; left: 120px; right: 120px; }
   .s12-kicker {
     display: inline-flex; align-items: center; gap: 12px;
@@ -32,15 +31,14 @@
   }
   .s12-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
   .s12-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-family: "Source Serif 4", Georgia, serif;
     font-size: 54px; line-height: 1.15; font-weight: 600;
     letter-spacing: -0.01em;
   }
   .s12-title .accent { color: #4D6BFE; font-style: italic; }
-
   .s12-intuition-quote {
     position: absolute; top: 330px; left: 120px; right: 120px;
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-family: "Source Serif 4", Georgia, serif;
     font-size: 36px; line-height: 1.5; color: #1A1A1A;
     font-weight: 400;
     max-width: 1700px;
@@ -53,7 +51,6 @@
     color: #4D6BFE; font-size: 100px; line-height: 0;
     vertical-align: -40px; margin-right: 10px; font-style: italic;
   }
-
   .s12-analogy {
     position: absolute; top: 600px; left: 120px; right: 120px;
     padding: 28px 36px; background: #F5F7FF;
@@ -67,7 +64,6 @@
     text-transform: uppercase; font-weight: 600;
     margin-bottom: 8px; display: block;
   }
-
   .s12-cards {
     position: absolute; bottom: 150px; left: 120px; right: 120px;
     display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px;
@@ -89,7 +85,6 @@
     font-size: 14px; color: #5A5A5A; line-height: 1.6;
   }
   .s12-card-body strong { color: #1A1A1A; font-weight: 600; }
-
   .s12-footer {
     position: absolute; left: 120px; right: 120px; bottom: 50px;
     display: flex; justify-content: space-between;
@@ -104,54 +99,54 @@
   <div class="s12-masthead">
     <div class="s12-masthead-left">
       <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
     </div>
-    <div class="s12-masthead-right">12 · mHC · INTUITION</div>
+    <div class="s12-masthead-right">12 · MHC · INTUITION</div>
   </div>
 
   <div class="s12-header">
-    <div class="s12-kicker">CHAPTER 02 · mHC 核心思想</div>
-    <h1 class="s12-title">给每条残差路径<span class="accent">加一个水闸</span></h1>
+    <div class="s12-kicker">CHAPTER 02 · MHC CORE IDEA</div>
+    <h1 class="s12-title">Put a <span class="accent">sluice gate</span> on every residual path</h1>
   </div>
 
   <div class="s12-intuition-quote">
-    <span class="quote-mark">"</span>传统残差连接让所有层的信号自由累加。<br>
-    mHC 把这些累加权重约束在一个<span class="accent">双随机矩阵流形</span>上——每条输入路径的贡献之和固定为 1，每条输出路径的权重之和也固定为 1。
+    <span class="quote-mark">"</span>Classic residual connections let every layer’s signal accumulate freely.<br>
+    mHC constrains those accumulation weights onto a <span class="accent">doubly stochastic matrix manifold</span>: every input path sums to 1, and every output path also sums to 1.
   </div>
 
   <div class="s12-analogy">
-    <span class="label">INTUITION · 说人话</span>
-    想象每一层之间有一张水网：每个入口最多放 1 单位水进去，每个出口最多接 1 单位水出来。不管网络多深，<b>总水量永远守恒</b>——这就是「双随机」。护栏不是软约束，是<b>数学意义上的不可破坏</b>。
+    <span class="label">INTUITION · IN PLAIN ENGLISH</span>
+    Imagine a water network between layers: each inlet can inject at most 1 unit of water, and each outlet can receive at most 1 unit. No matter how deep the network gets, <b>the total water is conserved</b>. That is what “doubly stochastic” buys you. The guardrail is not soft regularization. It is <b>mathematically enforced</b>.
   </div>
 
   <div class="s12-cards">
     <div class="s12-card">
       <div class="s12-card-label">KEY PROPERTY 01</div>
-      <div class="s12-card-title">谱范数 ≤ 1</div>
+      <div class="s12-card-title">Spectral norm ≤ 1</div>
       <div class="s12-card-body">
-        双随机矩阵的谱范数天然 ≤ 1，<strong>信号幅值不会被放大</strong>——深层堆叠不再爆炸。
+        A doubly stochastic matrix naturally has spectral norm ≤ 1, so <strong>signal magnitude cannot be amplified</strong>.
       </div>
     </div>
 
     <div class="s12-card">
       <div class="s12-card-label">KEY PROPERTY 02</div>
-      <div class="s12-card-title">乘法封闭</div>
+      <div class="s12-card-title">Closed under multiplication</div>
       <div class="s12-card-body">
-        双随机矩阵的乘积仍是双随机矩阵，<strong>层层叠加后约束自动保持</strong>——护栏不需要反复校准。
+        The product of doubly stochastic matrices is still doubly stochastic, so <strong>the constraint persists automatically through depth</strong>.
       </div>
     </div>
 
     <div class="s12-card">
       <div class="s12-card-label">KEY PROPERTY 03</div>
-      <div class="s12-card-title">可学可微</div>
+      <div class="s12-card-title">Learnable and differentiable</div>
       <div class="s12-card-body">
-        通过 Sinkhorn-Knopp 迭代将任意矩阵投影到这个流形上，<strong>反向传播可直接优化</strong>。
+        Sinkhorn-Knopp iteration projects an arbitrary matrix onto the manifold, so <strong>backprop can optimize it directly</strong>.
       </div>
     </div>
   </div>
 
   <div class="s12-footer">
-    <div>CHAPTER 02 · mHC · INTUITION</div>
+    <div>CHAPTER 02 · MHC · INTUITION</div>
     <div>12 / 72</div>
   </div>
   <div class="s12-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>

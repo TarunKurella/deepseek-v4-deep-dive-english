@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>DeepSeek-V4 · On-Policy Distillation</title>
@@ -8,7 +8,7 @@
   html, body {
     width: 1920px; height: 1080px; overflow: hidden;
     background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   .s40-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
@@ -23,7 +23,6 @@
     font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
   }
   .s40-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
   .s40-header { position: absolute; top: 150px; left: 120px; right: 120px; }
   .s40-kicker {
     display: inline-flex; align-items: center; gap: 12px;
@@ -32,7 +31,7 @@
   }
   .s40-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
   .s40-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-family: "Source Serif 4", Georgia, serif;
     font-size: 66px; line-height: 1.15; font-weight: 600; color: #1A1A1A;
     letter-spacing: -0.01em; max-width: 1500px;
   }
@@ -40,7 +39,6 @@
   .s40-sub {
     margin-top: 22px; font-size: 22px; color: #5A5A5A; max-width: 1500px; line-height: 1.55;
   }
-
   .s40-formula {
     position: absolute; left: 120px; right: 120px; top: 400px;
     background: #F7F8FA;
@@ -58,7 +56,6 @@
   }
   .s40-formula-eq .big { font-size: 40px; }
   .s40-formula-eq .sub { font-size: 20px; }
-
   .s40-body {
     position: absolute; left: 120px; right: 120px; top: 560px;
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;
@@ -80,7 +77,6 @@
     font-size: 16px; color: #5A5A5A; line-height: 1.65;
   }
   .s40-feat-body strong { color: #1A1A1A; font-weight: 600; }
-
   .s40-footer {
     position: absolute; left: 120px; right: 120px; bottom: 50px;
     display: flex; justify-content: space-between;
@@ -95,19 +91,19 @@
   <div class="s40-masthead">
     <div class="s40-masthead-left">
       <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
     </div>
     <div class="s40-masthead-right">06 · STAGE 02 · OPD</div>
   </div>
 
   <div class="s40-header">
-    <div class="s40-kicker">STAGE 02 · On-Policy Distillation</div>
-    <h1 class="s40-title">十多个专家当 teacher，<span class="accent">蒸出一个学生</span></h1>
-    <div class="s40-sub">学生从自己采样轨迹，然后用反向 KL 对齐所有专家——多 teacher 蒸馏的新玩法。</div>
+    <div class="s40-kicker">STAGE 02 · ON-POLICY DISTILLATION</div>
+    <h1 class="s40-title">More than ten experts become teachers, <span class="accent">one student gets distilled</span></h1>
+    <div class="s40-sub">The student samples its own trajectories, then aligns against all experts with reverse KL. This is DeepSeek’s new multi-teacher distillation game.</div>
   </div>
 
   <div class="s40-formula">
-    <div class="s40-formula-label">目标函数</div>
+    <div class="s40-formula-label">Objective</div>
     <div class="s40-formula-eq">
       <span class="big">ℒ</span><sub class="sub">OPD</sub>(θ)&nbsp;=&nbsp;<span class="big">Σ</span><sub class="sub">i=1..N</sub>&nbsp;&nbsp;w<sub>i</sub>&nbsp;·&nbsp;D<sub class="sub">KL</sub>(&nbsp;π<sub>θ</sub>&nbsp;‖&nbsp;π<sub>E<sub>i</sub></sub>&nbsp;)
     </div>
@@ -115,26 +111,26 @@
 
   <div class="s40-body">
     <div class="s40-feat">
-      <div class="s40-feat-label">反向 KL</div>
-      <div class="s40-feat-title">学生收敛<br>到高概率区域</div>
-      <div class="s40-feat-body">正向 KL 让学生 cover teacher 的所有模式，容易学成四不像。<strong>反向 KL 让学生集中在 teacher 分布的高概率区域</strong>——学的更聚焦。</div>
+      <div class="s40-feat-label">REVERSE KL</div>
+      <div class="s40-feat-title">The student converges<br>to high-probability regions</div>
+      <div class="s40-feat-body">Forward KL pushes the student to cover every mode of the teachers and often produces an over-smoothed compromise. <strong>Reverse KL concentrates the student into the high-probability regions</strong>, so learning becomes sharper and more decisive.</div>
     </div>
 
     <div class="s40-feat">
-      <div class="s40-feat-label">On-Policy</div>
-      <div class="s40-feat-title">学生自己<br>采样轨迹</div>
-      <div class="s40-feat-body">不是从 teacher 采样，是从 student 自己的策略采样。<strong>学的永远是自己会遇到的分布</strong>，不会出现「teacher 的高质量输出学生根本走不到」的错配。</div>
+      <div class="s40-feat-label">ON-POLICY</div>
+      <div class="s40-feat-title">The student samples<br>its own trajectories</div>
+      <div class="s40-feat-body">Sampling does not come from the teachers. It comes from the student’s own policy. <strong>That means the student always trains on the distribution it will actually encounter</strong>, rather than on teacher outputs it might never reach by itself.</div>
     </div>
 
     <div class="s40-feat">
-      <div class="s40-feat-label">Full-Vocab Logit</div>
-      <div class="s40-feat-title">完整 logit<br>算精确 KL</div>
-      <div class="s40-feat-body">以往工作为省算力用采样近似 KL。V4 坚持完整 logit 分布——<strong>梯度方差更低、训练更稳</strong>。代价是算力大幅上升，靠 infra 兜底。</div>
+      <div class="s40-feat-label">FULL-VOCAB LOGITS</div>
+      <div class="s40-feat-title">Use the full logit vector<br>to compute exact KL</div>
+      <div class="s40-feat-body">Earlier work often approximated KL with sampling to save compute. V4 keeps the full logit distribution, which gives <strong>lower gradient variance and more stable training</strong>. The price is much higher compute, and infrastructure has to absorb that cost.</div>
     </div>
   </div>
 
   <div class="s40-footer">
-    <div>技术深度解读 · CHAPTER 06</div>
+    <div>TECHNICAL DEEP DIVE · CHAPTER 06</div>
     <div>40 / 72</div>
   </div>
   <div class="s40-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>

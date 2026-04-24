@@ -1,143 +1,53 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DeepSeek-V4 · MoE 本质</title>
+<title>DeepSeek-V4 · MoE Basics</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body {
-    width: 1920px; height: 1080px; overflow: hidden;
-    background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
-  .s06-stage { position: relative; width: 1920px; height: 1080px; }
-  .s06-masthead {
-    position: absolute; top: 50px; left: 120px; right: 120px;
-    display: flex; align-items: center; justify-content: space-between;
-    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
-  }
-  .s06-masthead-left { display: flex; align-items: center; gap: 16px; }
-  .s06-masthead-left img { height: 26px; }
-  .s06-masthead-left span {
-    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
-  }
-  .s06-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
-  .s06-header { position: absolute; top: 140px; left: 120px; right: 750px; }
-  .s06-kicker {
-    display: inline-flex; align-items: center; gap: 12px;
-    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
-    color: #4D6BFE; font-weight: 600; margin-bottom: 18px;
-  }
-  .s06-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
-  .s06-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
-    font-size: 52px; line-height: 1.2; font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-  .s06-title .accent { color: #4D6BFE; font-style: italic; }
-
-  .s06-intuition {
-    position: absolute; top: 360px; left: 120px; width: 820px;
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
-    font-size: 28px; line-height: 1.55; color: #1A1A1A;
-    font-weight: 400;
-  }
-  .s06-intuition strong { color: #4D6BFE; font-weight: 600; }
-  .s06-intuition .quote-mark {
-    font-family: "Source Serif 4", Georgia, serif;
-    color: #4D6BFE; font-size: 80px; line-height: 0;
-    vertical-align: -30px; margin-right: 8px; font-style: italic;
-  }
-
-  .s06-mechanics {
-    position: absolute; top: 700px; left: 120px; width: 820px;
-    font-size: 16px; color: #5A5A5A; line-height: 1.8;
-  }
-  .s06-mechanics strong { color: #1A1A1A; font-weight: 600; }
-
-  /* 右侧视觉 */
-  .s06-visual {
-    position: absolute; right: 120px; top: 230px;
-    width: 680px; height: 680px;
-  }
-
-  .s06-footer {
-    position: absolute; left: 120px; right: 120px; bottom: 50px;
-    display: flex; justify-content: space-between;
-    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
-  }
-  .s06-watermark { position: absolute; right: 60px; bottom: 40px; opacity: 0.08; }
-  .s06-watermark img { width: 100px; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: #FFFFFF; color: #1A1A1A; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+.stage { position: relative; width: 1920px; height: 1080px; }
+.masthead { position: absolute; top: 50px; left: 120px; right: 120px; display: flex; align-items: center; justify-content: space-between; padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08); }
+.left { display: flex; align-items: center; gap: 16px; }
+.left img { height: 26px; }
+.left span { font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A; }
+.right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+.header { position: absolute; top: 140px; left: 120px; right: 750px; }
+.kicker { display: inline-flex; align-items: center; gap: 12px; font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase; color: #4D6BFE; font-weight: 600; margin-bottom: 18px; }
+.kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+.title { font-family: "Source Serif 4", Georgia, serif; font-size: 52px; line-height: 1.2; font-weight: 600; }
+.title .accent { color: #4D6BFE; font-style: italic; }
+.intuition { position: absolute; top: 360px; left: 120px; width: 820px; font-family: "Source Serif 4", Georgia, serif; font-size: 28px; line-height: 1.55; }
+.intuition strong { color: #4D6BFE; font-weight: 600; }
+.quote { color: #4D6BFE; font-size: 80px; line-height: 0; vertical-align: -30px; margin-right: 8px; font-style: italic; }
+.mechanics { position: absolute; top: 700px; left: 120px; width: 820px; font-size: 16px; color: #5A5A5A; line-height: 1.8; }
+.mechanics strong { color: #1A1A1A; font-weight: 600; }
+.visual { position: absolute; right: 120px; top: 230px; width: 680px; height: 680px; }
+.footer { position: absolute; left: 120px; right: 120px; bottom: 50px; display: flex; justify-content: space-between; font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase; }
 </style>
 </head>
 <body>
-<div class="s06-stage">
-  <div class="s06-masthead">
-    <div class="s06-masthead-left">
-      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
-    </div>
-    <div class="s06-masthead-right">06 · MoE INTUITION</div>
-  </div>
-
-  <div class="s06-header">
-    <div class="s06-kicker">CHAPTER 01 · MoE 本质</div>
-    <h1 class="s06-title">1.6 T 参数，每次<span class="accent">只请 6 个专家</span>上场</h1>
-  </div>
-
-  <div class="s06-intuition">
-    <span class="quote-mark">"</span>MoE 的本质是<strong>专家会议</strong>，不是全员表决。<br>模型有 1.6 T 参数是团队规模，每 token 激活 49 B 才是真正开口说话的人。
-  </div>
-
-  <div class="s06-mechanics">
-    <strong>路由机制：</strong>V4-Pro 的每一层有 384 位路由专家 + 1 位共享专家，每个 token 由门控网络挑选 6 位最相关的专家处理。前 3 层用 Hash routing 稳住早期训练；后续层用 Sigmoid → Sqrt(Softplus) 的打分函数。<br>
-    <strong>代价：</strong>部署时要把整个 1.6 T 模型加载进显存（因为任何 token 都可能命中不同专家），但每步计算只有 49 B 的量。
-  </div>
-
-  <!-- SVG: 384 专家网格 -->
-  <svg class="s06-visual" viewBox="0 0 680 680" xmlns="http://www.w3.org/2000/svg">
-    <!-- 背景标题 -->
-    <text x="340" y="36" text-anchor="middle"
-          font-family="Source Serif 4, Georgia, serif" font-size="15" fill="#999"
-          letter-spacing="3" text-transform="uppercase">
-      MoE layer · 384 routed experts
-    </text>
-    <text x="340" y="60" text-anchor="middle"
-          font-family="-apple-system, sans-serif" font-size="12" fill="#999"
-          letter-spacing="1.5">
-      仅 6 个蓝色方格被本 token 激活
-    </text>
-
-    <!-- 专家网格：24 × 16 = 384 -->
-    <g>
-      <script/>
-    </g>
+<div class="stage">
+  <div class="masthead"><div class="left"><img src="../assets/deepseek-logo.png" alt="DeepSeek"><span>DeepSeek-V4 · Technical Deep Dive</span></div><div class="right">06 · MoE Basics</div></div>
+  <div class="header"><div class="kicker">Chapter 1 · What MoE really means</div><h1 class="title">A 1.6T-parameter model that invites only <span class="accent">6 experts</span> to speak each step</h1></div>
+  <div class="intuition"><span class="quote">"</span>The essence of MoE is an <strong>expert meeting</strong>, not a full-team vote.<br>1.6T parameters describe the size of the team. The 49B activated per token are the experts who actually speak on that step.</div>
+  <div class="mechanics"><strong>Routing:</strong> each V4-Pro layer has 384 routed experts plus 1 shared expert. For each token, the gating network selects the 6 most relevant routed experts. The first three layers use hash routing to stabilize early training; later layers use a Sigmoid → Sqrt(Softplus) scoring function.<br><strong>Deployment cost:</strong> you still need the full 1.6T model resident because any token may hit different experts, but each forward step computes only about 49B active parameters.</div>
+  <svg class="visual" viewBox="0 0 680 680" xmlns="http://www.w3.org/2000/svg">
+    <text x="340" y="36" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-size="15" fill="#999" letter-spacing="3">MoE layer · 384 routed experts</text>
+    <text x="340" y="60" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="12" fill="#999" letter-spacing="1.5">Only 6 blue squares are activated for this token</text>
     <g id="experts"></g>
-
-    <!-- 激活汇总 -->
     <g transform="translate(340, 600)">
       <line x1="-260" y1="0" x2="260" y2="0" stroke="#1A1A1A" stroke-width="1.5"/>
-      <text x="0" y="34" text-anchor="middle"
-            font-family="Source Serif 4, Georgia, serif" font-size="26"
-            fill="#1A1A1A" font-weight="600">
-        6 experts activated · <tspan fill="#4D6BFE" font-style="italic">49 B params</tspan>
-      </text>
-      <text x="0" y="62" text-anchor="middle"
-            font-family="-apple-system, sans-serif" font-size="13" fill="#999"
-            letter-spacing="2">
-        OUT OF 1.6 T TOTAL
-      </text>
+      <text x="0" y="34" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-size="26" fill="#1A1A1A" font-weight="600">6 experts activated · <tspan fill="#4D6BFE" font-style="italic">49B params</tspan></text>
+      <text x="0" y="62" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" fill="#999" letter-spacing="2">OUT OF 1.6T TOTAL</text>
     </g>
-
     <script type="application/ecmascript"><![CDATA[
       const g = document.getElementById('experts');
       const cols = 24, rows = 16, total = cols * rows;
       const cellW = 22, cellH = 22, gap = 2;
       const startX = 340 - (cols * (cellW + gap) - gap) / 2;
       const startY = 90;
-      const activated = [37, 104, 158, 221, 266, 325]; // 6 个"激活"专家位置
+      const activated = [37, 104, 158, 221, 266, 325];
       for (let i = 0; i < total; i++) {
         const r = Math.floor(i / cols), c = i % cols;
         const x = startX + c * (cellW + gap);
@@ -152,12 +62,7 @@
       }
     ]]></script>
   </svg>
-
-  <div class="s06-footer">
-    <div>CHAPTER 01 · MoE INTUITION</div>
-    <div>06 / 72</div>
-  </div>
-  <div class="s06-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+  <div class="footer"><div>Chapter 1 · MoE Basics</div><div>06 / 72</div></div>
 </div>
 </body>
 </html>

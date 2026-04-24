@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DeepSeek-V4 · vs 最新 SOTA</title>
+<title>DeepSeek-V4 · Versus the Latest SOTA</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     width: 1920px; height: 1080px; overflow: hidden;
     background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   .s49-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
@@ -23,7 +23,6 @@
     font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
   }
   .s49-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
   .s49-header { position: absolute; top: 150px; left: 120px; right: 120px; }
   .s49-kicker {
     display: inline-flex; align-items: center; gap: 12px;
@@ -32,18 +31,16 @@
   }
   .s49-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
   .s49-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-family: "Source Serif 4", Georgia, serif;
     font-size: 58px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
     letter-spacing: -0.01em; max-width: 1600px;
   }
   .s49-title .accent { color: #4D6BFE; font-style: italic; }
-
   .s49-subtitle {
     position: absolute; left: 120px; top: 314px;
     font-family: "Source Serif 4", Georgia, serif; font-style: italic;
     font-size: 22px; color: #5A5A5A; max-width: 1400px;
   }
-
   .s49-table {
     position: absolute; left: 120px; right: 120px; top: 380px;
     border-collapse: collapse; width: calc(100% - 240px);
@@ -55,9 +52,7 @@
     padding: 14px 10px; border-bottom: 2px solid #1A1A1A;
   }
   .s49-table th.num { text-align: right; }
-  .s49-table th.new-col {
-    color: #4D6BFE;
-  }
+  .s49-table th.new-col { color: #4D6BFE; }
   .s49-table td {
     padding: 16px 10px; font-size: 17px; color: #1A1A1A;
     border-bottom: 1px solid rgba(26,26,26,0.08);
@@ -74,16 +69,8 @@
   }
   .s49-table .ds-col { background: rgba(77,107,254,0.06); }
   .s49-table td.ds-col { color: #4D6BFE; }
-  .s49-table td.winner { font-weight: 700; position: relative; }
   .s49-table td.ds-win { color: #4D6BFE; font-weight: 700; }
   .s49-table td.other-win { color: #1A1A1A; font-weight: 700; border-bottom: 2px solid #1A1A1A; }
-
-  .s49-legend {
-    position: absolute; left: 120px; top: 336px;
-    font-size: 13px; color: #999; letter-spacing: 0.1em;
-  }
-  .s49-legend .bullet { color: #4D6BFE; }
-
   .s49-bottom-note {
     position: absolute; left: 120px; right: 120px; bottom: 110px;
     border-top: 2px solid #1A1A1A; padding-top: 20px;
@@ -91,7 +78,6 @@
   }
   .s49-bottom-note strong { color: #1A1A1A; font-weight: 600; }
   .s49-bottom-note .blue { color: #4D6BFE; font-weight: 600; }
-
   .s49-footer {
     position: absolute; left: 120px; right: 120px; bottom: 50px;
     display: flex; justify-content: space-between;
@@ -106,20 +92,17 @@
   <div class="s49-masthead">
     <div class="s49-masthead-left">
       <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
     </div>
-    <div class="s49-masthead-right">07 · 擅长什么</div>
+    <div class="s49-masthead-right">07 · What It Excels At</div>
   </div>
-
   <div class="s49-header">
-    <div class="s49-kicker">CHAPTER 07 · 最新对比</div>
-    <h1 class="s49-title">标准化任务 vs <span class="accent">2026-04 最新闭源旗舰</span></h1>
+    <div class="s49-kicker">CHAPTER 07 · LATEST COMPARISON</div>
+    <h1 class="s49-title">Standardized tasks versus the <span class="accent">latest closed-source flagships as of 2026-04</span></h1>
   </div>
-
   <div class="s49-subtitle">
-    论文对标止步于 Opus 4.6 / GPT-5.4。但这十天里，Opus 4.7（04-16）和 GPT-5.5（04-23）都发布了。
+    The paper only benchmarks against Opus 4.6 and GPT-5.4. But within the next ten days, Opus 4.7 launched on April 16, 2026 and GPT-5.5 launched on April 23, 2026.
   </div>
-
   <table class="s49-table">
     <thead>
       <tr>
@@ -134,7 +117,7 @@
     </thead>
     <tbody>
       <tr>
-        <td class="bench-name">Codeforces Rating<span class="bench-sub">算法竞赛</span></td>
+        <td class="bench-name">Codeforces Rating<span class="bench-sub">algorithmic competition coding</span></td>
         <td class="num" style="color:#999;">—</td>
         <td class="num" style="color:#999;">—</td>
         <td class="num">3052</td>
@@ -143,7 +126,7 @@
         <td class="num ds-col ds-win">3206</td>
       </tr>
       <tr>
-        <td class="bench-name">LiveCodeBench<span class="bench-sub">实时竞赛编程</span></td>
+        <td class="bench-name">LiveCodeBench<span class="bench-sub">live competitive programming</span></td>
         <td class="num" style="color:#999;">—</td>
         <td class="num" style="color:#999;">—</td>
         <td class="num">91.7</td>
@@ -152,7 +135,7 @@
         <td class="num ds-col ds-win">93.5</td>
       </tr>
       <tr>
-        <td class="bench-name">Putnam-2025 形式化<span class="bench-sub">数学证明 · 满分 120</span></td>
+        <td class="bench-name">Putnam-2025 Formal<span class="bench-sub">formal math proving · max 120</span></td>
         <td class="num" style="color:#999;">—</td>
         <td class="num" style="color:#999;">—</td>
         <td class="num" style="color:#999;">—</td>
@@ -161,7 +144,7 @@
         <td class="num ds-col ds-win">120/120</td>
       </tr>
       <tr>
-        <td class="bench-name">Apex Shortlist<span class="bench-sub">研究级数学</span></td>
+        <td class="bench-name">Apex Shortlist<span class="bench-sub">research-grade math</span></td>
         <td class="num" style="color:#999;">—</td>
         <td class="num" style="color:#999;">—</td>
         <td class="num">89.1</td>
@@ -170,8 +153,8 @@
         <td class="num ds-col ds-win">90.2</td>
       </tr>
       <tr>
-        <td class="bench-name">SWE-Bench Verified<span class="bench-sub">工程修 bug</span></td>
-        <td class="num other-win" style="color:#1A1A1A;">87.6</td>
+        <td class="bench-name">SWE-Bench Verified<span class="bench-sub">engineering bug fixing</span></td>
+        <td class="num other-win">87.6</td>
         <td class="num" style="color:#999;">—</td>
         <td class="num">80.6</td>
         <td class="num">80.2</td>
@@ -179,8 +162,8 @@
         <td class="num ds-col">80.6</td>
       </tr>
       <tr>
-        <td class="bench-name">SWE-Bench Pro<span class="bench-sub">工程 · 更难</span></td>
-        <td class="num other-win" style="color:#1A1A1A;">64.3</td>
+        <td class="bench-name">SWE-Bench Pro<span class="bench-sub">harder engineering workloads</span></td>
+        <td class="num other-win">64.3</td>
         <td class="num">58.6</td>
         <td class="num">54.2</td>
         <td class="num">58.6</td>
@@ -188,9 +171,9 @@
         <td class="num ds-col">55.4</td>
       </tr>
       <tr>
-        <td class="bench-name">FrontierMath T1-3<span class="bench-sub">前沿数学</span></td>
+        <td class="bench-name">FrontierMath T1-3<span class="bench-sub">frontier mathematics</span></td>
         <td class="num">43.8</td>
-        <td class="num other-win" style="color:#1A1A1A;">51.7</td>
+        <td class="num other-win">51.7</td>
         <td class="num">36.9</td>
         <td class="num" style="color:#999;">—</td>
         <td class="num" style="color:#999;">—</td>
@@ -198,13 +181,11 @@
       </tr>
     </tbody>
   </table>
-
   <div class="s49-bottom-note">
-    <strong>竞赛编程和形式化数学上 DeepSeek-V4 是全场第一</strong>，开源首次断档领先。但是<span class="blue">换到工程代码 SWE-Bench Verified，Opus 4.7 甩开 7 个百分点</span>——这是「标准化 vs 工程复杂度」的分水岭。
+    <strong>On competitive programming and formal math, DeepSeek-V4 is still the outright leader</strong>, and it is the first open model to put real daylight between itself and closed-source rivals there. But <span class="blue">switch to engineering-code benchmarks like SWE-Bench Verified and Opus 4.7 opens a seven-point gap</span>. That is the fault line between standardized tasks and messy engineering complexity.
   </div>
-
   <div class="s49-footer">
-    <div>技术深度解读 · CHAPTER 07</div>
+    <div>Technical Deep Dive · CHAPTER 07</div>
     <div>49 / 72</div>
   </div>
   <div class="s49-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>

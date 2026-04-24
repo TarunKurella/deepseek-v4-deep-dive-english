@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DeepSeek-V4 · 比特级确定性</title>
+<title>DeepSeek-V4 · Bit-Level Determinism</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     width: 1920px; height: 1080px; overflow: hidden;
     background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   .s33-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
@@ -23,7 +23,6 @@
     font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
   }
   .s33-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
   .s33-header { position: absolute; top: 150px; left: 120px; right: 120px; }
   .s33-kicker {
     display: inline-flex; align-items: center; gap: 12px;
@@ -32,7 +31,7 @@
   }
   .s33-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
   .s33-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-family: "Source Serif 4", Georgia, serif;
     font-size: 66px; line-height: 1.15; font-weight: 600; color: #1A1A1A;
     letter-spacing: -0.01em; max-width: 1500px;
   }
@@ -40,12 +39,10 @@
   .s33-sub {
     margin-top: 22px; font-size: 22px; color: #5A5A5A; max-width: 1500px; line-height: 1.55;
   }
-
   .s33-body {
     position: absolute; left: 120px; right: 120px; top: 430px;
     display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px;
   }
-
   .s33-col {
     border-top: 2px solid #1A1A1A;
     padding-top: 24px;
@@ -74,7 +71,6 @@
     font-size: 14px; color: #1A1A1A; line-height: 1.55;
   }
   .s33-col-fix strong { color: #4D6BFE; font-weight: 600; }
-
   .s33-bottom {
     position: absolute; left: 120px; right: 120px; bottom: 120px;
     display: flex; align-items: baseline; justify-content: space-between;
@@ -95,7 +91,6 @@
     font-size: 13px; color: #5A5A5A; font-weight: 400;
     margin-top: 6px; letter-spacing: 0.18em; text-transform: uppercase;
   }
-
   .s33-footer {
     position: absolute; left: 120px; right: 120px; bottom: 50px;
     display: flex; justify-content: space-between;
@@ -110,49 +105,49 @@
   <div class="s33-masthead">
     <div class="s33-masthead-left">
       <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
     </div>
     <div class="s33-masthead-right">05 · INFRA · DETERMINISM</div>
   </div>
 
   <div class="s33-header">
-    <div class="s33-kicker">MODULE 03 · 批次无关 & 确定性</div>
-    <h1 class="s33-title">训练与推理的<span class="accent">比特级一致</span></h1>
-    <div class="s33-sub">同一个 token 无论在 batch 里的什么位置，输出比特级完全相同。Debug loss spike 可以直接对齐，线上异常能在训练环境精准复现——做后训练的团队，这是省下无数夜晚的基础能力。</div>
+    <div class="s33-kicker">MODULE 03 · BATCH-INVARIANT & DETERMINISTIC</div>
+    <h1 class="s33-title">Bit-exact alignment between <span class="accent">training and inference</span></h1>
+    <div class="s33-sub">No matter where the same token appears inside a batch, the output bits stay identical. That means loss spikes can be debugged directly against training traces, and production anomalies can be reproduced faithfully in the training environment.</div>
   </div>
 
   <div class="s33-body">
     <div class="s33-col">
       <div class="s33-col-num">DIFFICULTY 01</div>
       <div class="s33-col-title">Attention</div>
-      <div class="s33-col-body">Split-KV 会造成 wave-quantization，同一 token 在不同位置上累加顺序会变，输出漂移。</div>
+      <div class="s33-col-body">Split-KV introduces wave quantization, so the accumulation order for the same token changes with batch placement and the output drifts.</div>
       <div class="s33-col-fix">
-        <strong>双 kernel 策略：</strong> 第一个 kernel 单 SM 处理完整序列保吞吐，第二个 kernel 多 SM 处理最后那个半满 wave 降延迟，两者严格对齐累加顺序。
+        <strong>Dual-kernel strategy:</strong> one kernel runs the full sequence on a single SM for throughput, while another uses multiple SMs only for the last partially filled wave to cut latency. The accumulation order is kept strictly aligned.
       </div>
     </div>
 
     <div class="s33-col">
       <div class="s33-col-num">DIFFICULTY 02</div>
       <div class="s33-col-title">Matmul</div>
-      <div class="s33-col-body"><code>cuBLAS</code> 做不到批次不变。放弃 split-k 又会有性能损失。</div>
+      <div class="s33-col-body"><code>cuBLAS</code> cannot make results batch-invariant. But giving up split-k entirely would normally cost performance.</div>
       <div class="s33-col-fix">
-        <strong>换引擎：</strong> 弃用 cuBLAS，全部切到 DeepGEMM。通过一组针对性优化把放弃 split-k 的性能损失补回来。
+        <strong>Swap the engine:</strong> cuBLAS is dropped in favor of DeepGEMM, with enough targeted optimizations to recover most of the performance sacrificed by abandoning split-k.
       </div>
     </div>
 
     <div class="s33-col">
       <div class="s33-col-num">DIFFICULTY 03</div>
-      <div class="s33-col-title">反向传播</div>
-      <div class="s33-col-body">罪魁祸首是 <code>atomicAdd</code> ——浮点加法非结合律，不同执行顺序出不同结果。</div>
+      <div class="s33-col-title">Backward pass</div>
+      <div class="s33-col-body">The main offender is <code>atomicAdd</code>. Floating-point addition is not associative, so different execution orders produce different results.</div>
       <div class="s33-col-fix">
-        <strong>独立 buffer + 全局有序 reduce：</strong> 每个 SM 分独立累加 buffer，最后做全局确定性求和；MoE 用 token order 预处理。
+        <strong>Independent buffers + globally ordered reduction:</strong> each SM accumulates into its own buffer first, then a deterministic global reduction happens afterward. MoE also preprocesses token order.
       </div>
     </div>
   </div>
 
   <div class="s33-bottom">
     <div class="s33-bottom-text">
-      这三件事合起来的含金量：<strong>RL rollout 的每一个 token，都能和训练环境比特级对齐</strong>。对任何做大模型后训练和 RL 的团队来说，这是降维打击级的基础能力。
+      The real significance of these three fixes together is that <strong>every token in RL rollout can match the training environment bit for bit</strong>. For any team doing large-model post-training and RL, that is an absurdly valuable base capability.
     </div>
     <div class="s33-bottom-stat">
       bit-exact
@@ -161,7 +156,7 @@
   </div>
 
   <div class="s33-footer">
-    <div>技术深度解读 · CHAPTER 05</div>
+    <div>TECHNICAL DEEP DIVE · CHAPTER 05</div>
     <div>33 / 72</div>
   </div>
   <div class="s33-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>

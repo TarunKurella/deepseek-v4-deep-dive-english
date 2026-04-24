@@ -1,147 +1,45 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DeepSeek-V4 · 四个论点</title>
+<title>DeepSeek-V4 · Four Theses</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body {
-    width: 1920px; height: 1080px; overflow: hidden;
-    background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
-  .s03-stage { position: relative; width: 1920px; height: 1080px; }
-  .s03-masthead {
-    position: absolute; top: 50px; left: 120px; right: 120px;
-    display: flex; align-items: center; justify-content: space-between;
-    padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08);
-  }
-  .s03-masthead-left { display: flex; align-items: center; gap: 16px; }
-  .s03-masthead-left img { height: 26px; }
-  .s03-masthead-left span {
-    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
-  }
-  .s03-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
-  .s03-header { position: absolute; top: 140px; left: 120px; right: 120px; }
-  .s03-kicker {
-    display: inline-flex; align-items: center; gap: 12px;
-    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
-    color: #4D6BFE; font-weight: 600; margin-bottom: 20px;
-  }
-  .s03-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
-  .s03-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
-    font-size: 56px; line-height: 1.15; font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-  .s03-title .accent { color: #4D6BFE; font-style: italic; }
-
-  .s03-grid {
-    position: absolute; top: 320px; left: 120px; right: 120px;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 40px 50px;
-  }
-  .s03-card {
-    padding: 36px 40px;
-    border: 1px solid rgba(26,26,26,0.12);
-    position: relative;
-    height: 310px;
-    display: flex; flex-direction: column;
-  }
-  .s03-card::before {
-    content: ""; position: absolute; top: 0; left: 0;
-    width: 60px; height: 2px; background: #4D6BFE;
-  }
-  .s03-card-num {
-    font-family: "Source Serif 4", Georgia, serif;
-    font-size: 14px; color: #4D6BFE; font-weight: 600;
-    letter-spacing: 0.15em; margin-bottom: 14px;
-  }
-  .s03-card-headline {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
-    font-size: 30px; line-height: 1.3; font-weight: 600;
-    color: #1A1A1A; letter-spacing: -0.005em;
-    margin-bottom: 18px;
-  }
-  .s03-card-headline .accent { color: #4D6BFE; }
-  .s03-card-body {
-    font-size: 16px; line-height: 1.7; color: #5A5A5A;
-    flex: 1;
-  }
-  .s03-card-body strong { color: #1A1A1A; font-weight: 600; }
-  .s03-card-chapter {
-    font-size: 12px; letter-spacing: 0.2em; color: #999;
-    text-transform: uppercase; margin-top: 14px;
-  }
-
-  .s03-footer {
-    position: absolute; left: 120px; right: 120px; bottom: 50px;
-    display: flex; justify-content: space-between;
-    font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase;
-  }
-  .s03-watermark { position: absolute; right: 60px; bottom: 40px; opacity: 0.08; }
-  .s03-watermark img { width: 100px; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: #FFFFFF; color: #1A1A1A; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+.stage { position: relative; width: 1920px; height: 1080px; }
+.masthead { position: absolute; top: 50px; left: 120px; right: 120px; display: flex; align-items: center; justify-content: space-between; padding-bottom: 20px; border-bottom: 1px solid rgba(26,26,26,0.08); }
+.left { display: flex; align-items: center; gap: 16px; }
+.left img { height: 26px; }
+.left span { font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A; }
+.right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
+.header { position: absolute; top: 140px; left: 120px; right: 120px; }
+.kicker { display: inline-flex; align-items: center; gap: 12px; font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase; color: #4D6BFE; font-weight: 600; margin-bottom: 20px; }
+.kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
+.title { font-family: "Source Serif 4", Georgia, serif; font-size: 56px; line-height: 1.15; font-weight: 600; }
+.title .accent { color: #4D6BFE; font-style: italic; }
+.grid { position: absolute; top: 320px; left: 120px; right: 120px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px 50px; }
+.card { padding: 36px 40px; border: 1px solid rgba(26,26,26,0.12); position: relative; height: 310px; display: flex; flex-direction: column; }
+.card::before { content: ""; position: absolute; top: 0; left: 0; width: 60px; height: 2px; background: #4D6BFE; }
+.num { font-family: "Source Serif 4", Georgia, serif; font-size: 14px; color: #4D6BFE; font-weight: 600; letter-spacing: 0.15em; margin-bottom: 14px; }
+.headline { font-family: "Source Serif 4", Georgia, serif; font-size: 30px; line-height: 1.3; font-weight: 600; margin-bottom: 18px; }
+.headline .accent { color: #4D6BFE; }
+.body { font-size: 16px; line-height: 1.7; color: #5A5A5A; flex: 1; }
+.body strong { color: #1A1A1A; font-weight: 600; }
+.chapter { font-size: 12px; letter-spacing: 0.2em; color: #999; text-transform: uppercase; margin-top: 14px; }
+.footer { position: absolute; left: 120px; right: 120px; bottom: 50px; display: flex; justify-content: space-between; font-size: 13px; letter-spacing: 0.14em; color: #999; text-transform: uppercase; }
 </style>
 </head>
 <body>
-<div class="s03-stage">
-  <div class="s03-masthead">
-    <div class="s03-masthead-left">
-      <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
-    </div>
-    <div class="s03-masthead-right">03 · FOUR THESES</div>
+<div class="stage">
+  <div class="masthead"><div class="left"><img src="../assets/deepseek-logo.png" alt="DeepSeek"><span>DeepSeek-V4 · Technical Deep Dive</span></div><div class="right">03 · Four Theses</div></div>
+  <div class="header"><div class="kicker">Chapter 0 · Four claims that organize the whole reading</div><h1 class="title">Before you read V4, remember <span class="accent">these four things</span></h1></div>
+  <div class="grid">
+    <div class="card"><div class="num">THESIS 01</div><div class="headline">Not world-best,<br>but <span class="accent">1M Agent access for everyone</span></div><div class="body">V4 is not a “break the ceiling” flagship launch. It is the first time <strong>1M-token context + Agent capability</strong> has been packaged into something ordinary users can afford to use by default.</div><div class="chapter">See Chapter 9</div></div>
+    <div class="card"><div class="num">THESIS 02</div><div class="headline">Competition-programming DNA,<br><span class="accent">strong at problem solving</span></div><div class="body">Most of the DeepSeek team comes from competition backgrounds, and the model reflects that. On math and coding tasks with <strong>clear, verifiable answers</strong>, it is the current open-model ceiling.</div><div class="chapter">See Chapter 7</div></div>
+    <div class="card"><div class="num">THESIS 03</div><div class="headline">Still behind on<br><span class="accent">taste-heavy tasks</span></div><div class="body">Its creative-writing win rate trails Claude Opus 4.5, let alone 4.6 or 4.7. The paper openly admits this in its limitations section. Standardized tasks are a strength; open-ended taste tasks are not.</div><div class="chapter">See Chapter 8</div></div>
+    <div class="card"><div class="num">THESIS 04</div><div class="headline">Overall, the model is unusually <span class="accent">honest and disciplined</span></div><div class="body">The paper openly admits mechanisms that work without full explanation, and the pricing page explicitly says Pro should get cheaper after Ascend 950 supply ramps. No hype, no hiding, no empty promises.</div><div class="chapter">See Chapter 10</div></div>
   </div>
-
-  <div class="s03-header">
-    <div class="s03-kicker">CHAPTER 00 · 贯穿整份解读的四个观点</div>
-    <h1 class="s03-title">读 V4 这篇论文，请先记住<span class="accent">这四件事</span></h1>
-  </div>
-
-  <div class="s03-grid">
-    <div class="s03-card">
-      <div class="s03-card-num">THESIS 01</div>
-      <div class="s03-card-headline">不是世界最佳，<br>是<span class="accent">1M Agent 的普惠</span></div>
-      <div class="s03-card-body">
-        V4 不是冲破天花板的旗舰发布，而是第一次把 <strong>百万 token 上下文 + Agent 能力</strong> 做成了普通人能用得起的默认配置。
-      </div>
-      <div class="s03-card-chapter">展开见 · CHAPTER 09</div>
-    </div>
-
-    <div class="s03-card">
-      <div class="s03-card-num">THESIS 02</div>
-      <div class="s03-card-headline">竞赛选手基因，<br><span class="accent">擅长做题解题</span></div>
-      <div class="s03-card-body">
-        DeepSeek 团队多数是竞赛获奖选手，模型也继承了这个画像。对 <strong>有明确答案、可验证</strong> 的数学与编程任务，它是当前开源的天花板。
-      </div>
-      <div class="s03-card-chapter">展开见 · CHAPTER 07</div>
-    </div>
-
-    <div class="s03-card">
-      <div class="s03-card-num">THESIS 03</div>
-      <div class="s03-card-headline">品味类任务<br><span class="accent">还差一截</span></div>
-      <div class="s03-card-body">
-        创意写作胜率不如 Claude Opus 4.5，更不用说 4.6、4.7。论文自己在 Limitations 里承认了这个差距。标准化题强，开放题弱。
-      </div>
-      <div class="s03-card-chapter">展开见 · CHAPTER 08</div>
-    </div>
-
-    <div class="s03-card">
-      <div class="s03-card-num">THESIS 04</div>
-      <div class="s03-card-headline">整体是<span class="accent">最诚实、本分</span>的模型</div>
-      <div class="s03-card-body">
-        论文里主动承认三个「有效但不理解原理」，价格页写清「昇腾 950 上市后 Pro 降价」。不演、不藏、不画大饼。
-      </div>
-      <div class="s03-card-chapter">展开见 · CHAPTER 10</div>
-    </div>
-  </div>
-
-  <div class="s03-footer">
-    <div>CHAPTER 00 · FOUR THESES</div>
-    <div>03 / 72</div>
-  </div>
-  <div class="s03-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>
+  <div class="footer"><div>Chapter 0 · Four Theses</div><div>03 / 72</div></div>
 </div>
 </body>
 </html>

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DeepSeek-V4 · mHC 数学本质</title>
+<title>DeepSeek-V4 · The Math of mHC</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     width: 1920px; height: 1080px; overflow: hidden;
     background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   .s13-stage { position: relative; width: 1920px; height: 1080px; }
@@ -23,7 +23,6 @@
     font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
   }
   .s13-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
   .s13-header { position: absolute; top: 140px; left: 120px; right: 820px; }
   .s13-kicker {
     display: inline-flex; align-items: center; gap: 12px;
@@ -32,11 +31,10 @@
   }
   .s13-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
   .s13-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-family: "Source Serif 4", Georgia, serif;
     font-size: 46px; line-height: 1.2; font-weight: 600;
     letter-spacing: -0.01em;
   }
-
   .s13-math-block {
     position: absolute; top: 340px; left: 120px; width: 900px;
     padding: 32px 40px;
@@ -60,7 +58,6 @@
     margin-bottom: 6px;
     font-style: normal;
   }
-
   .s13-explain {
     position: absolute; top: 340px; right: 120px; width: 700px;
   }
@@ -83,7 +80,6 @@
   .s13-explain-body {
     font-size: 15px; color: #5A5A5A; line-height: 1.7;
   }
-
   .s13-footer {
     position: absolute; left: 120px; right: 120px; bottom: 50px;
     display: flex; justify-content: space-between;
@@ -98,58 +94,58 @@
   <div class="s13-masthead">
     <div class="s13-masthead-left">
       <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
     </div>
-    <div class="s13-masthead-right">13 · mHC · MATH</div>
+    <div class="s13-masthead-right">13 · MHC · MATH</div>
   </div>
 
   <div class="s13-header">
-    <div class="s13-kicker">CHAPTER 02 · mHC 数学本质</div>
-    <h1 class="s13-title">双随机矩阵的两个约束</h1>
+    <div class="s13-kicker">CHAPTER 02 · THE MATH OF MHC</div>
+    <h1 class="s13-title">Two constraints define the doubly stochastic matrix</h1>
   </div>
 
   <div class="s13-math-block">
     <div class="label">Doubly Stochastic Constraint</div>
     <div class="eq">W ∈ ℝ<sup>n×n</sup>, &nbsp; W<sub>ij</sub> ≥ 0</div>
-    <div class="eq">∑<sub>j</sub> W<sub>ij</sub> = 1 &nbsp;<span style="color:#999">（每行和为 1）</span></div>
-    <div class="eq">∑<sub>i</sub> W<sub>ij</sub> = 1 &nbsp;<span style="color:#999">（每列和为 1）</span></div>
+    <div class="eq">∑<sub>j</sub> W<sub>ij</sub> = 1 &nbsp;<span style="color:#999">(each row sums to 1)</span></div>
+    <div class="eq">∑<sub>i</sub> W<sub>ij</sub> = 1 &nbsp;<span style="color:#999">(each column sums to 1)</span></div>
     <div class="eq" style="padding-top:24px; border-top:1px dashed rgba(26,26,26,0.1); margin-top:12px;">
-      <span class="blue">⟹ ‖W‖<sub>2</sub> ≤ 1</span> &nbsp;&nbsp; <span style="color:#999; font-size:15px">谱范数有界</span>
+      <span class="blue">⟹ ‖W‖<sub>2</sub> ≤ 1</span> &nbsp;&nbsp; <span style="color:#999; font-size:15px">bounded spectral norm</span>
     </div>
     <div class="eq">
-      <span class="blue">⟹ W<sub>1</sub> · W<sub>2</sub></span> &nbsp; 仍是双随机矩阵
+      <span class="blue">⟹ W<sub>1</sub> · W<sub>2</sub></span> &nbsp; is still doubly stochastic
     </div>
   </div>
 
   <div class="s13-explain">
     <div class="s13-explain-item">
-      <div class="s13-explain-num">INSIGHT 01 · 为什么要约束「行和 = 1」</div>
-      <div class="s13-explain-headline">入度守恒</div>
+      <div class="s13-explain-num">INSIGHT 01 · Why constrain row sums = 1</div>
+      <div class="s13-explain-headline">Inbound conservation</div>
       <div class="s13-explain-body">
-        每个下游节点收到的信号权重之和固定为 1，<br>
-        所有来源贡献之和不会被无限放大。
+        The total incoming signal weight at each downstream node stays fixed at 1,<br>
+        so combined contributions cannot blow up without bound.
       </div>
     </div>
     <div class="s13-explain-item">
-      <div class="s13-explain-num">INSIGHT 02 · 为什么要约束「列和 = 1」</div>
-      <div class="s13-explain-headline">出度守恒</div>
+      <div class="s13-explain-num">INSIGHT 02 · Why constrain column sums = 1</div>
+      <div class="s13-explain-headline">Outbound conservation</div>
       <div class="s13-explain-body">
-        每个上游节点流出的信号权重之和也固定为 1，<br>
-        能量不会在某条路径上独占。
+        The total outgoing signal weight from each upstream node also stays fixed at 1,<br>
+        so no single path can monopolize the energy.
       </div>
     </div>
     <div class="s13-explain-item">
-      <div class="s13-explain-num">INSIGHT 03 · 组合起来意味着什么</div>
-      <div class="s13-explain-headline">深层堆叠天然稳定</div>
+      <div class="s13-explain-num">INSIGHT 03 · What the two together imply</div>
+      <div class="s13-explain-headline">Depth becomes naturally stable</div>
       <div class="s13-explain-body">
-        每一层的残差 transform 都落在这个流形上，<br>
-        61 层连乘仍然不放大、不衰减。
+        Every residual transform stays on this manifold,<br>
+        so even 61 layers of multiplication neither amplify nor decay the signal.
       </div>
     </div>
   </div>
 
   <div class="s13-footer">
-    <div>CHAPTER 02 · mHC · MATH</div>
+    <div>CHAPTER 02 · MHC · MATH</div>
     <div>13 / 72</div>
   </div>
   <div class="s13-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DeepSeek-V4 · 粗细配合的思路</title>
+<title>DeepSeek-V4 · Coarse and Fine Together</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     width: 1920px; height: 1080px; overflow: hidden;
     background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   .s18-stage { position: relative; width: 1920px; height: 1080px; background: #FFFFFF; }
@@ -23,7 +23,6 @@
     font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
   }
   .s18-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
   .s18-header { position: absolute; top: 150px; left: 120px; right: 120px; }
   .s18-kicker {
     display: inline-flex; align-items: center; gap: 12px;
@@ -32,12 +31,11 @@
   }
   .s18-kicker::before { content: ""; width: 36px; height: 2px; background: #4D6BFE; }
   .s18-title {
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-family: "Source Serif 4", Georgia, serif;
     font-size: 64px; line-height: 1.1; font-weight: 600; color: #1A1A1A;
     letter-spacing: -0.01em; max-width: 1500px;
   }
   .s18-title .accent { color: #4D6BFE; font-style: italic; }
-
   .s18-analogy {
     position: absolute; left: 120px; right: 120px; top: 360px;
     padding: 28px 36px;
@@ -48,7 +46,6 @@
     max-width: 1400px;
   }
   .s18-analogy strong { color: #4D6BFE; font-style: normal; font-weight: 600; }
-
   .s18-twocards {
     position: absolute; left: 120px; right: 120px; top: 520px;
     display: grid; grid-template-columns: 1fr 1fr; gap: 50px;
@@ -59,9 +56,7 @@
     background: #FFFFFF;
     position: relative;
   }
-  .s18-card-csa { background: #FFFFFF; }
   .s18-card-hca { background: #F7F8FA; }
-
   .s18-card-tag {
     display: inline-block;
     font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
@@ -81,7 +76,6 @@
     font-size: 18px; color: #1A1A1A; line-height: 1.6;
   }
   .s18-card-body strong { color: #4D6BFE; font-weight: 600; }
-
   .s18-footer {
     position: absolute; left: 120px; right: 120px; bottom: 50px;
     display: flex; justify-content: space-between;
@@ -96,44 +90,42 @@
   <div class="s18-masthead">
     <div class="s18-masthead-left">
       <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
     </div>
-    <div class="s18-masthead-right">18 · 粗细两把筛子</div>
+    <div class="s18-masthead-right">18 · TWO FILTERS</div>
   </div>
 
   <div class="s18-header">
-    <div class="s18-kicker">CHAPTER 03 · 混合注意力 CSA + HCA</div>
-    <h1 class="s18-title">两把筛子，<span class="accent">一粗一细，一起用</span></h1>
+    <div class="s18-kicker">CHAPTER 03 · HYBRID ATTENTION CSA + HCA</div>
+    <h1 class="s18-title">Two filters, <span class="accent">one coarse and one fine</span></h1>
   </div>
 
   <div class="s18-analogy">
-    查资料的人都知道：先翻目录定位到大概章节，<strong>再精读一两段细节</strong>。V4 把注意力层交替排布，正是这个动作的机器版本。
+    Anyone who researches for real knows the pattern: first scan the table of contents to find the right section, <strong>then read one or two paragraphs closely</strong>. V4 turns that workflow into the attention stack itself.
   </div>
 
   <div class="s18-twocards">
-    <div class="s18-card s18-card-csa">
-      <div class="s18-card-tag">细筛 · FINE</div>
+    <div class="s18-card">
+      <div class="s18-card-tag">FINE FILTER</div>
       <div class="s18-card-name">CSA <span class="muted">Compressed Sparse Attention</span></div>
-      <div class="s18-card-role">压缩 + 稀疏，定位关键 token</div>
+      <div class="s18-card-role">Compress + sparsify to locate the critical tokens</div>
       <div class="s18-card-body">
-        按 <strong>m = 64</strong> 的粒度把 KV 压缩成块，再用 Lightning Indexer 打分、只挑 top-k 个最相关的块做精算。
-        相当于翻完索引后，只盯着真正要用的那几段精读。
+        It compresses KV into blocks at granularity <strong>m = 64</strong>, then uses a Lightning Indexer to score those blocks and only sends the top-k most relevant ones into the expensive path.
       </div>
     </div>
 
     <div class="s18-card s18-card-hca">
-      <div class="s18-card-tag">粗筛 · COARSE</div>
+      <div class="s18-card-tag">COARSE FILTER</div>
       <div class="s18-card-name">HCA <span class="muted">Heavily Compressed Attention</span></div>
-      <div class="s18-card-role">激进压缩，但扫全局</div>
+      <div class="s18-card-role">Aggressive compression, but global coverage</div>
       <div class="s18-card-body">
-        以更大的粒度 <strong>m′ ≫ m</strong> 把序列狠狠压扁，但不做稀疏筛选，每个 query 都要 dense 地把所有压缩块扫一遍。
-        粒度粗了，但全局视野不丢。
+        It compresses the sequence much more aggressively at <strong>m′ ≫ m</strong>, but does not sparsify afterward. Every query still scans all compressed blocks densely. The granularity gets coarse, but the global view survives.
       </div>
     </div>
   </div>
 
   <div class="s18-footer">
-    <div>技术深度解读 · CHAPTER 03</div>
+    <div>TECHNICAL DEEP DIVE · CHAPTER 03</div>
     <div>18 / 72</div>
   </div>
   <div class="s18-watermark"><img src="../assets/deepseek-logo.png" alt=""></div>

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DeepSeek-V4 · 过渡到下一幕</title>
+<title>DeepSeek-V4 · Transition</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     width: 1920px; height: 1080px; overflow: hidden;
     background: #FFFFFF; color: #1A1A1A;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   .s16-stage { position: relative; width: 1920px; height: 1080px; }
@@ -23,7 +23,6 @@
     font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #5A5A5A;
   }
   .s16-masthead-right { font-size: 13px; letter-spacing: 0.18em; color: #999; }
-
   .s16-content {
     position: absolute; top: 50%; left: 50%;
     transform: translate(-50%, -50%);
@@ -50,22 +49,19 @@
   .s16-step.done .s16-step-num { color: #999; }
   .s16-step.current .s16-step-label { color: #4D6BFE; font-weight: 600; }
   .s16-step-label { letter-spacing: 0.1em; }
-
   .s16-heading {
     margin-top: 60px;
-    font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    font-family: "Source Serif 4", Georgia, serif;
     font-size: 96px; line-height: 1.1; font-weight: 600;
     letter-spacing: -0.02em; color: #1A1A1A;
   }
   .s16-heading .accent { color: #4D6BFE; font-style: italic; }
-
   .s16-subheading {
     margin-top: 36px;
     font-family: "Source Serif 4", Georgia, serif;
     font-size: 28px; line-height: 1.5; color: #5A5A5A;
     font-style: italic; max-width: 1300px;
   }
-
   .s16-footer {
     position: absolute; left: 120px; right: 120px; bottom: 50px;
     display: flex; justify-content: space-between;
@@ -80,7 +76,7 @@
   <div class="s16-masthead">
     <div class="s16-masthead-left">
       <img src="../assets/deepseek-logo.png" alt="DeepSeek">
-      <span>DeepSeek-V4 · 技术深度解读</span>
+      <span>DeepSeek-V4 · Technical Deep Dive</span>
     </div>
     <div class="s16-masthead-right">16 · NEXT UP</div>
   </div>
@@ -88,17 +84,17 @@
   <div class="s16-content">
     <div class="s16-step done">
       <div class="s16-step-num">02</div>
-      <div class="s16-step-label">mHC · Residual Backbone 升级</div>
+      <div class="s16-step-label">mHC · Residual Backbone Upgrade</div>
     </div>
     <div class="s16-step current">
       <div class="s16-step-num">03</div>
       <div class="s16-step-label">Hybrid Attention · CSA + HCA</div>
     </div>
 
-    <h1 class="s16-heading">解决了深度，<br>接下来解决<span class="accent">长度</span></h1>
+    <h1 class="s16-heading">Depth is solved.<br>Now solve <span class="accent">length</span>.</h1>
 
     <div class="s16-subheading">
-      mHC 让 61 层能稳稳叠起来。下一幕的问题是：当上下文从 4K 推到 1M，注意力机制怎么不被 KV cache 拖垮。
+      mHC makes 61 layers stack stably. The next problem is different: once context grows from 4K to 1M, how do you stop attention from collapsing under KV-cache cost?
     </div>
   </div>
 
